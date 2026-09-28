@@ -25,9 +25,9 @@ export default function OPSForYourBusinessBanner() {
         className='relative overflow-hidden shadow-lg w-full'
         style={{ backgroundColor: '#0B2C5F' }}
       >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-0 items-center'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-0 items-stretch min-h-96 md:min-h-full'>
           {/* Left - Image */}
-          <div className='h-64 md:h-80 rounded-l-2xl overflow-hidden'>
+          <div className='h-80 md:h-96 lg:h-auto rounded-l-2xl overflow-hidden'>
             <img
               src='/images/home/Bulk shipping or shipping by retailer.webp'
               alt='OPS for Your Business'
