@@ -95,12 +95,12 @@ export default function SupplyChainSolutionsSection() {
           </p>
 
           {/* Heading */}
-          <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight max-w-3xl' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+          <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight max-w-3xl' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Outsource the parts that are slowing you down
           </h2>
 
           {/* Description */}
-          <p className='text-base md:text-lg leading-relaxed max-w-3xl' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+          <p className='text-sm md:text-base leading-relaxed max-w-3xl' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
             Our supply chain division functions as your third-party logistics provider – warehousing, fulfillment, customs clearance and delivery, built around how your business already operates.
           </p>
         </div>

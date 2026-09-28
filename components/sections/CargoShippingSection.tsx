@@ -72,19 +72,19 @@ export default function CargoShippingSection() {
       <Container>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center'>
           {/* Left - Content Card */}
-          <div ref={contentRef} className='bg-white rounded-2xl border border-gray-200 p-6 md:p-8 shadow-sm'>
+          <div ref={contentRef} className='bg-white rounded-2xl border border-gray-200 p-5 md:p-6 shadow-sm'>
             {/* Heading */}
-            <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-2 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+            <h2 className='text-xl sm:text-2xl md:text-3xl font-bold mb-2 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
               Cargo Shipping
             </h2>
 
             {/* Subheading */}
-            <p className='text-xs md:text-sm font-bold mb-3' style={{ color: '#1173D4' }}>
+            <p className='text-xs font-bold mb-2' style={{ color: '#1173D4' }}>
               BUSINESS ONLY
             </p>
 
             {/* Description */}
-            <p className='text-xs md:text-sm mb-6 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+            <p className='text-xs mb-4 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
               Discover shipping and logistics service options from OPS Global Forwarding.
             </p>
 

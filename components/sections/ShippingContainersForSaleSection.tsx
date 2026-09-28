@@ -109,17 +109,17 @@ export default function ShippingContainersForSaleSection() {
               </div>
 
               {/* Heading */}
-              <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+              <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                 Shipping Containers For Sale
               </h2>
 
               {/* Description 1 */}
-              <p className='text-sm md:text-base mb-4 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+              <p className='text-xs md:text-sm mb-3 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                 Shop reliable shipping containers for sale for storage, commercial use, transportation, construction projects, equipment storage, and container conversions.
               </p>
 
               {/* Description 2 */}
-              <p className='text-xs md:text-sm mb-6 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+              <p className='text-xs mb-4 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                 Explore a selection of new and used shipping containers in popular sizes and configurations. Whether you need a container for secure storage, business operations, a building project, or a custom conversion, find practical options designed for a wide range of applications.
               </p>
 
@@ -148,7 +148,7 @@ export default function ShippingContainersForSaleSection() {
               </p>
 
               {/* Heading */}
-              <h3 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+              <h3 className='text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                 Built Around Your Storage & Project Needs
               </h3>
 
