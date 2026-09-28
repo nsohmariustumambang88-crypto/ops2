@@ -6,6 +6,8 @@ import RetailerVolumeShippingSection from '@/components/sections/RetailerVolumeS
 import CargoShippingSection from '@/components/sections/CargoShippingSection';
 import EnterpriseLogisticsSection from '@/components/sections/EnterpriseLogisticsSection';
 import OPSForYourBusinessBanner from '@/components/sections/OPSForYourBusinessBanner';
+import ServiceUpdatesSection from '@/components/sections/ServiceUpdatesSection';
+import WhyOPSLogisticsSection from '@/components/sections/WhyOPSLogisticsSection';
 import FeatureCards from '@/components/sections/FeatureCards';
 import CommercialAdviceSection from '@/components/sections/CommercialAdviceSection';
 import ShippingContainersSection from '@/components/sections/ShippingContainersSection';
@@ -57,7 +59,10 @@ export default function Home() {
       {/* 9. Service Updates */}
       <ServiceUpdatesSection />
 
-      {/* 10. Three Action Cards */}
+      {/* 10. Why OPS Logistics */}
+      <WhyOPSLogisticsSection />
+
+      {/* 11. Three Action Cards */}
       <FeatureCards />
 
       {/* 11. Commercial Advice */}
