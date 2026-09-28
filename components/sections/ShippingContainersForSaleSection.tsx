@@ -2,7 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 import Container from '@/components/ui/Container';
-import { animateSlideInLeft, animateSlideInRight } from '@/lib/animations';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const WavyBorderSVG = ({ color }: { color: string }) => (
   <svg
@@ -25,8 +28,43 @@ export default function ShippingContainersForSaleSection() {
   const rightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (leftRef.current) animateSlideInLeft(leftRef.current);
-    if (rightRef.current) animateSlideInRight(rightRef.current);
+    // Left column scroll animation
+    if (leftRef.current) {
+      gsap.fromTo(
+        leftRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: leftRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
+
+    // Right column scroll animation
+    if (rightRef.current) {
+      gsap.fromTo(
+        rightRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: rightRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
   }, []);
 
   const features = [
@@ -117,7 +155,7 @@ export default function ShippingContainersForSaleSection() {
               {/* Features Grid */}
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8'>
                 {features.map((feature) => (
-                  <div key={feature.number} className='flex flex-col bg-white p-6 rounded-lg'>
+                  <div key={feature.number} className='flex flex-col bg-white p-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-2'>
                     {/* Number Badge */}
                     <div
                       className='w-12 h-12 rounded-lg flex items-center justify-center font-bold text-white text-lg mb-4'
