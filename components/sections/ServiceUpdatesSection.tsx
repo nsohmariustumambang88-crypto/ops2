@@ -1,33 +1,85 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Container from '@/components/ui/Container';
-import Link from 'next/link';
+import { animateSlideInLeft, animateSlideInRight } from '@/lib/animations';
 
 export default function ServiceUpdatesSection() {
+  const headerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (headerRef.current) animateSlideInLeft(headerRef.current);
+    if (cardsRef.current) animateSlideInRight(cardsRef.current);
+  }, []);
+
   const updates = [
-    'Operational update in the Middle East',
-    'Service announcement regarding European routes',
-    'Updated customs procedures for Asia-Pacific region',
+    {
+      image: '/images/home/Bulk shipping or shipping by retailer.webp',
+      title: 'Sustainability',
+      description: 'Sustainable business begins with low carbon supply chains. Find out what we have to offer and how we integrate sustainability into our operations to reduce environmental impacts for your supply chain.',
+    },
+    {
+      image: '/images/home/Navigate the latest pricing developments.webp',
+      title: 'Innovation',
+      description: 'Discover the future of logistics through customer-centric innovation. industry-leading trend research and next generation solutions.',
+    },
+    {
+      image: '/images/home/Globalization is holding strong at a record level.webp',
+      title: 'Globalization Holds Firm at a Record Level',
+      description: 'The OPS Global Connectedness Report 2026 offers the most comprehensive view of globalization available.',
+      isExternal: true,
+    },
   ];
 
   return (
-    <section className='py-section-lg bg-white'>
+    <section className='py-16 md:py-24 lg:py-32 bg-white'>
       <Container>
-        <h2 className='text-h2 font-bold mb-4 text-text-primary'>Important service updates</h2>
-        <p className='text-body text-text-secondary mb-8'>Service bulletins keep you informed of news and alerts.</p>
+        {/* Header Section */}
+        <div ref={headerRef} className='mb-12 md:mb-16 pb-8 md:pb-12 border-b border-gray-200'>
+          <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+            Important Service Updates
+          </h2>
+          <p className='text-sm md:text-base text-text-secondary mb-8'>
+            Service bulletins keep you up to date with news and alerts
+          </p>
 
-        <div className='space-y-3'>
+          {/* Featured Update Link */}
+          <a href='#' className='inline-flex items-center gap-2 text-primary font-bold text-sm md:text-base hover:underline'>
+            <span className='w-2 h-2 bg-primary rounded-full'></span>
+            Operational Update Middle East
+            <span>›</span>
+          </a>
+        </div>
+
+        {/* Cards Grid */}
+        <div ref={cardsRef} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
           {updates.map((update, index) => (
-            <Link
-              key={index}
-              href='#'
-              className='flex items-center justify-between p-4 rounded-lg hover:bg-light-gray transition-all duration-300 group border border-transparent hover:border-border'
-            >
-              <span className='text-text-secondary font-medium group-hover:text-primary transition-colors text-sm md:text-base'>{update}</span>
-              <svg className='w-5 h-5 text-primary flex-shrink-0 ml-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
-              </svg>
-            </Link>
+            <div key={index} className='rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow'>
+              {/* Image */}
+              <div className='h-48 md:h-56 overflow-hidden bg-gray-200'>
+                <img
+                  src={update.image}
+                  alt={update.title}
+                  className='w-full h-full object-cover hover:scale-105 transition-transform duration-300'
+                />
+              </div>
+
+              {/* Content */}
+              <div className='p-6 md:p-8'>
+                {/* Title */}
+                <h3 className='text-lg md:text-xl font-bold text-text-primary mb-3 flex items-center gap-2'>
+                  {update.title}
+                  {update.isExternal && <span className='text-sm'>↗</span>}
+                  {!update.isExternal && <span className='text-primary'>›</span>}
+                </h3>
+
+                {/* Description */}
+                <p className='text-sm md:text-base text-text-secondary leading-relaxed'>
+                  {update.description}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </Container>
