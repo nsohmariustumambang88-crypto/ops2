@@ -19,7 +19,7 @@ export default function Container({
   };
 
   return (
-    <div className={`mx-auto px-4 sm:px-6 md:px-8 ${sizes[size]} ${className}`}>
+    <div className={`mx-auto px-4 sm:px-6 md:px-8 lg:px-10 ${sizes[size]} ${className}`}>
       {children}
     </div>
   );

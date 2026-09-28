@@ -74,14 +74,14 @@ export default function FAQSection() {
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                  className='w-full px-8 py-6 flex items-center justify-between hover:bg-light-blue transition-colors'
+                  className='w-full px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 flex items-start sm:items-center justify-between hover:bg-light-blue transition-colors gap-4'
                 >
-                  <h3 className='text-left text-lg font-bold text-text-primary pr-4'>
+                  <h3 className='text-left text-sm sm:text-base md:text-lg font-bold text-text-primary'>
                     {faq.question}
                   </h3>
                   <div className='flex-shrink-0'>
                     <svg
-                      className={`w-6 h-6 text-primary transition-transform duration-300 ${
+                      className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transition-transform duration-300 ${
                         openIndex === index ? 'transform rotate-180' : ''
                       }`}
                       fill='none'
@@ -99,8 +99,8 @@ export default function FAQSection() {
                 </button>
 
                 {openIndex === index && (
-                  <div className='px-8 py-6 bg-white border-t border-gray-100'>
-                    <p className='text-text-secondary leading-relaxed'>
+                  <div className='px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 bg-white border-t border-gray-100'>
+                    <p className='text-xs sm:text-sm md:text-base text-text-secondary leading-relaxed'>
                       {faq.answer}
                     </p>
                   </div>

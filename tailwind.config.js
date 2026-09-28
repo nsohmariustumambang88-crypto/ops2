@@ -30,6 +30,7 @@ export default {
         deep: '0 8px 24px rgba(0, 0, 0, 0.16)',
       },
       spacing: {
+        'section-xs': '40px',
         'section-sm': '60px',
         'section-md': '80px',
         'section-lg': '100px',

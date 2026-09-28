@@ -107,3 +107,86 @@ input:focus, textarea:focus, select:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.1);
 }
+
+/* Mobile-first responsive section padding */
+@layer components {
+  .py-section-xs {
+    @apply py-10 sm:py-12 md:py-14 lg:py-16;
+  }
+
+  .py-section-sm {
+    @apply py-12 sm:py-14 md:py-16 lg:py-20;
+  }
+
+  .py-section-md {
+    @apply py-14 sm:py-16 md:py-20 lg:py-24;
+  }
+
+  .py-section-lg {
+    @apply py-16 sm:py-20 md:py-24 lg:py-32;
+  }
+
+  /* Responsive text utilities */
+  .text-responsive-h1 {
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold;
+  }
+
+  .text-responsive-h2 {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold;
+  }
+
+  .text-responsive-h3 {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold;
+  }
+
+  /* Responsive gap utilities */
+  .gap-responsive-sm {
+    @apply gap-4 sm:gap-6 md:gap-8;
+  }
+
+  .gap-responsive-md {
+    @apply gap-6 sm:gap-8 md:gap-10 lg:gap-12;
+  }
+
+  .gap-responsive-lg {
+    @apply gap-8 sm:gap-10 md:gap-12 lg:gap-16;
+  }
+}
+
+/* Responsive typography for smaller screens */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  h4 {
+    font-size: 16px;
+  }
+
+  p, body {
+    font-size: 14px;
+  }
+}
+
+/* Tablet responsive adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+  h1 {
+    font-size: 40px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+}
