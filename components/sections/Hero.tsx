@@ -59,79 +59,89 @@ export default function Hero() {
   ];
 
   return (
-    <section className='relative w-full text-white overflow-hidden' style={{ minHeight: '80vh' }}>
+    <section className='relative w-full text-white overflow-visible' style={{ minHeight: '100vh', paddingTop: '80px' }}>
       {/* Background Image with Overlay */}
       <div
         className='absolute inset-0 bg-cover bg-center'
         style={{
           backgroundImage: 'url(/images/home/3d63aa55-573e-4d41-b574-81235d3ca999.webp)',
           backgroundAttachment: 'fixed',
+          top: '-80px',
+          height: 'calc(100% + 80px)',
         }}
       >
         {/* Dark Navy Overlay */}
         <div className='absolute inset-0' style={{ backgroundColor: 'rgba(11, 44, 95, 0.5)' }}></div>
       </div>
 
-      {/* Content */}
-      <div className='relative z-10 w-full h-full flex flex-col justify-between py-12 md:py-20'>
-        <Container>
-          <div className='text-center max-w-4xl mx-auto'>
-            {/* Label */}
-            <p className='text-xs md:text-sm font-bold uppercase tracking-widest text-white/95 mb-6 md:mb-8'>
-              DELIVERING EXCELLENCE WORLDWIDE
-            </p>
-
-            {/* Main Headline */}
-            <h1
-              ref={headlineRef}
-              className='text-4xl sm:text-5xl md:text-6xl font-bold mb-8 md:mb-12 leading-tight'
-              style={{ fontFamily: 'Poppins, sans-serif' }}
-            >
-              Track Your Shipment
-            </h1>
-
-            {/* Tracking Box */}
-            <div
-              ref={trackingBoxRef}
-              className='bg-white rounded-lg p-4 md:p-6 shadow-deep max-w-2xl mx-auto mb-12 md:mb-16'
-            >
-              <form onSubmit={handleTrack}>
-                <div className='flex flex-col sm:flex-row gap-2 md:gap-3'>
-                  <input
-                    type='text'
-                    placeholder='Enter your tracking number(s)'
-                    value={trackingNumber}
-                    onChange={(e) => setTrackingNumber(e.target.value)}
-                    className='flex-1 px-4 md:px-6 py-3 md:py-4 rounded-lg border-none text-text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all'
-                  />
-                  <button
-                    type='submit'
-                    className='px-6 md:px-8 py-3 md:py-4 font-bold text-white rounded-lg whitespace-nowrap text-sm md:text-base transition-all hover:opacity-90'
-                    style={{ backgroundColor: '#1173D4' }}
-                  >
-                    Track Shipment
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </Container>
-
-        {/* Action Cards */}
-        <div ref={cardsRef} className='w-full'>
+      {/* Content Container */}
+      <div className='relative z-10 w-full h-full'>
+        {/* Top Section - Tagline and Heading */}
+        <div className='flex flex-col items-center justify-start pt-8 md:pt-12 pb-12 md:pb-16'>
           <Container>
-            <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6'>
-              {actionCards.map((card, index) => (
-                <div key={index} className='bg-white rounded-lg p-6 md:p-8 text-center shadow-deep'>
-                  <div className='text-4xl md:text-5xl mb-4'>{card.icon}</div>
-                  <h3 className='text-lg md:text-xl font-bold mb-2' style={{ color: '#1173D4' }}>
-                    {card.title}
-                  </h3>
-                  <p className='text-sm md:text-base' style={{ color: '#4A5A73' }}>
-                    {card.description}
-                  </p>
+            <div className='text-center max-w-4xl mx-auto'>
+              {/* Label */}
+              <p className='text-xs md:text-sm font-bold uppercase tracking-widest text-white/95 mb-6 md:mb-8'>
+                DELIVERING EXCELLENCE WORLDWIDE
+              </p>
+
+              {/* Main Headline */}
+              <h1
+                ref={headlineRef}
+                className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight'
+                style={{ fontFamily: 'Poppins, sans-serif' }}
+              >
+                Track Your Shipment
+              </h1>
+            </div>
+          </Container>
+        </div>
+
+        {/* Middle Section - Tracking Box and Cards */}
+        <div className='relative flex flex-col items-center justify-center py-16 md:py-24'>
+          <Container>
+            <div className='w-full'>
+              {/* Tracking Box */}
+              <div
+                ref={trackingBoxRef}
+                className='bg-white rounded-lg p-4 md:p-6 shadow-deep max-w-2xl mx-auto mb-8 md:mb-12'
+              >
+                <form onSubmit={handleTrack}>
+                  <div className='flex flex-col sm:flex-row gap-2 md:gap-3'>
+                    <input
+                      type='text'
+                      placeholder='Enter your tracking number(s)'
+                      value={trackingNumber}
+                      onChange={(e) => setTrackingNumber(e.target.value)}
+                      className='flex-1 px-4 md:px-6 py-3 md:py-4 rounded-lg border-none text-text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all'
+                    />
+                    <button
+                      type='submit'
+                      className='px-6 md:px-8 py-3 md:py-4 font-bold text-white rounded-lg whitespace-nowrap text-sm md:text-base transition-all hover:opacity-90'
+                      style={{ backgroundColor: '#1173D4' }}
+                    >
+                      Track Shipment
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Action Cards */}
+              <div ref={cardsRef} className='w-full'>
+                <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 px-4 sm:px-0'>
+                  {actionCards.map((card, index) => (
+                    <div key={index} className='bg-white rounded-lg p-6 md:p-8 text-center shadow-deep'>
+                      <div className='text-4xl md:text-5xl mb-4'>{card.icon}</div>
+                      <h3 className='text-lg md:text-xl font-bold mb-2' style={{ color: '#1173D4' }}>
+                        {card.title}
+                      </h3>
+                      <p className='text-sm md:text-base' style={{ color: '#4A5A73' }}>
+                        {card.description}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </Container>
         </div>
