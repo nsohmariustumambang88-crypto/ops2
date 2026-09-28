@@ -8,26 +8,6 @@ import EnterpriseLogisticsSection from '@/components/sections/EnterpriseLogistic
 import OPSForYourBusinessBanner from '@/components/sections/OPSForYourBusinessBanner';
 import ServiceUpdatesSection from '@/components/sections/ServiceUpdatesSection';
 import WhyOPSLogisticsSection from '@/components/sections/WhyOPSLogisticsSection';
-import FeatureCards from '@/components/sections/FeatureCards';
-import CommercialAdviceSection from '@/components/sections/CommercialAdviceSection';
-import ShippingContainersSection from '@/components/sections/ShippingContainersSection';
-import ContentSection from '@/components/sections/ContentSection';
-import NewsCardsSection from '@/components/sections/NewsCardsSection';
-import ServiceUpdatesSection from '@/components/sections/ServiceUpdatesSection';
-import StatsSection from '@/components/sections/StatsSection';
-import WhyOPSSection from '@/components/sections/WhyOPSSection';
-import SupplyChainSection from '@/components/sections/SupplyChainSection';
-import CTABannerSection from '@/components/sections/CTABannerSection';
-import IndustrySolutionsSection from '@/components/sections/IndustrySolutionsSection';
-import CaseStudiesSection from '@/components/sections/CaseStudiesSection';
-import ColdChainSection from '@/components/sections/ColdChainSection';
-import LastMileSection from '@/components/sections/LastMileSection';
-import GlobalReachSection from '@/components/sections/GlobalReachSection';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import FAQSection from '@/components/sections/FAQSection';
-import TrustSignalsSection from '@/components/sections/TrustSignalsSection';
-import PartnersSection from '@/components/sections/PartnersSection';
-import ContactFormSection from '@/components/sections/ContactFormSection';
 
 export default function Home() {
   return (
