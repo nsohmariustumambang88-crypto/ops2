@@ -54,17 +54,17 @@ export default function Home() {
       {/* 8. OPS for Your Business Banner */}
       <OPSForYourBusinessBanner />
 
-      {/* 9. Three Action Cards */}
+      {/* 9. Service Updates */}
+      <ServiceUpdatesSection />
+
+      {/* 10. Three Action Cards */}
       <FeatureCards />
 
-      {/* 10. Commercial Advice */}
+      {/* 11. Commercial Advice */}
       <CommercialAdviceSection />
 
-      {/* 11. Shipping Containers (Old) */}
+      {/* 12. Shipping Containers (Old) */}
       <ShippingContainersSection />
-
-      {/* 12. Service Updates */}
-      <ServiceUpdatesSection />
 
       {/* 11. News Cards */}
       <NewsCardsSection />
