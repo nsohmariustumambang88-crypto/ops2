@@ -90,7 +90,7 @@ export default function DocumentAndParcelSection() {
           {/* Right - Image */}
           <div ref={imageRef} className='h-80 sm:h-96 md:h-full md:min-h-96 rounded-lg overflow-hidden shadow-md'>
             <img
-              src='https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=600&fit=crop'
+              src='/images/home/Shipping documents and parcels.webp'
               alt='Document and Parcel Shipping'
               className='w-full h-full object-cover'
             />
