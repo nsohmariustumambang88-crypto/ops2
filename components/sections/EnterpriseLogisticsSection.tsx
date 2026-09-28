@@ -89,26 +89,26 @@ export default function EnterpriseLogisticsSection() {
           </div>
 
           {/* Right - Content Card */}
-          <div ref={contentRef} className='bg-white rounded-2xl border border-gray-200 p-8 md:p-10 shadow-sm'>
+          <div ref={contentRef} className='bg-white rounded-2xl border border-gray-200 p-6 md:p-8 shadow-sm'>
             {/* Heading */}
-            <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+            <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-2 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
               Enterprise Logistics Services
             </h2>
 
             {/* Subheading */}
-            <p className='text-base md:text-lg font-bold mb-4' style={{ color: '#1173D4' }}>
+            <p className='text-xs font-bold uppercase tracking-widest mb-3' style={{ color: '#1173D4' }}>
               BUSINESS ONLY
             </p>
 
             {/* Description */}
-            <p className='text-sm md:text-base mb-8 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+            <p className='text-xs md:text-sm mb-6 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
               Find out how OPS Supply Chain can revolutionize your business as a 3PL provider.
             </p>
 
             {/* Solutions Section */}
             <div className='bg-light-blue rounded-xl p-6 md:p-8 mb-8'>
               {/* Solutions Label */}
-              <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-6' style={{ color: '#1173D4' }}>
+              <p className='text-xs font-bold uppercase tracking-widest mb-4' style={{ color: '#1173D4' }}>
                 SOLUTIONS AVAILABLE
               </p>
 
@@ -122,7 +122,7 @@ export default function EnterpriseLogisticsSection() {
                     </div>
 
                     {/* Title */}
-                    <h4 className='text-sm md:text-base font-bold' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+                    <h4 className='text-xs md:text-sm font-bold' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                       {solution.title}
                     </h4>
                   </div>

@@ -103,23 +103,23 @@ export default function ShippingContainersForSaleSection() {
             <WavyBorderSVG color='#3B82F6' />
             <div className='relative z-10'>
               {/* Badge */}
-              <div className='inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-6 w-fit shadow-sm'>
+              <div className='inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-3 w-fit shadow-sm'>
                 <span className='text-yellow-500 text-lg'>●</span>
-                <span className='text-xs md:text-sm font-bold uppercase tracking-wider' style={{ color: '#0B2C5F', fontFamily: 'Barlow, sans-serif' }}>Quality Containers Available</span>
+                <span className='text-xs font-bold uppercase tracking-wider' style={{ color: '#0B2C5F', fontFamily: 'Barlow, sans-serif' }}>Quality Containers Available</span>
               </div>
 
               {/* Heading */}
-              <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+              <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                 Shipping Containers For Sale
               </h2>
 
               {/* Description 1 */}
-              <p className='text-base md:text-lg mb-6 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+              <p className='text-sm md:text-base mb-4 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                 Shop reliable shipping containers for sale for storage, commercial use, transportation, construction projects, equipment storage, and container conversions.
               </p>
 
               {/* Description 2 */}
-              <p className='text-sm md:text-base mb-8 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+              <p className='text-xs md:text-sm mb-6 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                 Explore a selection of new and used shipping containers in popular sizes and configurations. Whether you need a container for secure storage, business operations, a building project, or a custom conversion, find practical options designed for a wide range of applications.
               </p>
 
@@ -143,12 +143,12 @@ export default function ShippingContainersForSaleSection() {
             <WavyBorderSVG color='#EF4444' />
             <div className='relative z-10'>
               {/* Label */}
-              <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#1173D4' }}>
+              <p className='text-xs font-bold uppercase tracking-widest mb-2' style={{ color: '#1173D4' }}>
                 CONTAINER SOLUTIONS
               </p>
 
               {/* Heading */}
-              <h3 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-10 md:mb-12 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+              <h3 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                 Built Around Your Storage & Project Needs
               </h3>
 
@@ -165,12 +165,12 @@ export default function ShippingContainersForSaleSection() {
                     </div>
 
                     {/* Title */}
-                    <h4 className='text-lg md:text-xl font-bold mb-2' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+                    <h4 className='text-sm md:text-base font-bold mb-2' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                       {feature.title}
                     </h4>
 
                     {/* Description */}
-                    <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+                    <p className='text-xs md:text-sm leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                       {feature.description}
                     </p>
                   </div>

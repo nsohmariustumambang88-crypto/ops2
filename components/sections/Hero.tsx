@@ -128,14 +128,14 @@ export default function Hero() {
 
               {/* Action Cards */}
               <div ref={cardsRef} className='w-full'>
-                <div className='grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-5 px-4 sm:px-0'>
+                <div className='grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 px-4 sm:px-0'>
                   {actionCards.map((card, index) => (
-                    <div key={index} className='bg-white rounded-lg p-5 md:p-6 text-center shadow-deep'>
-                      <div className='text-3xl md:text-4xl mb-3'>{card.icon}</div>
-                      <h3 className='text-base md:text-lg font-bold mb-2' style={{ color: '#1173D4' }}>
+                    <div key={index} className='bg-white rounded-lg p-4 md:p-5 text-center shadow-deep'>
+                      <div className='text-2xl md:text-3xl mb-2'>{card.icon}</div>
+                      <h3 className='text-sm md:text-base font-bold mb-2' style={{ color: '#1173D4' }}>
                         {card.title}
                       </h3>
-                      <p className='text-xs md:text-sm' style={{ color: '#4A5A73' }}>
+                      <p className='text-xs' style={{ color: '#4A5A73' }}>
                         {card.description}
                       </p>
                     </div>
