@@ -9,7 +9,6 @@ import OPSForYourBusinessBanner from '@/components/sections/OPSForYourBusinessBa
 import ServiceUpdatesSection from '@/components/sections/ServiceUpdatesSection';
 import WhyOPSLogisticsSection from '@/components/sections/WhyOPSLogisticsSection';
 import SupplyChainSolutionsSection from '@/components/sections/SupplyChainSolutionsSection';
-import Footer from '@/components/layout/Footer';
 
 export default function Home() {
   return (
@@ -46,9 +45,6 @@ export default function Home() {
 
       {/* 11. Supply Chain Solutions */}
       <SupplyChainSolutionsSection />
-
-      {/* Footer */}
-      <Footer />
     </>
   );
 }
