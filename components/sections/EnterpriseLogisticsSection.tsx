@@ -47,7 +47,7 @@ export default function EnterpriseLogisticsSection() {
           {/* Left - Image */}
           <div ref={imageRef} className='h-80 sm:h-96 md:h-full md:min-h-96 rounded-2xl overflow-hidden shadow-md'>
             <img
-              src='https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=600&fit=crop'
+              src='/images/home/bulk maritime transport.webp'
               alt='Enterprise Logistics Services'
               className='w-full h-full object-cover'
             />
