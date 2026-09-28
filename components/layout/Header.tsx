@@ -6,12 +6,19 @@ import Container from '@/components/ui/Container';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isShipDropdownOpen, setIsShipDropdownOpen] = useState(false);
 
   const navigationItems = [
     { label: 'Track', href: '#' },
-    { label: 'Ship', href: '#' },
+    { label: 'Ship', href: '#', hasDropdown: true },
     { label: 'Services', href: '#' },
     { label: 'Customer Service', href: '#' },
+  ];
+
+  const shipOptions = [
+    { label: 'Estimation', href: '#' },
+    { label: 'Ship now', href: '#' },
+    { label: 'Request a business account', href: '#' },
   ];
 
   return (
@@ -26,13 +33,33 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className='hidden md:flex items-center gap-8'>
             {navigationItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className='text-text-secondary hover:text-primary transition-colors font-medium'
-              >
-                {item.label}
-              </Link>
+              <div key={item.label} className='relative group'>
+                <Link
+                  href={item.href}
+                  className='text-text-secondary hover:text-primary transition-colors font-medium flex items-center gap-1'
+                >
+                  {item.label}
+                  {item.hasDropdown && (
+                    <svg className='w-4 h-4 transition-transform group-hover:rotate-180' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 14l-7 7m0 0l-7-7m7 7V3' />
+                    </svg>
+                  )}
+                </Link>
+
+                {item.hasDropdown && (
+                  <div className='absolute left-0 mt-0 w-56 bg-white border border-border rounded-lg shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50'>
+                    {shipOptions.map((option) => (
+                      <Link
+                        key={option.label}
+                        href={option.href}
+                        className='block px-4 py-3 text-text-secondary hover:bg-light-blue hover:text-primary transition-colors font-medium text-sm'
+                      >
+                        {option.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </nav>
 
@@ -64,13 +91,41 @@ export default function Header() {
         {isMenuOpen && (
           <nav className='md:hidden py-4 border-t border-border'>
             {navigationItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className='block py-2 text-text-secondary hover:text-primary transition-colors font-medium'
-              >
-                {item.label}
-              </Link>
+              <div key={item.label}>
+                {item.hasDropdown ? (
+                  <>
+                    <button
+                      onClick={() => setIsShipDropdownOpen(!isShipDropdownOpen)}
+                      className='w-full text-left py-2 text-text-secondary hover:text-primary transition-colors font-medium flex items-center justify-between'
+                    >
+                      {item.label}
+                      <svg className={`w-4 h-4 transition-transform ${isShipDropdownOpen ? 'rotate-180' : ''}`} fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 14l-7 7m0 0l-7-7m7 7V3' />
+                      </svg>
+                    </button>
+                    {isShipDropdownOpen && (
+                      <div className='pl-4 py-2 bg-light-blue rounded'>
+                        {shipOptions.map((option) => (
+                          <Link
+                            key={option.label}
+                            href={option.href}
+                            className='block py-2 text-text-secondary hover:text-primary transition-colors font-medium text-sm'
+                          >
+                            {option.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className='block py-2 text-text-secondary hover:text-primary transition-colors font-medium'
+                  >
+                    {item.label}
+                  </Link>
+                )}
+              </div>
             ))}
           </nav>
         )}
