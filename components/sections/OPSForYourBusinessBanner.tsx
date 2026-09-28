@@ -26,7 +26,7 @@ export default function OPSForYourBusinessBanner() {
         style={{ backgroundColor: '#0B2C5F', minHeight: '280px' }}
       >
         {/* Left - Narrow Image Panel with Rounded Right Corners */}
-        <div className='w-32 md:w-40 lg:w-48 h-full shrink-0 overflow-hidden rounded-r-3xl'>
+        <div className='w-32 md:w-40 lg:w-48 h-full shrink-0 overflow-hidden rounded-r-3xl mr-6 md:mr-8 lg:mr-10'>
           <img
             src='/images/home/Shipping documents and parcels.webp'
             alt='OPS for Your Business'
