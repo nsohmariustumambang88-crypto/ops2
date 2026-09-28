@@ -4,6 +4,22 @@ import { useEffect, useRef } from 'react';
 import Container from '@/components/ui/Container';
 import { animateSlideInLeft, animateSlideInRight } from '@/lib/animations';
 
+const WavyBorderSVG = ({ color }: { color: string }) => (
+  <svg
+    className='absolute inset-0 w-full h-full'
+    viewBox='0 0 400 600'
+    preserveAspectRatio='none'
+    style={{ pointerEvents: 'none' }}
+  >
+    <path
+      d='M 10 30 Q 50 10, 100 20 T 200 15 T 300 25 T 390 20 L 390 590 Q 350 570, 300 580 T 200 585 T 100 580 T 10 590 Z'
+      fill='none'
+      stroke={color}
+      strokeWidth='4'
+    />
+  </svg>
+);
+
 export default function ShippingContainersForSaleSection() {
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
@@ -39,83 +55,89 @@ export default function ShippingContainersForSaleSection() {
   return (
     <section className='py-16 md:py-24 lg:py-32 bg-white'>
       <Container>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-0'>
-          {/* Left Column - Light Gray Background */}
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-6'>
+          {/* Left Column - Light Gray Background with Blue Wavy Border */}
           <div
             ref={leftRef}
-            className='p-8 md:p-12 lg:p-16 flex flex-col justify-center'
+            className='relative p-8 md:p-12 lg:p-16 flex flex-col justify-center rounded-3xl overflow-hidden'
             style={{ backgroundColor: '#F3F4F6' }}
           >
-            {/* Badge */}
-            <div className='inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-6 w-fit shadow-sm'>
-              <span className='text-yellow-500 text-lg'>●</span>
-              <span className='text-xs md:text-sm font-bold uppercase tracking-wider text-text-primary'>Quality Containers Available</span>
+            <WavyBorderSVG color='#3B82F6' />
+            <div className='relative z-10'>
+              {/* Badge */}
+              <div className='inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-6 w-fit shadow-sm'>
+                <span className='text-yellow-500 text-lg'>●</span>
+                <span className='text-xs md:text-sm font-bold uppercase tracking-wider text-text-primary'>Quality Containers Available</span>
+              </div>
+
+              {/* Heading */}
+              <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-text-primary' style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Shipping Containers For Sale
+              </h2>
+
+              {/* Description 1 */}
+              <p className='text-base md:text-lg text-text-secondary mb-6 leading-relaxed'>
+                Shop reliable shipping containers for sale for storage, commercial use, transportation, construction projects, equipment storage, and container conversions.
+              </p>
+
+              {/* Description 2 */}
+              <p className='text-sm md:text-base text-text-secondary mb-8 leading-relaxed'>
+                Explore a selection of new and used shipping containers in popular sizes and configurations. Whether you need a container for secure storage, business operations, a building project, or a custom conversion, find practical options designed for a wide range of applications.
+              </p>
+
+              {/* Button */}
+              <button
+                className='inline-flex items-center gap-3 px-8 py-4 font-bold text-white rounded-lg w-fit text-sm md:text-base transition-all hover:opacity-90'
+                style={{ backgroundColor: '#0B2C5F' }}
+              >
+                <span>Shop Shipping Containers</span>
+                <span>→</span>
+              </button>
             </div>
-
-            {/* Heading */}
-            <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-text-primary' style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Shipping Containers For Sale
-            </h2>
-
-            {/* Description 1 */}
-            <p className='text-base md:text-lg text-text-secondary mb-6 leading-relaxed'>
-              Shop reliable shipping containers for sale for storage, commercial use, transportation, construction projects, equipment storage, and container conversions.
-            </p>
-
-            {/* Description 2 */}
-            <p className='text-sm md:text-base text-text-secondary mb-8 leading-relaxed'>
-              Explore a selection of new and used shipping containers in popular sizes and configurations. Whether you need a container for secure storage, business operations, a building project, or a custom conversion, find practical options designed for a wide range of applications.
-            </p>
-
-            {/* Button */}
-            <button
-              className='inline-flex items-center gap-3 px-8 py-4 font-bold text-white rounded-lg w-fit text-sm md:text-base transition-all hover:opacity-90'
-              style={{ backgroundColor: '#0B2C5F' }}
-            >
-              <span>Shop Shipping Containers</span>
-              <span>→</span>
-            </button>
           </div>
 
-          {/* Right Column - Light Blue Background */}
+          {/* Right Column - Light Blue Background with Red Wavy Border */}
           <div
             ref={rightRef}
-            className='p-8 md:p-12 lg:p-16 flex flex-col justify-center'
+            className='relative p-8 md:p-12 lg:p-16 flex flex-col justify-center rounded-3xl overflow-hidden'
             style={{ backgroundColor: '#EDF2F7' }}
           >
-            {/* Label */}
-            <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#F59E0B' }}>
-              CONTAINER SOLUTIONS
-            </p>
+            <WavyBorderSVG color='#EF4444' />
+            <div className='relative z-10'>
+              {/* Label */}
+              <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#F59E0B' }}>
+                CONTAINER SOLUTIONS
+              </p>
 
-            {/* Heading */}
-            <h3 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-10 md:mb-12 text-text-primary leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Built Around Your Storage & Project Needs
-            </h3>
+              {/* Heading */}
+              <h3 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-10 md:mb-12 text-text-primary leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Built Around Your Storage & Project Needs
+              </h3>
 
-            {/* Features Grid */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8'>
-              {features.map((feature) => (
-                <div key={feature.number} className='flex flex-col bg-white p-6 rounded-lg'>
-                  {/* Number Badge */}
-                  <div
-                    className='w-12 h-12 rounded-lg flex items-center justify-center font-bold text-white text-lg mb-4'
-                    style={{ backgroundColor: '#0B2C5F' }}
-                  >
-                    {feature.number}
+              {/* Features Grid */}
+              <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8'>
+                {features.map((feature) => (
+                  <div key={feature.number} className='flex flex-col bg-white p-6 rounded-lg'>
+                    {/* Number Badge */}
+                    <div
+                      className='w-12 h-12 rounded-lg flex items-center justify-center font-bold text-white text-lg mb-4'
+                      style={{ backgroundColor: '#0B2C5F' }}
+                    >
+                      {feature.number}
+                    </div>
+
+                    {/* Title */}
+                    <h4 className='text-lg md:text-xl font-bold text-text-primary mb-2'>
+                      {feature.title}
+                    </h4>
+
+                    {/* Description */}
+                    <p className='text-sm md:text-base text-text-secondary leading-relaxed'>
+                      {feature.description}
+                    </p>
                   </div>
-
-                  {/* Title */}
-                  <h4 className='text-lg md:text-xl font-bold text-text-primary mb-2'>
-                    {feature.title}
-                  </h4>
-
-                  {/* Description */}
-                  <p className='text-sm md:text-base text-text-secondary leading-relaxed'>
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
