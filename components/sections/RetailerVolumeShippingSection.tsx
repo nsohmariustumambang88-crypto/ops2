@@ -33,7 +33,7 @@ export default function RetailerVolumeShippingSection() {
           {/* Left - Image */}
           <div ref={imageRef} className='h-80 sm:h-96 md:h-full md:min-h-96 rounded-3xl overflow-hidden shadow-md'>
             <img
-              src='/images/home/Shipping to the retailer or in bulk.webp'
+              src='/images/home/Bulk shipping or shipping by retailer.webp'
               alt='Retailer or Volume Shipping'
               className='w-full h-full object-cover'
             />
