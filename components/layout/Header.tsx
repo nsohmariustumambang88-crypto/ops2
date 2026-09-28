@@ -16,23 +16,52 @@ export default function Header() {
   ];
 
   const shipOptions = [
-    { label: 'Estimation', icon: 'calendar', href: '#' },
-    { label: 'Ship now', icon: 'bolt', href: '#' },
-    { label: 'Request a business account', icon: 'bolt', href: '#' },
+    { label: 'Get a Quote', icon: 'quote', href: '#' },
+    { label: 'Ship Now', icon: 'ship', href: '#' },
+    { label: 'Request a Business Account', icon: 'account', href: '#' },
   ];
+
+  const enterpriseOptions = {
+    solutions: [
+      { label: 'Contract Logistics', href: '#' },
+      { label: 'E-Commerce Fulfillment', href: '#' },
+      { label: 'Customs & Compliance', href: '#' },
+      { label: 'Cold Chain Logistics', href: '#' },
+      { label: 'Last Mile Delivery', href: '#' },
+    ],
+    industries: [
+      { label: 'Technology', href: '#' },
+      { label: 'Healthcare & Life Sciences', href: '#' },
+      { label: 'Retail & Fashion', href: '#' },
+      { label: 'Automotive', href: '#' },
+      { label: 'Energy & Utilities', href: '#' },
+    ],
+    resources: [
+      { label: 'Case Studies', href: '#' },
+      { label: 'White Papers', href: '#' },
+      { label: 'Logistics Insights Blog', href: '#' },
+      { label: 'Tariff Updates', href: '#' },
+    ],
+  };
 
   const getIcon = (iconType: string) => {
     switch (iconType) {
-      case 'calendar':
+      case 'quote':
         return (
           <svg className='w-5 h-5 text-primary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' />
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' />
           </svg>
         );
-      case 'bolt':
+      case 'ship':
         return (
-          <svg className='w-5 h-5 text-primary' fill='currentColor' viewBox='0 0 24 24'>
-            <path d='M13 10V3L4 14h7v7l9-11h-7z' />
+          <svg className='w-5 h-5 text-primary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 19l9 2-9-18-9 18 9-2zm0 0v-8' />
+          </svg>
+        );
+      case 'account':
+        return (
+          <svg className='w-5 h-5 text-primary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M13 10V3L4 14h7v7l9-11h-7z' />
           </svg>
         );
       default:
@@ -94,7 +123,7 @@ export default function Header() {
                     <div className='absolute left-0 mt-0 w-72 bg-white rounded-lg shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden'>
                       {/* Header */}
                       <div className='bg-white px-6 py-4 border-b border-gray-200'>
-                        <h3 className='text-xs font-bold text-gray-400 uppercase tracking-widest'>Delivery Start Date</h3>
+                        <h3 className='text-xs font-bold text-gray-400 uppercase tracking-widest'>Start Shipping</h3>
                       </div>
 
                       {/* Options */}
@@ -112,6 +141,78 @@ export default function Header() {
                             </svg>
                           </Link>
                         ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {item.label === 'Enterprise logistics services' && item.hasDropdown && (
+                    <div className='absolute left-0 mt-0 w-full bg-white rounded-lg shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden' style={{ minWidth: '900px' }}>
+                      <div className='grid grid-cols-4 gap-8 p-8'>
+                        {/* Left Column */}
+                        <div>
+                          <h3 className='text-sm font-bold text-gray-400 uppercase tracking-widest mb-4'>Enterprise Logistics Services</h3>
+                          <p className='text-sm text-gray-600 mb-6'>Our Supply Chain division creates custom solutions for enterprise-sized organizations. The perfect fit as your outsourced logistics provider (3PL).</p>
+                          <button className='bg-primary text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-primary/90 transition-colors'>
+                            Explore OPS Supply Chain
+                          </button>
+                        </div>
+
+                        {/* Solutions Column */}
+                        <div>
+                          <h4 className='text-xs font-bold text-primary uppercase tracking-widest mb-4'>Solutions</h4>
+                          <div className='space-y-3'>
+                            {enterpriseOptions.solutions.map((option) => (
+                              <Link
+                                key={option.label}
+                                href={option.href}
+                                className='flex items-center justify-between text-gray-700 hover:text-primary transition-colors group/option'
+                              >
+                                <span className='text-sm font-medium'>{option.label}</span>
+                                <svg className='w-4 h-4 text-primary opacity-0 group-hover/option:opacity-100 transition-opacity' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
+                                </svg>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Industries Column */}
+                        <div>
+                          <h4 className='text-xs font-bold text-primary uppercase tracking-widest mb-4'>Industries</h4>
+                          <div className='space-y-3'>
+                            {enterpriseOptions.industries.map((option) => (
+                              <Link
+                                key={option.label}
+                                href={option.href}
+                                className='flex items-center justify-between text-gray-700 hover:text-primary transition-colors group/option'
+                              >
+                                <span className='text-sm font-medium'>{option.label}</span>
+                                <svg className='w-4 h-4 text-primary opacity-0 group-hover/option:opacity-100 transition-opacity' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
+                                </svg>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Resources Column */}
+                        <div>
+                          <h4 className='text-xs font-bold text-primary uppercase tracking-widest mb-4'>Resources</h4>
+                          <div className='space-y-3'>
+                            {enterpriseOptions.resources.map((option) => (
+                              <Link
+                                key={option.label}
+                                href={option.href}
+                                className='flex items-center justify-between text-gray-700 hover:text-primary transition-colors group/option'
+                              >
+                                <span className='text-sm font-medium'>{option.label}</span>
+                                <svg className='w-4 h-4 text-primary opacity-0 group-hover/option:opacity-100 transition-opacity' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
+                                </svg>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )}
