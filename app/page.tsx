@@ -9,6 +9,7 @@ import OPSForYourBusinessBanner from '@/components/sections/OPSForYourBusinessBa
 import ServiceUpdatesSection from '@/components/sections/ServiceUpdatesSection';
 import WhyOPSLogisticsSection from '@/components/sections/WhyOPSLogisticsSection';
 import SupplyChainSolutionsSection from '@/components/sections/SupplyChainSolutionsSection';
+import Footer from '@/components/layout/Footer';
 
 export default function Home() {
   return (
@@ -47,11 +48,7 @@ export default function Home() {
       <SupplyChainSolutionsSection />
 
       {/* Footer */}
-      <footer className='py-12 md:py-16 lg:py-20 bg-navy text-white'>
-        <div className='max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 text-center'>
-          <p className='text-sm md:text-base text-white/80'>© 2026 OPS Logistics. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

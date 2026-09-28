@@ -1,79 +1,172 @@
+'use client';
+
 import Container from '@/components/ui/Container';
-import Link from 'next/link';
+
+const OPSLogo = () => (
+  <svg
+    width="160"
+    height="40"
+    viewBox="0 0 160 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="12" cy="20" r="8" fill="#0B2C5F" />
+    <path d="M 8 20 Q 12 16 16 20 Q 12 24 8 20" fill="#1173D4" />
+    <text
+      x="35"
+      y="26"
+      fontSize="18"
+      fontWeight="700"
+      fill="#0B2C5F"
+      fontFamily="Poppins, sans-serif"
+    >
+      OPS
+    </text>
+    <text
+      x="35"
+      y="38"
+      fontSize="10"
+      fontWeight="600"
+      fill="#1173D4"
+      fontFamily="Barlow, sans-serif"
+      letterSpacing="1"
+    >
+      LOGISTICS
+    </text>
+  </svg>
+);
 
 export default function Footer() {
-  const footerSections = [
-    {
-      title: 'Company',
-      links: ['About Us', 'Careers', 'Press', 'Blog'],
-    },
-    {
-      title: 'Services',
-      links: ['OPS Express', 'OPS eCommerce', 'Global Forwarding', 'Supply Chain'],
-    },
-    {
-      title: 'Support',
-      links: ['Help & FAQ', 'Contact Us', 'Service Updates', 'Support Portal'],
-    },
-    {
-      title: 'Legal',
-      links: ['Privacy Policy', 'Terms of Service', 'Cookies', 'Accessibility'],
-    },
+  const services = [
+    { name: 'Express Shipping', href: '#' },
+    { name: 'OPS Express', href: '#' },
+    { name: 'eCommerce', href: '#' },
+    { name: 'Supply chain', href: '#' },
+  ];
+
+  const company = [
+    { name: 'About OPS', href: '#' },
+    { name: 'Sustainability', href: '#' },
+    { name: 'Innovation', href: '#' },
+    { name: 'Careers', href: '#' },
+  ];
+
+  const support = [
+    { name: 'Customer Service', href: '#' },
+    { name: 'mise à jour de service', href: '#' },
+    { name: 'Request a Business Account', href: '#' },
+    { name: 'FAQ', href: '#' },
   ];
 
   return (
-    <footer className='bg-navy text-white py-16'>
-      <Container>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12'>
-          {/* Company Info */}
-          <div>
-            <h3 className='text-xl font-bold mb-4'>OPS Logistics</h3>
-            <p className='text-white/70 text-sm leading-relaxed'>
-              Delivering excellence worldwide with reliable logistics solutions for businesses of all sizes.
-            </p>
+    <>
+      {/* CTA Banner */}
+      <section className='py-6 md:py-8 border-b border-gray-200' style={{ borderTopColor: '#0B2C5F', borderTopWidth: '4px' }}>
+        <Container>
+          <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
+            <h3 className='text-lg md:text-xl font-bold' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+              Need help with your shipment? Our team is available 24/7.
+            </h3>
+            <button
+              className='px-6 md:px-8 py-3 font-bold text-white rounded-lg w-fit text-sm md:text-base transition-all hover:opacity-90 shrink-0'
+              style={{ backgroundColor: '#0B2C5F' }}
+            >
+              Track your shipment →
+            </button>
           </div>
+        </Container>
+      </section>
 
-          {/* Footer Links */}
-          {footerSections.map((section) => (
-            <div key={section.title}>
-              <h4 className='text-base font-semibold mb-4'>{section.title}</h4>
-              <ul className='space-y-2'>
-                {section.links.map((link) => (
-                  <li key={link}>
-                    <Link
-                      href='#'
-                      className='text-white/70 hover:text-white transition-colors text-sm'
+      {/* Main Footer */}
+      <footer className='bg-white py-16 md:py-24 lg:py-32 border-b border-gray-200'>
+        <Container>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8'>
+            {/* Logo & Tagline */}
+            <div>
+              <div className='mb-6'>
+                <OPSLogo />
+              </div>
+              <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+                Delivering excellence worldwide. Air, sea, road and rail freight to over 220 countries and territories.
+              </p>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h4 className='text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8' style={{ color: '#0B2C5F', fontFamily: 'Poppins, sans-serif' }}>
+                SERVICES
+              </h4>
+              <ul className='space-y-3 md:space-y-4'>
+                {services.map((service, index) => (
+                  <li key={index}>
+                    <a
+                      href={service.href}
+                      className='text-sm md:text-base transition-colors hover:opacity-70'
+                      style={{ color: '#0B2C5F', fontFamily: 'Barlow, sans-serif' }}
                     >
-                      {link}
-                    </Link>
+                      {service.name}
+                    </a>
                   </li>
                 ))}
               </ul>
             </div>
-          ))}
-        </div>
 
-        {/* Bottom Bar */}
-        <div className='border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4'>
-          <p className='text-white/70 text-sm'>
-            &copy; 2024 OPS Logistics. All rights reserved.
-          </p>
-          <div className='flex gap-6'>
-            <Link href='#' className='text-white/70 hover:text-white transition-colors'>
-              {/* LinkedIn Icon */}
-              <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 24 24'>
-                <path d='M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z' />
-              </svg>
-            </Link>
-            <Link href='#' className='text-white/70 hover:text-white transition-colors'>
-              {/* Twitter Icon */}
-              <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 24 24'>
-                <path d='M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7z' />
-              </svg>
-            </Link>
+            {/* Company */}
+            <div>
+              <h4 className='text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8' style={{ color: '#0B2C5F', fontFamily: 'Poppins, sans-serif' }}>
+                COMPANY / ORGANIZATION
+              </h4>
+              <ul className='space-y-3 md:space-y-4'>
+                {company.map((item, index) => (
+                  <li key={index}>
+                    <a
+                      href={item.href}
+                      className='text-sm md:text-base transition-colors hover:opacity-70'
+                      style={{ color: '#0B2C5F', fontFamily: 'Barlow, sans-serif' }}
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h4 className='text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8' style={{ color: '#0B2C5F', fontFamily: 'Poppins, sans-serif' }}>
+                AIDE
+              </h4>
+              <ul className='space-y-3 md:space-y-4'>
+                {support.map((item, index) => (
+                  <li key={index}>
+                    <a
+                      href={item.href}
+                      className='text-sm md:text-base transition-colors hover:opacity-70'
+                      style={{ color: '#0B2C5F', fontFamily: 'Barlow, sans-serif' }}
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      </Container>
-    </footer>
+        </Container>
+      </footer>
+
+      {/* Copyright Bar */}
+      <section className='py-8 md:py-6' style={{ backgroundColor: '#0B2C5F' }}>
+        <Container>
+          <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
+            <p className='text-xs md:text-sm' style={{ color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'Barlow, sans-serif' }}>
+              © 2026 OPS Logistics. All rights reserved.
+            </p>
+            <div className='w-20'>
+              <OPSLogo />
+            </div>
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }
