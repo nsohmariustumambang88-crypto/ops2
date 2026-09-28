@@ -42,13 +42,6 @@ export default function Home() {
       {/* 10. Why OPS Logistics */}
       <WhyOPSLogisticsSection />
 
-      {/* 11. Three Action Cards */}
-      <FeatureCards />
-
-      {/* 11. Commercial Advice */}
-      <CommercialAdviceSection />
-
-
       {/* Footer */}
       <footer className='py-12 md:py-16 lg:py-20 bg-navy text-white'>
         <div className='max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 text-center'>
