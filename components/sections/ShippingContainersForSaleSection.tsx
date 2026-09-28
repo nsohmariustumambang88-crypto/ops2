@@ -40,51 +40,51 @@ export default function ShippingContainersForSaleSection() {
     <section className='py-16 md:py-24 lg:py-32 bg-white'>
       <Container>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-0'>
-          {/* Left Column - Navy Background */}
+          {/* Left Column - Light Gray Background */}
           <div
             ref={leftRef}
-            className='p-8 md:p-12 lg:p-16 text-white flex flex-col justify-center'
-            style={{ backgroundColor: '#0B2C5F' }}
+            className='p-8 md:p-12 lg:p-16 flex flex-col justify-center'
+            style={{ backgroundColor: '#F3F4F6' }}
           >
             {/* Badge */}
-            <div className='inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-2 mb-6 w-fit'>
-              <span className='text-lg'>⭐</span>
-              <span className='text-xs md:text-sm font-bold uppercase tracking-wider'>Quality Containers Available</span>
+            <div className='inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-6 w-fit shadow-sm'>
+              <span className='text-yellow-500 text-lg'>●</span>
+              <span className='text-xs md:text-sm font-bold uppercase tracking-wider text-text-primary'>Quality Containers Available</span>
             </div>
 
             {/* Heading */}
-            <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+            <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-text-primary' style={{ fontFamily: 'Poppins, sans-serif' }}>
               Shipping Containers For Sale
             </h2>
 
             {/* Description 1 */}
-            <p className='text-base md:text-lg text-white/90 mb-6 leading-relaxed'>
+            <p className='text-base md:text-lg text-text-secondary mb-6 leading-relaxed'>
               Shop reliable shipping containers for sale for storage, commercial use, transportation, construction projects, equipment storage, and container conversions.
             </p>
 
             {/* Description 2 */}
-            <p className='text-sm md:text-base text-white/80 mb-8 leading-relaxed'>
+            <p className='text-sm md:text-base text-text-secondary mb-8 leading-relaxed'>
               Explore a selection of new and used shipping containers in popular sizes and configurations. Whether you need a container for secure storage, business operations, a building project, or a custom conversion, find practical options designed for a wide range of applications.
             </p>
 
             {/* Button */}
             <button
               className='inline-flex items-center gap-3 px-8 py-4 font-bold text-white rounded-lg w-fit text-sm md:text-base transition-all hover:opacity-90'
-              style={{ backgroundColor: '#0B2C5F', border: '2px solid white' }}
+              style={{ backgroundColor: '#0B2C5F' }}
             >
               <span>Shop Shipping Containers</span>
               <span>→</span>
             </button>
           </div>
 
-          {/* Right Column - Beige/Cream Background */}
+          {/* Right Column - Light Blue Background */}
           <div
             ref={rightRef}
             className='p-8 md:p-12 lg:p-16 flex flex-col justify-center'
-            style={{ backgroundColor: '#F5F7FA' }}
+            style={{ backgroundColor: '#EDF2F7' }}
           >
             {/* Label */}
-            <p className='text-xs md:text-sm font-bold uppercase tracking-widest text-primary mb-4 md:mb-6'>
+            <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#F59E0B' }}>
               CONTAINER SOLUTIONS
             </p>
 
@@ -96,7 +96,7 @@ export default function ShippingContainersForSaleSection() {
             {/* Features Grid */}
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8'>
               {features.map((feature) => (
-                <div key={feature.number} className='flex flex-col'>
+                <div key={feature.number} className='flex flex-col bg-white p-6 rounded-lg'>
                   {/* Number Badge */}
                   <div
                     className='w-12 h-12 rounded-lg flex items-center justify-center font-bold text-white text-lg mb-4'
