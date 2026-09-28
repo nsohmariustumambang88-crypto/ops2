@@ -59,7 +59,7 @@ export default function Hero() {
   ];
 
   return (
-    <section className='relative w-full text-white overflow-visible' style={{ minHeight: '65vh', paddingTop: '80px' }}>
+    <section className='relative w-full text-white overflow-x-hidden' style={{ minHeight: '65vh', paddingTop: '80px' }}>
       {/* Background Image with Overlay */}
       <div
         className='absolute inset-0 bg-cover bg-center'
@@ -104,7 +104,7 @@ export default function Hero() {
               {/* Tracking Box */}
               <div
                 ref={trackingBoxRef}
-                className='bg-white rounded-lg p-4 md:p-6 shadow-deep max-w-3xl mx-auto mb-8 md:mb-10'
+                className='bg-white rounded-lg p-4 md:p-5 shadow-deep max-w-2xl mx-auto mb-10 md:mb-12'
               >
                 <form onSubmit={handleTrack}>
                   <div className='flex flex-col sm:flex-row gap-3 md:gap-4'>
@@ -128,11 +128,11 @@ export default function Hero() {
 
               {/* Action Cards */}
               <div ref={cardsRef} className='w-full'>
-                <div className='grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 px-4 sm:px-0'>
+                <div className='grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3 px-0'>
                   {actionCards.map((card, index) => (
-                    <div key={index} className='bg-white rounded-lg p-4 md:p-5 text-center shadow-deep'>
-                      <div className='text-2xl md:text-3xl mb-2'>{card.icon}</div>
-                      <h3 className='text-sm md:text-base font-bold mb-2' style={{ color: '#1173D4' }}>
+                    <div key={index} className='bg-white rounded-lg p-4 text-center shadow-deep'>
+                      <div className='text-2xl mb-2'>{card.icon}</div>
+                      <h3 className='text-xs md:text-sm font-bold mb-2' style={{ color: '#1173D4' }}>
                         {card.title}
                       </h3>
                       <p className='text-xs' style={{ color: '#4A5A73' }}>

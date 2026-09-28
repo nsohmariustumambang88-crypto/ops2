@@ -19,14 +19,14 @@ export default function OPSForYourBusinessBanner() {
   }, []);
 
   return (
-    <section className='py-8 md:py-12 lg:py-16 bg-white' style={{ paddingLeft: 0, paddingRight: 0 }}>
+    <section className='py-8 md:py-12 lg:py-16 bg-white px-6 sm:px-8 md:px-10 lg:px-12'>
       <div
         ref={bannerRef}
-        className='relative overflow-hidden shadow-lg w-full flex items-center gap-6 md:gap-8 lg:gap-12'
-        style={{ backgroundColor: '#0B2C5F', minHeight: '280px' }}
+        className='relative overflow-hidden shadow-lg w-full flex items-center gap-4 md:gap-6 lg:gap-8 rounded-2xl'
+        style={{ backgroundColor: '#0B2C5F', minHeight: '240px', maxWidth: '1200px', margin: '0 auto' }}
       >
         {/* Left - Narrow Image Panel with Rounded Right Corners */}
-        <div className='w-32 md:w-40 lg:w-48 h-full shrink-0 overflow-hidden rounded-r-3xl'>
+        <div className='w-24 md:w-32 lg:w-40 h-full shrink-0 overflow-hidden rounded-l-2xl'>
           <img
             src='/images/home/Shipping documents and parcels.webp'
             alt='OPS for Your Business'
@@ -35,20 +35,20 @@ export default function OPSForYourBusinessBanner() {
         </div>
 
         {/* Right - Content Area */}
-        <div ref={contentRef} className='flex-1 px-8 md:px-12 lg:px-16 py-10 md:py-12 text-white flex flex-col justify-center'>
+        <div ref={contentRef} className='flex-1 px-4 md:px-6 lg:px-8 py-8 md:py-10 text-white flex flex-col justify-center'>
           {/* Heading */}
-          <h2 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-5 md:mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h2 className='text-xl sm:text-2xl md:text-3xl font-bold mb-3 md:mb-4 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
             OPS for Your Business
           </h2>
 
           {/* Description */}
-          <p className='text-xs md:text-sm lg:text-base text-white/90 mb-8 md:mb-10 leading-relaxed max-w-2xl'>
+          <p className='text-xs md:text-sm text-white/90 mb-6 md:mb-8 leading-relaxed max-w-2xl'>
             Power your small and medium-sized business success with world-class shipping and logistics. Our team of experts can help you address the ever changing need of your customers.
           </p>
 
           {/* Button */}
           <button
-            className='px-6 md:px-8 py-2 md:py-3 font-bold text-white rounded-lg w-fit text-xs md:text-sm lg:text-base transition-all hover:opacity-90'
+            className='px-5 md:px-6 py-2 md:py-3 font-bold text-white rounded-lg w-fit text-xs md:text-sm transition-all hover:opacity-90'
             style={{ backgroundColor: '#1173D4' }}
           >
             Explore Our Business Solutions
