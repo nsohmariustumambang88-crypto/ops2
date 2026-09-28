@@ -109,15 +109,15 @@ export default function WhyOPSLogisticsSection() {
   return (
     <section className='py-0 bg-white'>
       {/* Stats Banner */}
-      <div ref={statsRef} className='py-12 md:py-16 lg:py-20' style={{ backgroundColor: '#EDF4FD' }}>
+      <div ref={statsRef} className='py-16 md:py-20 lg:py-24' style={{ backgroundColor: '#EDF4FD' }}>
         <Container>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16'>
             {stats.map((stat, index) => (
               <div key={index} className='text-center'>
-                <h3 className='text-4xl md:text-5xl font-bold text-text-primary mb-2' style={{ fontFamily: 'Poppins, sans-serif' }}>
+                <h3 className='text-5xl md:text-6xl lg:text-7xl font-bold mb-4' style={{ fontFamily: 'Poppins, sans-serif', color: '#1173D4' }}>
                   {stat.number}
                 </h3>
-                <p className='text-sm md:text-base text-text-secondary leading-relaxed'>
+                <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73' }}>
                   {stat.label}
                 </p>
               </div>
@@ -130,17 +130,17 @@ export default function WhyOPSLogisticsSection() {
       <div ref={contentRef} className='py-16 md:py-24 lg:py-32 bg-white'>
         <Container>
           {/* Label */}
-          <p className='text-xs md:text-sm font-bold uppercase tracking-widest text-primary mb-3 md:mb-4'>
+          <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#1173D4', fontFamily: 'Barlow, sans-serif', letterSpacing: '0.15em' }}>
             WHY OPS LOGISTICS
           </p>
 
           {/* Heading */}
-          <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-8 md:mb-10 leading-tight max-w-3xl' style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-8 md:mb-10 leading-tight max-w-3xl' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Built for shippers who can't afford surprises
           </h2>
 
           {/* Description */}
-          <p className='text-base md:text-lg text-text-secondary mb-12 md:mb-16 leading-relaxed max-w-3xl'>
+          <p className='text-base md:text-lg mb-12 md:mb-16 leading-relaxed max-w-3xl' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
             Freight goes wrong in the gaps — between carriers, between borders, between someone booking a shipment and someone knowing where it is. We built OPS to close those gaps.
           </p>
 
@@ -149,21 +149,21 @@ export default function WhyOPSLogisticsSection() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className='feature-card p-6 md:p-8 rounded-2xl border-2 border-primary transition-all duration-300 hover:shadow-lg hover:-translate-y-2'
+                className='feature-card p-6 md:p-8 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-2'
                 style={{ borderColor: '#1173D4', backgroundColor: 'white' }}
               >
                 {/* Icon */}
-                <div className='text-4xl mb-4'>
+                <div className='text-4xl md:text-5xl mb-6'>
                   {feature.icon}
                 </div>
 
                 {/* Title */}
-                <h3 className='text-lg md:text-xl font-bold text-text-primary mb-3'>
+                <h3 className='text-lg md:text-xl font-bold mb-3' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                   {feature.title}
                 </h3>
 
                 {/* Description */}
-                <p className='text-sm md:text-base text-text-secondary leading-relaxed'>
+                <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                   {feature.description}
                 </p>
               </div>
