@@ -120,34 +120,39 @@ export default function Header() {
                   </button>
 
                   {item.label === 'SHIP' && item.hasDropdown && (
-                    <div className='absolute left-0 mt-0 w-72 bg-white rounded-lg shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden'>
-                      {/* Header */}
-                      <div className='bg-white px-6 py-4 border-b border-gray-200'>
-                        <h3 className='text-xs font-bold text-gray-400 uppercase tracking-widest'>Start Shipping</h3>
-                      </div>
+                    <div className='fixed left-0 right-0 mt-0 bg-white shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50'>
+                      <div className='max-w-7xl mx-auto'>
+                        {/* Header */}
+                        <div className='px-4 sm:px-6 md:px-8 py-4 border-b border-gray-200'>
+                          <h3 className='text-xs font-bold text-gray-400 uppercase tracking-widest'>Start Shipping</h3>
+                        </div>
 
-                      {/* Options */}
-                      <div className='py-2'>
-                        {shipOptions.map((option) => (
-                          <Link
-                            key={option.label}
-                            href={option.href}
-                            className='flex items-center gap-4 px-6 py-4 text-primary hover:bg-blue-50 transition-colors group/option'
-                          >
-                            {getIcon(option.icon)}
-                            <span className='text-sm font-medium flex-1 text-primary'>{option.label}</span>
-                            <svg className='w-4 h-4 text-primary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
-                            </svg>
-                          </Link>
-                        ))}
+                        {/* Options */}
+                        <div className='py-2'>
+                          {shipOptions.map((option) => (
+                            <Link
+                              key={option.label}
+                              href={option.href}
+                              className='block px-4 sm:px-6 md:px-8 py-4 text-primary hover:bg-blue-50 transition-colors'
+                            >
+                              <div className='flex items-center gap-4'>
+                                {getIcon(option.icon)}
+                                <span className='text-sm font-medium flex-1 text-primary'>{option.label}</span>
+                                <svg className='w-4 h-4 text-primary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
+                                </svg>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   )}
 
                   {item.label === 'Enterprise logistics services' && item.hasDropdown && (
-                    <div className='absolute left-0 mt-0 w-full bg-white rounded-lg shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden' style={{ minWidth: '900px' }}>
-                      <div className='grid grid-cols-4 gap-8 p-8'>
+                    <div className='fixed left-0 right-0 mt-0 bg-white shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50'>
+                      <div className='max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8'>
+                        <div className='grid grid-cols-4 gap-8'>
                         {/* Left Column */}
                         <div>
                           <h3 className='text-sm font-bold text-gray-400 uppercase tracking-widest mb-4'>Enterprise Logistics Services</h3>
@@ -213,6 +218,7 @@ export default function Header() {
                             ))}
                           </div>
                         </div>
+                      </div>
                       </div>
                     </div>
                   )}
