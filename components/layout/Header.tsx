@@ -17,8 +17,8 @@ export default function Header() {
 
   const shipOptions = [
     { label: 'Estimation', icon: 'calendar', href: '#' },
-    { label: 'Ship now', icon: 'ship', href: '#' },
-    { label: 'Request a business account', icon: 'account', href: '#' },
+    { label: 'Ship now', icon: 'bolt', href: '#' },
+    { label: 'Request a business account', icon: 'bolt', href: '#' },
   ];
 
   const getIcon = (iconType: string) => {
@@ -29,16 +29,10 @@ export default function Header() {
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' />
           </svg>
         );
-      case 'ship':
+      case 'bolt':
         return (
-          <svg className='w-5 h-5 text-primary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 19l9 2-9-18-9 18 9-2zm0 0v-8' />
-          </svg>
-        );
-      case 'account':
-        return (
-          <svg className='w-5 h-5 text-primary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M13 10V3L4 14h7v7l9-11h-7z' />
+          <svg className='w-5 h-5 text-primary' fill='currentColor' viewBox='0 0 24 24'>
+            <path d='M13 10V3L4 14h7v7l9-11h-7z' />
           </svg>
         );
       default:
@@ -97,10 +91,10 @@ export default function Header() {
                   </button>
 
                   {item.label === 'SHIP' && item.hasDropdown && (
-                    <div className='absolute left-0 mt-0 w-80 bg-white rounded-lg shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden'>
+                    <div className='absolute left-0 mt-0 w-72 bg-white rounded-lg shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden'>
                       {/* Header */}
-                      <div className='bg-navy text-white px-6 py-4'>
-                        <h3 className='text-sm font-bold uppercase tracking-wide'>Delivery Start Date</h3>
+                      <div className='bg-white px-6 py-4 border-b border-gray-200'>
+                        <h3 className='text-xs font-bold text-gray-400 uppercase tracking-widest'>Delivery Start Date</h3>
                       </div>
 
                       {/* Options */}
@@ -109,11 +103,11 @@ export default function Header() {
                           <Link
                             key={option.label}
                             href={option.href}
-                            className='flex items-center gap-4 px-6 py-4 text-text-secondary hover:bg-light-blue hover:text-primary transition-colors group/option'
+                            className='flex items-center gap-4 px-6 py-4 text-primary hover:bg-blue-50 transition-colors group/option'
                           >
                             {getIcon(option.icon)}
-                            <span className='text-sm font-medium flex-1'>{option.label}</span>
-                            <svg className='w-4 h-4 text-text-secondary group-hover/option:text-primary transition-colors' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                            <span className='text-sm font-medium flex-1 text-primary'>{option.label}</span>
+                            <svg className='w-4 h-4 text-primary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
                             </svg>
                           </Link>
