@@ -2,14 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Container from '@/components/ui/Container';
-import Button from '@/components/ui/Button';
 import gsap from 'gsap';
 
 export default function Hero() {
   const [trackingNumber, setTrackingNumber] = useState('');
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
   const trackingBoxRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline();
@@ -21,16 +20,16 @@ export default function Hero() {
       0
     )
       .fromTo(
-        subtitleRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-        0.2
-      )
-      .fromTo(
         trackingBoxRef.current,
         { opacity: 0, scale: 0.95 },
         { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out' },
         0.4
+      )
+      .fromTo(
+        cardsRef.current,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+        0.6
       );
   }, []);
 
@@ -41,8 +40,26 @@ export default function Hero() {
     }
   };
 
+  const actionCards = [
+    {
+      icon: '📦',
+      title: 'Ship Now',
+      description: 'Find the right service',
+    },
+    {
+      icon: '📋',
+      title: 'Get a Quote',
+      description: 'Estimate cost to share and compare',
+    },
+    {
+      icon: '📊',
+      title: 'Request a Business Account',
+      description: 'Shipping regularly? Learn about volume discounts',
+    },
+  ];
+
   return (
-    <section className='relative w-full text-white overflow-hidden' style={{ minHeight: '70vh' }}>
+    <section className='relative w-full text-white overflow-hidden' style={{ minHeight: '80vh' }}>
       {/* Background Image with Overlay */}
       <div
         className='absolute inset-0 bg-cover bg-center'
@@ -52,57 +69,72 @@ export default function Hero() {
         }}
       >
         {/* Dark Navy Overlay */}
-        <div className='absolute inset-0 bg-navy/60'></div>
+        <div className='absolute inset-0' style={{ backgroundColor: 'rgba(11, 44, 95, 0.5)' }}></div>
       </div>
 
       {/* Content */}
-      <div className='relative z-10 w-full h-full flex items-center'>
+      <div className='relative z-10 w-full h-full flex flex-col justify-between py-12 md:py-20'>
         <Container>
-          <div className='text-center max-w-4xl mx-auto py-12 md:py-20'>
+          <div className='text-center max-w-4xl mx-auto'>
             {/* Label */}
-            <p className='text-sm md:text-base font-bold uppercase tracking-widest text-white/90 mb-6'>
-              PROVIDING EXCELLENCE WORLDWIDE
+            <p className='text-xs md:text-sm font-bold uppercase tracking-widest text-white/95 mb-6 md:mb-8'>
+              DELIVERING EXCELLENCE WORLDWIDE
             </p>
 
             {/* Main Headline */}
             <h1
               ref={headlineRef}
-              className='text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-none tracking-tight'
+              className='text-4xl sm:text-5xl md:text-6xl font-bold mb-8 md:mb-12 leading-tight'
+              style={{ fontFamily: 'Poppins, sans-serif' }}
             >
-              Track your parcel
+              Track Your Shipment
             </h1>
-
-            {/* Subheading */}
-            <p ref={subtitleRef} className='text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto'>
-              Track your shipments in real-time and manage your logistics with ease
-            </p>
 
             {/* Tracking Box */}
             <div
               ref={trackingBoxRef}
-              className='bg-white rounded-card p-6 md:p-8 shadow-deep max-w-2xl mx-auto'
+              className='bg-white rounded-lg p-4 md:p-6 shadow-deep max-w-2xl mx-auto mb-12 md:mb-16'
             >
               <form onSubmit={handleTrack}>
-                <div className='flex flex-col sm:flex-row gap-3'>
+                <div className='flex flex-col sm:flex-row gap-2 md:gap-3'>
                   <input
                     type='text'
                     placeholder='Enter your tracking number(s)'
                     value={trackingNumber}
                     onChange={(e) => setTrackingNumber(e.target.value)}
-                    className='flex-1 px-6 py-4 md:py-5 rounded-button border-none text-text-primary text-base md:text-lg placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all'
+                    className='flex-1 px-4 md:px-6 py-3 md:py-4 rounded-lg border-none text-text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all'
                   />
-                  <Button
+                  <button
                     type='submit'
-                    variant='primary'
-                    className='sm:w-auto px-8 py-4 md:py-5 font-bold whitespace-nowrap text-base md:text-lg'
+                    className='px-6 md:px-8 py-3 md:py-4 font-bold text-white rounded-lg whitespace-nowrap text-sm md:text-base transition-all hover:opacity-90'
+                    style={{ backgroundColor: '#1173D4' }}
                   >
-                    Delivery tracking
-                  </Button>
+                    Track Shipment
+                  </button>
                 </div>
               </form>
             </div>
           </div>
         </Container>
+
+        {/* Action Cards */}
+        <div ref={cardsRef} className='w-full'>
+          <Container>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6'>
+              {actionCards.map((card, index) => (
+                <div key={index} className='bg-white rounded-lg p-6 md:p-8 text-center shadow-deep'>
+                  <div className='text-4xl md:text-5xl mb-4'>{card.icon}</div>
+                  <h3 className='text-lg md:text-xl font-bold mb-2' style={{ color: '#1173D4' }}>
+                    {card.title}
+                  </h3>
+                  <p className='text-sm md:text-base' style={{ color: '#4A5A73' }}>
+                    {card.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </div>
       </div>
     </section>
   );
