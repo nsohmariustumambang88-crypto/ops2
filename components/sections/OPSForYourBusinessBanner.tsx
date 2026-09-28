@@ -20,12 +20,11 @@ export default function OPSForYourBusinessBanner() {
 
   return (
     <section className='py-12 md:py-16 lg:py-20 bg-white'>
-      <Container>
-        <div
-          ref={bannerRef}
-          className='relative rounded-2xl overflow-hidden shadow-lg max-w-4xl mx-auto'
-          style={{ backgroundColor: '#0B2C5F' }}
-        >
+      <div
+        ref={bannerRef}
+        className='relative overflow-hidden shadow-lg w-full'
+        style={{ backgroundColor: '#0B2C5F' }}
+      >
           <div className='grid grid-cols-1 md:grid-cols-2 gap-0 items-center'>
             {/* Left - Image */}
             <div className='h-64 md:h-80 rounded-l-2xl overflow-hidden'>
@@ -58,7 +57,7 @@ export default function OPSForYourBusinessBanner() {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }
