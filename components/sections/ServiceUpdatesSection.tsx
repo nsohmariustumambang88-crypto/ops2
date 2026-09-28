@@ -45,8 +45,8 @@ export default function ServiceUpdatesSection() {
           </p>
 
           {/* Featured Update Link */}
-          <a href='#' className='inline-flex items-center gap-2 text-primary font-bold text-sm md:text-base hover:underline'>
-            <span className='w-2 h-2 bg-primary rounded-full'></span>
+          <a href='#' className='inline-flex items-center gap-2 font-bold text-sm md:text-base hover:underline transition-colors' style={{ color: '#1173D4' }}>
+            <span className='w-2 h-2 rounded-full' style={{ backgroundColor: '#1173D4' }}></span>
             Operational Update Middle East
             <span>›</span>
           </a>
@@ -55,7 +55,7 @@ export default function ServiceUpdatesSection() {
         {/* Cards Grid */}
         <div ref={cardsRef} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
           {updates.map((update, index) => (
-            <div key={index} className='rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow'>
+            <div key={index} className='rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-lg hover:-translate-y-2' style={{ borderColor: '#D5DFEC' }}>
               {/* Image */}
               <div className='h-48 md:h-56 overflow-hidden bg-gray-200'>
                 <img
@@ -68,14 +68,14 @@ export default function ServiceUpdatesSection() {
               {/* Content */}
               <div className='p-6 md:p-8'>
                 {/* Title */}
-                <h3 className='text-lg md:text-xl font-bold text-text-primary mb-3 flex items-center gap-2'>
+                <h3 className='text-lg md:text-xl font-bold mb-3 flex items-center gap-2' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                   {update.title}
                   {update.isExternal && <span className='text-sm'>↗</span>}
-                  {!update.isExternal && <span className='text-primary'>›</span>}
+                  {!update.isExternal && <span style={{ color: '#1173D4' }}>›</span>}
                 </h3>
 
                 {/* Description */}
-                <p className='text-sm md:text-base text-text-secondary leading-relaxed'>
+                <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                   {update.description}
                 </p>
               </div>
