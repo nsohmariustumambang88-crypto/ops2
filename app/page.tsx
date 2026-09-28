@@ -9,6 +9,16 @@ import StatsSection from '@/components/sections/StatsSection';
 import WhyOPSSection from '@/components/sections/WhyOPSSection';
 import SupplyChainSection from '@/components/sections/SupplyChainSection';
 import CTABannerSection from '@/components/sections/CTABannerSection';
+import IndustrySolutionsSection from '@/components/sections/IndustrySolutionsSection';
+import CaseStudiesSection from '@/components/sections/CaseStudiesSection';
+import ColdChainSection from '@/components/sections/ColdChainSection';
+import LastMileSection from '@/components/sections/LastMileSection';
+import GlobalReachSection from '@/components/sections/GlobalReachSection';
+import TestimonialsSection from '@/components/sections/TestimonialsSection';
+import FAQSection from '@/components/sections/FAQSection';
+import TrustSignalsSection from '@/components/sections/TrustSignalsSection';
+import PartnersSection from '@/components/sections/PartnersSection';
+import ContactFormSection from '@/components/sections/ContactFormSection';
 
 export default function Home() {
   return (
@@ -102,6 +112,74 @@ export default function Home() {
 
       {/* 15. CTA Banner */}
       <CTABannerSection />
+
+      {/* 16. Industry Solutions */}
+      <IndustrySolutionsSection />
+
+      {/* 17. Case Studies */}
+      <CaseStudiesSection />
+
+      {/* 18. Cold Chain Specialty */}
+      <ColdChainSection />
+
+      {/* 19. Last Mile Delivery */}
+      <LastMileSection />
+
+      {/* 20. Global Reach */}
+      <GlobalReachSection />
+
+      {/* 21. Testimonials */}
+      <TestimonialsSection />
+
+      {/* 22. Trust Signals */}
+      <TrustSignalsSection />
+
+      {/* 23. Integration Partners */}
+      <PartnersSection />
+
+      {/* 24. FAQ Section */}
+      <FAQSection />
+
+      {/* 25. Contact Form */}
+      <ContactFormSection />
+
+      {/* 26. Features/Benefits Section */}
+      <section className='py-section-lg bg-navy text-white'>
+        <div className='max-w-6xl mx-auto px-4 sm:px-6 md:px-8'>
+          <div className='text-center mb-16 max-w-3xl mx-auto'>
+            <h2 className='text-h2 font-bold mb-4'>Why logistics partners choose us</h2>
+            <p className='text-base md:text-lg text-white/80'>Industry-leading reliability, transparency, and expertise</p>
+          </div>
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+            {[
+              { title: '220+ Countries', desc: 'Global network reach' },
+              { title: '24/7 Support', desc: 'Round-the-clock assistance' },
+              { title: '99.2% On-Time', desc: 'Delivery reliability' },
+              { title: 'Real-Time Tracking', desc: 'Complete visibility' },
+              { title: '4 Freight Modes', desc: 'Air, sea, road, rail' },
+              { title: 'Custom Solutions', desc: 'Tailored to your needs' },
+            ].map((item, i) => (
+              <div key={i} className='text-center'>
+                <h3 className='text-2xl font-bold mb-2'>{item.title}</h3>
+                <p className='text-white/70'>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 27. Final CTA */}
+      <section className='py-section-lg bg-primary text-white'>
+        <div className='max-w-4xl mx-auto px-4 sm:px-6 md:px-8 text-center'>
+          <h2 className='text-h2 font-bold mb-6'>Ready to optimize your supply chain?</h2>
+          <p className='text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto'>
+            Join thousands of companies using OPS Logistics to streamline their shipping operations.
+          </p>
+          <button className='px-8 py-4 bg-white text-primary font-bold rounded-button hover:bg-gray-100 transition-all'>
+            Get Started Today
+          </button>
+        </div>
+      </section>
     </>
   );
 }
