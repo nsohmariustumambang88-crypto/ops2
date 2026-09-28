@@ -1,5 +1,6 @@
 import Hero from '@/components/sections/Hero';
 import TradeAdvisorySection from '@/components/sections/TradeAdvisorySection';
+import ShippingContainersForSaleSection from '@/components/sections/ShippingContainersForSaleSection';
 import FeatureCards from '@/components/sections/FeatureCards';
 import CommercialAdviceSection from '@/components/sections/CommercialAdviceSection';
 import ShippingContainersSection from '@/components/sections/ShippingContainersSection';
@@ -30,7 +31,10 @@ export default function Home() {
       {/* 2. Trade Advisory */}
       <TradeAdvisorySection />
 
-      {/* 3. Three Action Cards */}
+      {/* 3. Shipping Containers For Sale */}
+      <ShippingContainersForSaleSection />
+
+      {/* 4. Three Action Cards */}
       <FeatureCards />
 
       {/* 3. Commercial Advice */}
