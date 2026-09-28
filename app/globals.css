@@ -1,15 +1,20 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Barlow:wght@400;600&display=swap');
 
 :root {
-  --primary: #0052cc;
-  --navy: #1a2b4a;
-  --light-gray: #f5f7fa;
-  --text-primary: #333333;
-  --text-secondary: #666666;
-  --text-tertiary: #999999;
-  --border: #e0e0e0;
+  --primary: #1173D4;
+  --primary-dark: #0B5AA8;
+  --navy: #0B2C5F;
+  --navy-dark: #061B3B;
+  --light-blue: #EDF4FD;
+  --light-gray: #E3E9F2;
+  --text-primary: #0B2C5F;
+  --text-secondary: #4A5A73;
+  --text-tertiary: #667085;
+  --text-muted: #767676;
+  --border: #D5DFEC;
   --background: #ffffff;
-  --foreground: #333333;
+  --foreground: #0B2C5F;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -101,7 +101,7 @@ export default function Header() {
       </header>
 
       {/* Main Navigation Bar */}
-      <header className='sticky top-0 z-50 bg-navy text-white'>
+      <header className='sticky top-0 z-50 bg-blue-900' style={{ backgroundColor: '#0B2C5F' }}>
         <Container>
           <div className='flex items-center justify-between h-16'>
             {/* Desktop Navigation */}
@@ -227,7 +227,7 @@ export default function Header() {
             </nav>
 
             {/* Right side - Customer Portal */}
-            <button className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium text-sm transition-colors'>
+            <button className='text-white px-6 py-2 rounded-lg font-medium text-sm transition-colors' style={{ backgroundColor: '#1173D4' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0B5AA8'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1173D4'}>
               Customer portal logins
             </button>
 
