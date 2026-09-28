@@ -8,6 +8,7 @@ import EnterpriseLogisticsSection from '@/components/sections/EnterpriseLogistic
 import OPSForYourBusinessBanner from '@/components/sections/OPSForYourBusinessBanner';
 import ServiceUpdatesSection from '@/components/sections/ServiceUpdatesSection';
 import WhyOPSLogisticsSection from '@/components/sections/WhyOPSLogisticsSection';
+import SupplyChainSolutionsSection from '@/components/sections/SupplyChainSolutionsSection';
 
 export default function Home() {
   return (
@@ -41,6 +42,9 @@ export default function Home() {
 
       {/* 10. Why OPS Logistics */}
       <WhyOPSLogisticsSection />
+
+      {/* 11. Supply Chain Solutions */}
+      <SupplyChainSolutionsSection />
 
       {/* Footer */}
       <footer className='py-12 md:py-16 lg:py-20 bg-navy text-white'>
