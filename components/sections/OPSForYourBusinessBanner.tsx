@@ -30,7 +30,7 @@ export default function OPSForYourBusinessBanner() {
             {/* Left - Image */}
             <div className='h-64 md:h-80 rounded-l-2xl overflow-hidden'>
               <img
-                src='https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop'
+                src='/images/home/Bulk shipping or shipping by retailer.webp'
                 alt='OPS for Your Business'
                 className='w-full h-full object-cover'
               />
