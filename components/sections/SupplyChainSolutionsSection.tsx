@@ -85,7 +85,7 @@ export default function SupplyChainSolutionsSection() {
   ];
 
   return (
-    <section className='py-16 md:py-24 lg:py-32 bg-white'>
+    <section className='py-12 md:py-16 lg:py-20 bg-white'>
       <Container>
         {/* Header Section */}
         <div ref={headerRef} className='mb-12 md:mb-16'>
@@ -95,7 +95,7 @@ export default function SupplyChainSolutionsSection() {
           </p>
 
           {/* Heading */}
-          <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-8 md:mb-10 leading-tight max-w-3xl' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+          <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight max-w-3xl' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Outsource the parts that are slowing you down
           </h2>
 

@@ -76,11 +76,11 @@ export default function EnterpriseLogisticsSection() {
   ];
 
   return (
-    <section className='py-16 md:py-24 lg:py-32 bg-white'>
+    <section className='py-12 md:py-16 lg:py-20 bg-white'>
       <Container>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center'>
           {/* Left - Image */}
-          <div ref={imageRef} className='h-80 sm:h-96 md:h-full md:min-h-96 rounded-2xl overflow-hidden shadow-md'>
+          <div ref={imageRef} className='h-64 sm:h-80 md:h-80 rounded-2xl overflow-hidden shadow-md'>
             <img
               src='/images/home/bulk maritime transport.webp'
               alt='Enterprise Logistics Services'

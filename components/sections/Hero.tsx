@@ -104,7 +104,7 @@ export default function Hero() {
               {/* Tracking Box */}
               <div
                 ref={trackingBoxRef}
-                className='bg-white rounded-lg p-4 md:p-6 shadow-deep max-w-3xl mx-auto mb-5 md:mb-6'
+                className='bg-white rounded-lg p-4 md:p-6 shadow-deep max-w-3xl mx-auto mb-8 md:mb-10'
               >
                 <form onSubmit={handleTrack}>
                   <div className='flex flex-col sm:flex-row gap-3 md:gap-4'>

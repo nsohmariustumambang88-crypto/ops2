@@ -68,11 +68,11 @@ export default function ServiceUpdatesSection() {
   ];
 
   return (
-    <section className='py-16 md:py-24 lg:py-32 bg-white'>
+    <section className='py-12 md:py-16 lg:py-20 bg-white'>
       <Container>
         {/* Header Section */}
-        <div ref={headerRef} className='mb-12 md:mb-16 pb-8 md:pb-12 border-b border-gray-200'>
-          <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+        <div ref={headerRef} className='mb-10 md:mb-12 pb-6 md:pb-8 border-b border-gray-200'>
+          <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Important Service Updates
           </h2>
           <p className='text-sm md:text-base mb-8' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>

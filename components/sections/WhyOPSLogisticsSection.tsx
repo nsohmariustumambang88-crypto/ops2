@@ -109,12 +109,12 @@ export default function WhyOPSLogisticsSection() {
   return (
     <section className='py-0 bg-white'>
       {/* Stats Banner */}
-      <div ref={statsRef} className='py-16 md:py-20 lg:py-24' style={{ backgroundColor: '#EDF4FD' }}>
+      <div ref={statsRef} className='py-12 md:py-16 lg:py-20' style={{ backgroundColor: '#EDF4FD' }}>
         <Container>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16'>
             {stats.map((stat, index) => (
               <div key={index} className='text-center'>
-                <h3 className='text-5xl md:text-6xl lg:text-7xl font-bold mb-4' style={{ fontFamily: 'Poppins, sans-serif', color: '#1173D4' }}>
+                <h3 className='text-4xl md:text-5xl lg:text-6xl font-bold mb-4' style={{ fontFamily: 'Poppins, sans-serif', color: '#1173D4' }}>
                   {stat.number}
                 </h3>
                 <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73' }}>
@@ -127,7 +127,7 @@ export default function WhyOPSLogisticsSection() {
       </div>
 
       {/* Content Section */}
-      <div ref={contentRef} className='py-16 md:py-24 lg:py-32 bg-white'>
+      <div ref={contentRef} className='py-12 md:py-16 lg:py-20 bg-white'>
         <Container>
           {/* Label */}
           <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#1173D4', fontFamily: 'Barlow, sans-serif', letterSpacing: '0.15em' }}>
@@ -135,7 +135,7 @@ export default function WhyOPSLogisticsSection() {
           </p>
 
           {/* Heading */}
-          <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-8 md:mb-10 leading-tight max-w-3xl' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+          <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight max-w-3xl' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Built for shippers who can't afford surprises
           </h2>
 

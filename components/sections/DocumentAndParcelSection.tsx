@@ -40,7 +40,7 @@ export default function DocumentAndParcelSection() {
   ];
 
   return (
-    <section className='py-16 md:py-24 lg:py-32 bg-white'>
+    <section className='py-12 md:py-16 lg:py-20 bg-white'>
       <Container>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center'>
           {/* Left - Content Card */}
@@ -95,7 +95,7 @@ export default function DocumentAndParcelSection() {
           </div>
 
           {/* Right - Image */}
-          <div ref={imageRef} className='h-80 sm:h-96 md:h-full md:min-h-96 rounded-lg overflow-hidden shadow-md'>
+          <div ref={imageRef} className='h-64 sm:h-80 md:h-80 rounded-lg overflow-hidden shadow-md'>
             <img
               src='/images/home/Shipping documents and parcels.webp'
               alt='Document and Parcel Shipping'

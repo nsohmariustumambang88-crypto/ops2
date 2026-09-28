@@ -61,7 +61,7 @@ export default function Footer() {
   return (
     <>
       {/* CTA Banner */}
-      <section className='py-6 md:py-8 border-b border-gray-200' style={{ borderTopColor: '#0B2C5F', borderTopWidth: '4px' }}>
+      <section className='py-4 md:py-6 border-b border-gray-200' style={{ borderTopColor: '#0B2C5F', borderTopWidth: '4px' }}>
         <Container>
           <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
             <h3 className='text-lg md:text-xl font-bold' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
@@ -78,7 +78,7 @@ export default function Footer() {
       </section>
 
       {/* Main Footer */}
-      <footer className='bg-white py-16 md:py-24 lg:py-32 border-b border-gray-200'>
+      <footer className='bg-white py-12 md:py-16 lg:py-20 border-b border-gray-200'>
         <Container>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8'>
             {/* Logo & Tagline */}
@@ -155,7 +155,7 @@ export default function Footer() {
       </footer>
 
       {/* Copyright Bar */}
-      <section className='py-8 md:py-6' style={{ backgroundColor: '#0B2C5F' }}>
+      <section className='py-6 md:py-4' style={{ backgroundColor: '#0B2C5F' }}>
         <Container>
           <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
             <p className='text-xs md:text-sm' style={{ color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'Barlow, sans-serif' }}>
