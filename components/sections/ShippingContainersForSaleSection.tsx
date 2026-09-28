@@ -105,21 +105,21 @@ export default function ShippingContainersForSaleSection() {
               {/* Badge */}
               <div className='inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-6 w-fit shadow-sm'>
                 <span className='text-yellow-500 text-lg'>●</span>
-                <span className='text-xs md:text-sm font-bold uppercase tracking-wider text-text-primary'>Quality Containers Available</span>
+                <span className='text-xs md:text-sm font-bold uppercase tracking-wider' style={{ color: '#0B2C5F', fontFamily: 'Barlow, sans-serif' }}>Quality Containers Available</span>
               </div>
 
               {/* Heading */}
-              <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-text-primary' style={{ fontFamily: 'Poppins, sans-serif' }}>
+              <h2 className='text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                 Shipping Containers For Sale
               </h2>
 
               {/* Description 1 */}
-              <p className='text-base md:text-lg text-text-secondary mb-6 leading-relaxed'>
+              <p className='text-base md:text-lg mb-6 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                 Shop reliable shipping containers for sale for storage, commercial use, transportation, construction projects, equipment storage, and container conversions.
               </p>
 
               {/* Description 2 */}
-              <p className='text-sm md:text-base text-text-secondary mb-8 leading-relaxed'>
+              <p className='text-sm md:text-base mb-8 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                 Explore a selection of new and used shipping containers in popular sizes and configurations. Whether you need a container for secure storage, business operations, a building project, or a custom conversion, find practical options designed for a wide range of applications.
               </p>
 
