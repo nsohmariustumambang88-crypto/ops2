@@ -68,7 +68,7 @@ export default function ServiceUpdatesSection() {
   ];
 
   return (
-    <section className='py-12 md:py-16 lg:py-20 bg-white'>
+    <section className='py-12 md:py-16 lg:py-20 bg-white px-4 sm:px-6 md:px-12 lg:px-20'>
       <Container>
         {/* Header Section */}
         <div ref={headerRef} className='mb-10 md:mb-12 pb-6 md:pb-8 border-b border-gray-200'>

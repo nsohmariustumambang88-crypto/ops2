@@ -19,7 +19,7 @@ export default function OPSForYourBusinessBanner() {
   }, []);
 
   return (
-    <section className='py-8 md:py-12 lg:py-16 bg-white px-6 sm:px-8 md:px-10 lg:px-12'>
+    <section className='py-8 md:py-12 lg:py-16 bg-white px-4 sm:px-6 md:px-12 lg:px-20'>
       <div
         ref={bannerRef}
         className='relative overflow-hidden shadow-lg w-full flex items-center gap-4 md:gap-6 lg:gap-8 rounded-2xl'

@@ -109,7 +109,7 @@ export default function WhyOPSLogisticsSection() {
   return (
     <section className='py-0 bg-white'>
       {/* Stats Banner */}
-      <div ref={statsRef} className='py-12 md:py-16 lg:py-20' style={{ backgroundColor: '#EDF4FD' }}>
+      <div ref={statsRef} className='py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-12 lg:px-20' style={{ backgroundColor: '#EDF4FD' }}>
         <Container>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16'>
             {stats.map((stat, index) => (
@@ -127,7 +127,7 @@ export default function WhyOPSLogisticsSection() {
       </div>
 
       {/* Content Section */}
-      <div ref={contentRef} className='py-12 md:py-16 lg:py-20 bg-white'>
+      <div ref={contentRef} className='py-12 md:py-16 lg:py-20 bg-white px-4 sm:px-6 md:px-12 lg:px-20'>
         <Container>
           {/* Label */}
           <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#1173D4', fontFamily: 'Barlow, sans-serif', letterSpacing: '0.15em' }}>

@@ -49,7 +49,7 @@ export default function TradeAdvisorySection() {
   }, []);
 
   return (
-    <section className='py-8 md:py-12 lg:py-16' style={{ backgroundColor: '#0B2C5F' }}>
+    <section className='py-8 md:py-12 lg:py-16 px-4 sm:px-6 md:px-12 lg:px-20' style={{ backgroundColor: '#0B2C5F' }}>
       <Container>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center'>
           {/* Left - Image */}

@@ -62,7 +62,7 @@ export default function RetailerVolumeShippingSection() {
   ];
 
   return (
-    <section className='py-12 md:py-16 lg:py-20 bg-white'>
+    <section className='py-12 md:py-16 lg:py-20 bg-white px-4 sm:px-6 md:px-12 lg:px-20'>
       <Container>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center'>
           {/* Left - Image */}

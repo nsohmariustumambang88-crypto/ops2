@@ -91,7 +91,7 @@ export default function ShippingContainersForSaleSection() {
   ];
 
   return (
-    <section className='py-12 md:py-16 lg:py-20 bg-white'>
+    <section className='py-12 md:py-16 lg:py-20 bg-white px-4 sm:px-6 md:px-12 lg:px-20'>
       <Container>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-6'>
           {/* Left Column - Light Gray Background with Blue Wavy Border */}
