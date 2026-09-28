@@ -143,12 +143,12 @@ export default function ShippingContainersForSaleSection() {
             <WavyBorderSVG color='#EF4444' />
             <div className='relative z-10'>
               {/* Label */}
-              <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#F59E0B' }}>
+              <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#1173D4' }}>
                 CONTAINER SOLUTIONS
               </p>
 
               {/* Heading */}
-              <h3 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-10 md:mb-12 text-text-primary leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+              <h3 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-10 md:mb-12 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                 Built Around Your Storage & Project Needs
               </h3>
 
@@ -165,12 +165,12 @@ export default function ShippingContainersForSaleSection() {
                     </div>
 
                     {/* Title */}
-                    <h4 className='text-lg md:text-xl font-bold text-text-primary mb-2'>
+                    <h4 className='text-lg md:text-xl font-bold mb-2' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                       {feature.title}
                     </h4>
 
                     {/* Description */}
-                    <p className='text-sm md:text-base text-text-secondary leading-relaxed'>
+                    <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                       {feature.description}
                     </p>
                   </div>

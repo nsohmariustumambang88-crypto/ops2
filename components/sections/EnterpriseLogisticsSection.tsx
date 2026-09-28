@@ -2,15 +2,50 @@
 
 import { useEffect, useRef } from 'react';
 import Container from '@/components/ui/Container';
-import { animateSlideInLeft, animateSlideInRight } from '@/lib/animations';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function EnterpriseLogisticsSection() {
   const imageRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (imageRef.current) animateSlideInLeft(imageRef.current);
-    if (contentRef.current) animateSlideInRight(contentRef.current);
+    if (imageRef.current) {
+      gsap.fromTo(
+        imageRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: imageRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
+    if (contentRef.current) {
+      gsap.fromTo(
+        contentRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: contentRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
   }, []);
 
   const solutions = [
@@ -56,24 +91,24 @@ export default function EnterpriseLogisticsSection() {
           {/* Right - Content Card */}
           <div ref={contentRef} className='bg-white rounded-2xl border border-gray-200 p-8 md:p-10 shadow-sm'>
             {/* Heading */}
-            <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+            <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
               Enterprise Logistics Services
             </h2>
 
             {/* Subheading */}
-            <p className='text-base md:text-lg font-bold text-primary mb-4'>
+            <p className='text-base md:text-lg font-bold mb-4' style={{ color: '#1173D4' }}>
               BUSINESS ONLY
             </p>
 
             {/* Description */}
-            <p className='text-sm md:text-base text-text-secondary mb-8 leading-relaxed'>
+            <p className='text-sm md:text-base mb-8 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
               Find out how OPS Supply Chain can revolutionize your business as a 3PL provider.
             </p>
 
             {/* Solutions Section */}
             <div className='bg-light-blue rounded-xl p-6 md:p-8 mb-8'>
               {/* Solutions Label */}
-              <p className='text-xs md:text-sm font-bold uppercase tracking-widest text-primary mb-6'>
+              <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-6' style={{ color: '#1173D4' }}>
                 SOLUTIONS AVAILABLE
               </p>
 
@@ -82,12 +117,12 @@ export default function EnterpriseLogisticsSection() {
                 {solutions.map((solution, index) => (
                   <div key={index} className='flex flex-col items-center text-center gap-3'>
                     {/* Icon */}
-                    <div className='w-12 h-12 rounded-lg bg-text-primary flex items-center justify-center text-white text-xl'>
+                    <div className='w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl' style={{ backgroundColor: '#0B2C5F' }}>
                       {solution.icon}
                     </div>
 
                     {/* Title */}
-                    <h4 className='text-sm md:text-base font-bold text-text-primary'>
+                    <h4 className='text-sm md:text-base font-bold' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                       {solution.title}
                     </h4>
                   </div>

@@ -2,15 +2,50 @@
 
 import { useEffect, useRef } from 'react';
 import Container from '@/components/ui/Container';
-import { animateSlideInLeft, animateSlideInRight } from '@/lib/animations';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function ServiceUpdatesSection() {
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (headerRef.current) animateSlideInLeft(headerRef.current);
-    if (cardsRef.current) animateSlideInRight(cardsRef.current);
+    if (headerRef.current) {
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
+    if (cardsRef.current) {
+      gsap.fromTo(
+        cardsRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
   }, []);
 
   const updates = [
@@ -37,10 +72,10 @@ export default function ServiceUpdatesSection() {
       <Container>
         {/* Header Section */}
         <div ref={headerRef} className='mb-12 md:mb-16 pb-8 md:pb-12 border-b border-gray-200'>
-          <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Important Service Updates
           </h2>
-          <p className='text-sm md:text-base text-text-secondary mb-8'>
+          <p className='text-sm md:text-base mb-8' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
             Service bulletins keep you up to date with news and alerts
           </p>
 

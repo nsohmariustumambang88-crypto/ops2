@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import Container from '@/components/ui/Container';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function RetailerVolumeShippingSection() {
@@ -11,8 +12,40 @@ export default function RetailerVolumeShippingSection() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (imageRef.current) gsap.fromTo(imageRef.current, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: imageRef.current, start: 'top 80%', toggleActions: 'play none none none' } });
-    if (contentRef.current) gsap.fromTo(contentRef.current, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: contentRef.current, start: 'top 80%', toggleActions: 'play none none none' } });
+    if (imageRef.current) {
+      gsap.fromTo(
+        imageRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: imageRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
+    if (contentRef.current) {
+      gsap.fromTo(
+        contentRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: contentRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
   }, []);
 
   const divisions = [
@@ -44,17 +77,17 @@ export default function RetailerVolumeShippingSection() {
           {/* Right - Content */}
           <div ref={contentRef}>
             {/* Heading */}
-            <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+            <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
               Retailer or Volume Shipping
             </h2>
 
             {/* Subheading */}
-            <p className='text-xs md:text-sm font-bold uppercase tracking-widest text-primary mb-6'>
+            <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-6' style={{ color: '#1173D4' }}>
               BUSINESS ONLY
             </p>
 
             {/* Description */}
-            <p className='text-sm md:text-base text-text-secondary mb-8 leading-relaxed'>
+            <p className='text-sm md:text-base mb-8 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
               We have two divisions that offer reliable business shipping for e-commerce, supplier or manufacturing companies.
             </p>
 
@@ -71,17 +104,17 @@ export default function RetailerVolumeShippingSection() {
 
                       {/* Content */}
                       <div className='flex-1'>
-                        <h3 className='text-lg md:text-xl font-bold text-text-primary mb-2'>
+                        <h3 className='text-lg md:text-xl font-bold mb-2' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                           {division.title}
                         </h3>
-                        <p className='text-sm md:text-base text-text-secondary leading-relaxed'>
+                        <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                           {division.description}
                         </p>
                       </div>
                     </div>
 
                     {/* Arrow */}
-                    <div className='text-primary text-xl flex-shrink-0 group-hover:translate-x-1 transition-transform'>
+                    <div className='text-xl flex-shrink-0 group-hover:translate-x-1 transition-transform' style={{ color: '#1173D4' }}>
                       →
                     </div>
                   </div>

@@ -46,24 +46,24 @@ export default function DocumentAndParcelSection() {
           {/* Left - Content Card */}
           <div ref={contentRef} className='bg-white rounded-2xl border border-gray-200 p-8 md:p-10 shadow-sm'>
             {/* Heading */}
-            <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+            <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
               Document and Parcel Shipping
             </h2>
 
             {/* Subheading */}
-            <p className='text-base md:text-lg font-bold text-primary mb-4'>
+            <p className='text-base md:text-lg font-bold mb-4' style={{ color: '#1173D4' }}>
               For All Shippers
             </p>
 
             {/* Description */}
-            <p className='text-sm md:text-base text-text-secondary mb-8 leading-relaxed'>
+            <p className='text-sm md:text-base mb-8 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
               Learn about OPS Express - the undisputed global leader in international express shipping.
             </p>
 
             {/* Services Section */}
             <div className='bg-light-blue rounded-xl p-6 md:p-8 mb-8'>
               {/* Services Label */}
-              <p className='text-xs md:text-sm font-bold uppercase tracking-widest text-primary mb-6'>
+              <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-6' style={{ color: '#1173D4' }}>
                 SERVICES AVAILABLE
               </p>
 
@@ -72,12 +72,12 @@ export default function DocumentAndParcelSection() {
                 {services.map((service, index) => (
                   <div key={index} className='flex items-start gap-4'>
                     {/* Icon */}
-                    <div className='w-12 h-12 rounded-lg bg-text-primary flex items-center justify-center text-white text-xl flex-shrink-0'>
+                    <div className='w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl flex-shrink-0' style={{ backgroundColor: '#0B2C5F' }}>
                       {service.icon}
                     </div>
 
                     {/* Title */}
-                    <h4 className='text-sm md:text-base font-bold text-text-primary leading-snug'>
+                    <h4 className='text-sm md:text-base font-bold leading-snug' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                       {service.title}
                     </h4>
                   </div>
