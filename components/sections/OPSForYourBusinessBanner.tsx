@@ -22,11 +22,11 @@ export default function OPSForYourBusinessBanner() {
     <section className='py-12 md:py-16 lg:py-20 bg-white' style={{ paddingLeft: 0, paddingRight: 0 }}>
       <div
         ref={bannerRef}
-        className='relative overflow-hidden shadow-lg w-full flex items-center'
+        className='relative overflow-hidden shadow-lg w-full flex items-center gap-6 md:gap-8 lg:gap-12'
         style={{ backgroundColor: '#0B2C5F', minHeight: '280px' }}
       >
         {/* Left - Narrow Image Panel with Rounded Right Corners */}
-        <div className='w-32 md:w-40 lg:w-48 h-full shrink-0 overflow-hidden rounded-r-3xl mr-6 md:mr-8 lg:mr-10'>
+        <div className='w-32 md:w-40 lg:w-48 h-full shrink-0 overflow-hidden rounded-r-3xl'>
           <img
             src='/images/home/Shipping documents and parcels.webp'
             alt='OPS for Your Business'
