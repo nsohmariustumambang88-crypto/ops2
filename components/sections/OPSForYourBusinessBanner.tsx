@@ -25,8 +25,8 @@ export default function OPSForYourBusinessBanner() {
         className='relative overflow-hidden shadow-lg w-full flex items-center'
         style={{ backgroundColor: '#0B2C5F', minHeight: '280px' }}
       >
-        {/* Left - Narrow Image Panel */}
-        <div className='w-32 md:w-40 lg:w-48 h-full shrink-0 overflow-hidden'>
+        {/* Left - Narrow Image Panel with Rounded Right Corners */}
+        <div className='w-32 md:w-40 lg:w-48 h-full shrink-0 overflow-hidden rounded-r-3xl'>
           <img
             src='/images/home/Shipping documents and parcels.webp'
             alt='OPS for Your Business'
@@ -35,14 +35,14 @@ export default function OPSForYourBusinessBanner() {
         </div>
 
         {/* Right - Content Area */}
-        <div ref={contentRef} className='flex-1 px-8 md:px-12 lg:px-16 py-8 text-white flex flex-col justify-center'>
+        <div ref={contentRef} className='flex-1 px-8 md:px-12 lg:px-16 py-10 md:py-12 text-white flex flex-col justify-center'>
           {/* Heading */}
-          <h2 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h2 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-5 md:mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
             OPS for Your Business
           </h2>
 
           {/* Description */}
-          <p className='text-xs md:text-sm lg:text-base text-white/90 mb-6 leading-relaxed max-w-2xl'>
+          <p className='text-xs md:text-sm lg:text-base text-white/90 mb-8 md:mb-10 leading-relaxed max-w-2xl'>
             Power your small and medium-sized business success with world-class shipping and logistics. Our team of experts can help you address the ever changing need of your customers.
           </p>
 
