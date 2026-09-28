@@ -104,20 +104,20 @@ export default function Hero() {
               {/* Tracking Box */}
               <div
                 ref={trackingBoxRef}
-                className='bg-white rounded-lg p-3 md:p-5 shadow-deep max-w-2xl mx-auto mb-5 md:mb-6'
+                className='bg-white rounded-lg p-4 md:p-6 shadow-deep max-w-3xl mx-auto mb-5 md:mb-6'
               >
                 <form onSubmit={handleTrack}>
-                  <div className='flex flex-col sm:flex-row gap-2'>
+                  <div className='flex flex-col sm:flex-row gap-3 md:gap-4'>
                     <input
                       type='text'
                       placeholder='Enter your tracking number(s)'
                       value={trackingNumber}
                       onChange={(e) => setTrackingNumber(e.target.value)}
-                      className='flex-1 px-4 md:px-5 py-2 md:py-3 rounded-lg border-none text-text-primary placeholder-gray-400 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all'
+                      className='flex-1 px-5 md:px-6 py-3 md:py-4 rounded-lg border-none text-text-primary placeholder-gray-400 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all'
                     />
                     <button
                       type='submit'
-                      className='px-6 md:px-7 py-2 md:py-3 font-bold text-white rounded-lg whitespace-nowrap text-sm md:text-base transition-all hover:opacity-90'
+                      className='px-8 md:px-10 py-3 md:py-4 font-bold text-white rounded-lg whitespace-nowrap text-sm md:text-base transition-all hover:opacity-90'
                       style={{ backgroundColor: '#1173D4' }}
                     >
                       Track Shipment
