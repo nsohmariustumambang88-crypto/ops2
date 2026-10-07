@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ReactNode } from 'react';
 
 interface ButtonProps {
@@ -8,6 +9,7 @@ interface ButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  href?: string;
 }
 
 export default function Button({
@@ -18,8 +20,9 @@ export default function Button({
   onClick,
   disabled = false,
   type = 'button',
+  href,
 }: ButtonProps) {
-  const baseStyles = 'font-semibold rounded-button transition-all duration-300 hover:shadow-medium disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'font-semibold rounded-button transition-all duration-300 hover:shadow-medium disabled:opacity-50 disabled:cursor-not-allowed inline-block';
 
   const variants = {
     primary: 'bg-primary text-white hover:bg-[#0041A3]',
@@ -33,12 +36,22 @@ export default function Button({
     lg: 'px-8 py-4 text-lg',
   };
 
+  const combinedClasses = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
+
+  if (href) {
+    return (
+      <Link href={href} className={combinedClasses}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      className={combinedClasses}
     >
       {children}
     </button>

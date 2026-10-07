@@ -16,10 +16,31 @@ export default function Header() {
   ];
 
   const shipOptions = [
-    { label: 'Get a Quote', icon: 'quote', href: '#' },
-    { label: 'Ship Now', icon: 'ship', href: '#' },
-    { label: 'Request a Business Account', icon: 'account', href: '#' },
+    { label: 'Get a Quote', icon: 'quote', href: '/quote' },
+    { label: 'Ship Now', icon: 'ship', href: '/ship-now' },
+    { label: 'Request a Business Account', icon: 'account', href: '/request-business-account' },
   ];
+
+  const shipCategories = {
+    learnMore: [
+      { label: 'Document and package', href: '/express-document-parcel', description: 'Express shipping of documents and parcels' },
+      { label: 'Retailers or bulk shipping (business only)', href: '/', description: '' },
+    ],
+    pallets: {
+      title: 'Pallets, containers and freight',
+      subtitle: 'FOR PROFESSIONAL USE ONLY',
+      description: 'Air and sea freight, as well as customs and logistics services with OPS Global Forwarding.',
+      buttonLabel: 'Explore freight services',
+      href: '#',
+    },
+    business: {
+      title: 'OPS for your business',
+      subtitle: "LET'S BE SHIPPING PARTNERS",
+      description: "Small start-up? Medium-sized businesses going international? Meet your company's shipping needs.",
+      buttonLabel: 'Discover our special offers',
+      href: '#',
+    },
+  };
 
   const enterpriseOptions = {
     solutions: [
@@ -74,14 +95,14 @@ export default function Header() {
       {/* Top Header */}
       <header className='bg-white border-b border-border'>
         <Container>
-          <div className='flex items-center justify-between h-14'>
+          <div className='flex items-center justify-center h-14 relative w-full'>
             {/* Logo */}
-            <Link href='/' className='flex items-center'>
+            <Link href='/' className='flex items-center absolute left-0'>
               <span className='text-2xl font-bold text-primary'>OPS<br />LOGISTICS</span>
             </Link>
 
             {/* Right side */}
-            <div className='hidden md:flex items-center gap-6'>
+            <div className='hidden md:flex items-center gap-6 absolute right-0'>
               <button className='p-2 hover:bg-light-gray rounded-lg transition-colors'>
                 <svg className='w-5 h-5 text-text-secondary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                   <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012-2v-1a2 2 0 012-2h1.055M8 16H6a2 2 0 01-2-2v-2a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2h-2.055M15 12H17' />
@@ -101,10 +122,10 @@ export default function Header() {
       </header>
 
       {/* Main Navigation Bar */}
-      <header className='sticky top-0 z-50 bg-blue-900' style={{ backgroundColor: '#0B2C5F' }}>
+      <header className='sticky top-0 z-50 bg-blue-900 shadow-md' style={{ backgroundColor: '#0B2C5F' }}>
         <Container>
-          <div className='flex items-center justify-between h-16'>
-            {/* Desktop Navigation */}
+          <div className='flex items-center justify-center h-16 relative w-full'>
+            {/* Desktop Navigation - Centered */}
             <nav className='hidden md:flex items-center gap-8'>
               {navigationItems.map((item) => (
                 <div key={item.label} className='relative group'>
@@ -121,29 +142,82 @@ export default function Header() {
 
                   {item.label === 'SHIP' && item.hasDropdown && (
                     <div className='fixed left-0 right-0 mt-0 bg-white shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50'>
-                      <div className='max-w-7xl mx-auto'>
-                        {/* Header */}
-                        <div className='px-4 sm:px-6 md:px-8 py-4 border-b border-gray-200'>
-                          <h3 className='text-xs font-bold text-gray-400 uppercase tracking-widest'>Start Shipping</h3>
-                        </div>
+                      <div className='max-w-7xl mx-auto px-6 sm:px-8 md:px-16 lg:px-24 py-8'>
+                        <div className='grid grid-cols-4 gap-8'>
+                          {/* Start Shipping Column */}
+                          <div>
+                            <h3 className='text-xs font-bold text-primary uppercase tracking-widest mb-4'>Delivery Start Date</h3>
+                            <div className='space-y-2'>
+                              {shipOptions.map((option) => (
+                                <Link
+                                  key={option.label}
+                                  href={option.href}
+                                  className='flex items-center gap-3 py-3 text-gray-700 hover:text-primary transition-colors group/option'
+                                >
+                                  {getIcon(option.icon)}
+                                  <span className='text-sm font-medium'>{option.label}</span>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
 
-                        {/* Options */}
-                        <div className='py-2'>
-                          {shipOptions.map((option) => (
+                          {/* Learn More Column */}
+                          <div>
+                            <h3 className='text-xs font-bold text-primary uppercase tracking-widest mb-4'>Learn More About...</h3>
+                            <div className='space-y-4'>
+                              {shipCategories.learnMore.map((option) => (
+                                <Link
+                                  key={option.label}
+                                  href={option.href}
+                                  className='block p-3 rounded-lg hover:bg-blue-50 transition-colors group'
+                                >
+                                  <h4 className='text-sm font-bold mb-2 group-hover:text-primary transition-colors' style={{ color: '#0B2C5F' }}>
+                                    {option.label}
+                                  </h4>
+                                  {option.description && (
+                                    <p className='text-sm flex items-center gap-2' style={{ color: '#1173D4' }}>
+                                      {option.description}
+                                      <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
+                                      </svg>
+                                    </p>
+                                  )}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Pallets Column */}
+                          <div>
+                            <h4 className='text-xs font-bold text-gray-900 uppercase tracking-widest mb-2'>{shipCategories.pallets.title}</h4>
+                            <p className='text-xs text-primary uppercase tracking-widest mb-3 font-bold'>{shipCategories.pallets.subtitle}</p>
+                            <p className='text-sm text-gray-600 mb-4'>{shipCategories.pallets.description}</p>
                             <Link
-                              key={option.label}
-                              href={option.href}
-                              className='block px-4 sm:px-6 md:px-8 py-4 text-primary hover:bg-blue-50 transition-colors'
+                              href={shipCategories.pallets.href}
+                              className='inline-block px-6 py-2 border rounded-full text-sm font-medium hover:shadow-md transition-colors'
+                              style={{ borderColor: '#1173D4', color: '#1173D4' }}
+                              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(17, 115, 212, 0.1)')}
+                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                             >
-                              <div className='flex items-center gap-4'>
-                                {getIcon(option.icon)}
-                                <span className='text-sm font-medium flex-1 text-primary'>{option.label}</span>
-                                <svg className='w-4 h-4 text-primary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
-                                </svg>
-                              </div>
+                              {shipCategories.pallets.buttonLabel}
                             </Link>
-                          ))}
+                          </div>
+
+                          {/* Business Column */}
+                          <div>
+                            <h4 className='text-xs font-bold text-gray-900 uppercase tracking-widest mb-2'>{shipCategories.business.title}</h4>
+                            <p className='text-xs text-primary uppercase tracking-widest mb-3 font-bold'>{shipCategories.business.subtitle}</p>
+                            <p className='text-sm text-gray-600 mb-4'>{shipCategories.business.description}</p>
+                            <Link
+                              href={shipCategories.business.href}
+                              className='inline-block px-6 py-2 border rounded-full text-sm font-medium hover:shadow-md transition-colors'
+                              style={{ borderColor: '#1173D4', color: '#1173D4' }}
+                              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(17, 115, 212, 0.1)')}
+                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                            >
+                              {shipCategories.business.buttonLabel}
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -151,7 +225,7 @@ export default function Header() {
 
                   {item.label === 'Enterprise logistics services' && item.hasDropdown && (
                     <div className='fixed left-0 right-0 mt-0 bg-white shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50'>
-                      <div className='max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8'>
+                      <div className='max-w-7xl mx-auto px-6 sm:px-8 md:px-16 lg:px-24 py-8'>
                         <div className='grid grid-cols-4 gap-8'>
                         {/* Left Column */}
                         <div>
@@ -227,7 +301,7 @@ export default function Header() {
             </nav>
 
             {/* Right side - Customer Portal */}
-            <button className='text-white px-6 py-2 rounded-lg font-medium text-sm transition-colors' style={{ backgroundColor: '#1173D4' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0B5AA8'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1173D4'}>
+            <button className='text-white px-6 py-2 rounded-lg font-medium text-sm transition-colors ml-auto' style={{ backgroundColor: '#1173D4' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0B5AA8'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1173D4'}>
               Customer portal logins
             </button>
 
@@ -259,17 +333,47 @@ export default function Header() {
                         </svg>
                       </button>
                       {isShipDropdownOpen && (
-                        <div className='pl-4 py-2'>
-                          {shipOptions.map((option) => (
-                            <Link
-                              key={option.label}
-                              href={option.href}
-                              className='flex items-center gap-3 py-2 text-white/80 hover:text-blue-400 transition-colors font-medium text-sm'
-                            >
-                              {getIcon(option.icon)}
-                              {option.label}
-                            </Link>
-                          ))}
+                        <div className='pl-4 py-2 space-y-3'>
+                          {/* Start Shipping Section */}
+                          <div>
+                            <p className='text-xs font-bold text-gray-400 uppercase tracking-widest mb-2'>Delivery Start Date</p>
+                            {shipOptions.map((option) => (
+                              <Link
+                                key={option.label}
+                                href={option.href}
+                                className='flex items-center gap-3 py-2 text-white/80 hover:text-blue-400 transition-colors font-medium text-sm'
+                              >
+                                {getIcon(option.icon)}
+                                {option.label}
+                              </Link>
+                            ))}
+                          </div>
+
+                          {/* Learn More Section */}
+                          <div>
+                            <p className='text-xs font-bold text-gray-400 uppercase tracking-widest mb-2'>Learn More About...</p>
+                            {shipCategories.learnMore.map((option) => (
+                              <Link
+                                key={option.label}
+                                href={option.href}
+                                className='block py-2 text-white/80 hover:text-blue-400 transition-colors font-medium text-sm'
+                              >
+                                {option.label}
+                              </Link>
+                            ))}
+                          </div>
+
+                          {/* Pallets Section */}
+                          <div>
+                            <p className='text-xs font-bold text-gray-400 uppercase tracking-widest mb-2'>{shipCategories.pallets.title}</p>
+                            <p className='text-xs text-white/60 mb-2'>{shipCategories.pallets.description}</p>
+                          </div>
+
+                          {/* Business Section */}
+                          <div>
+                            <p className='text-xs font-bold text-gray-400 uppercase tracking-widest mb-2'>{shipCategories.business.title}</p>
+                            <p className='text-xs text-white/60'>{shipCategories.business.description}</p>
+                          </div>
                         </div>
                       )}
                     </>

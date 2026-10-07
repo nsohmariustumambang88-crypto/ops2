@@ -88,19 +88,19 @@ export default function SupplyChainSolutionsSection() {
     <section className='py-12 md:py-16 lg:py-20 bg-white px-4 sm:px-6 md:px-12 lg:px-20'>
       <Container>
         {/* Header Section */}
-        <div ref={headerRef} className='mb-12 md:mb-16'>
+        <div ref={headerRef} className='mb-12 md:mb-16 text-center'>
           {/* Label */}
           <p className='text-xs md:text-sm font-bold uppercase tracking-widest mb-4 md:mb-6' style={{ color: '#1173D4', fontFamily: 'Barlow, sans-serif' }}>
             SUPPLY CHAIN SOLUTIONS
           </p>
 
           {/* Heading */}
-          <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight max-w-3xl' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+          <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Outsource the parts that are slowing you down
           </h2>
 
           {/* Description */}
-          <p className='text-sm md:text-base leading-relaxed max-w-3xl' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+          <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
             Our supply chain division functions as your third-party logistics provider – warehousing, fulfillment, customs clearance and delivery, built around how your business already operates.
           </p>
         </div>
@@ -110,7 +110,7 @@ export default function SupplyChainSolutionsSection() {
           {solutions.map((solution, index) => (
             <div
               key={index}
-              className='solution-card bg-white border border-gray-200 rounded-lg p-6 md:p-8 transition-all duration-300 hover:shadow-lg hover:-translate-y-2'
+              className='solution-card bg-white border border-gray-200 rounded-lg p-6 md:p-8 transition-all duration-300 hover:shadow-lg hover:-translate-y-2 text-center flex flex-col items-center'
             >
               {/* Icon */}
               <div
@@ -126,7 +126,7 @@ export default function SupplyChainSolutionsSection() {
               </h3>
 
               {/* Description */}
-              <p className='text-sm md:text-base leading-relaxed mb-4' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+              <p className='text-sm md:text-base leading-relaxed mb-4 flex-grow' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
                 {solution.description}
               </p>
 

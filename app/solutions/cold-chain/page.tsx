@@ -1,5 +1,7 @@
+'use client';
+
 import Container from '@/components/ui/Container';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 
 export const metadata = {
   title: 'Cold Chain Logistics - OPS Logistics',

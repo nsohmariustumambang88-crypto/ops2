@@ -71,7 +71,7 @@ export default function ServiceUpdatesSection() {
     <section className='py-12 md:py-16 lg:py-20 bg-white px-4 sm:px-6 md:px-12 lg:px-20'>
       <Container>
         {/* Header Section */}
-        <div ref={headerRef} className='mb-10 md:mb-12 pb-6 md:pb-8 border-b border-gray-200'>
+        <div ref={headerRef} className='mb-10 md:mb-12 pb-6 md:pb-8 border-b border-gray-200 text-center'>
           <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Important Service Updates
           </h2>
@@ -101,9 +101,9 @@ export default function ServiceUpdatesSection() {
               </div>
 
               {/* Content */}
-              <div className='p-6 md:p-8'>
+              <div className='p-6 md:p-8 text-center'>
                 {/* Title */}
-                <h3 className='text-lg md:text-xl font-bold mb-3 flex items-center gap-2' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+                <h3 className='text-lg md:text-xl font-bold mb-3 flex items-center justify-center gap-2' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                   {update.title}
                   {update.isExternal && <span className='text-sm'>↗</span>}
                   {!update.isExternal && <span style={{ color: '#1173D4' }}>›</span>}
