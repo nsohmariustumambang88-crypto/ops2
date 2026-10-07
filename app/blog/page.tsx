@@ -3,11 +3,6 @@
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 
-export const metadata = {
-  title: 'Logistics Insights Blog - OPS Logistics',
-  description: 'Latest articles and insights on supply chain trends, shipping logistics, and global trade.',
-};
-
 export default function BlogPage() {
   const articles = [
     {

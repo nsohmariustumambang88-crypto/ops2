@@ -3,11 +3,6 @@
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 
-export const metadata = {
-  title: 'Cold Chain Logistics - OPS Logistics',
-  description: 'Temperature-controlled shipping solutions for pharmaceuticals, healthcare, and perishables.',
-};
-
 export default function ColdChainPage() {
   return (
     <div className='min-h-screen bg-white'>

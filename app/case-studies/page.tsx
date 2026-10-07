@@ -3,11 +3,6 @@
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 
-export const metadata = {
-  title: 'Case Studies - OPS Logistics',
-  description: 'Real results from real partners. See how companies across industries have optimized their supply chains.',
-};
-
 export default function CaseStudiesPage() {
   const caseStudies = [
     {

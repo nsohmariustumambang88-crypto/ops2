@@ -3,11 +3,6 @@
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 
-export const metadata = {
-  title: 'White Papers - OPS Logistics',
-  description: 'In-depth research and insights on logistics, supply chain management, and global shipping trends.',
-};
-
 export default function WhitePapersPage() {
   const whitePapers = [
     {

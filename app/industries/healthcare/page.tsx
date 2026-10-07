@@ -3,11 +3,6 @@
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 
-export const metadata = {
-  title: 'Healthcare Logistics - OPS Logistics',
-  description: 'Pharma-grade cold chain logistics with compliance tracking for life sciences.',
-};
-
 export default function HealthcarePage() {
   return (
     <div className='min-h-screen bg-white'>
