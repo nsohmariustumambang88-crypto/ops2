@@ -24,44 +24,44 @@ export default function Header() {
   const shipCategories = {
     learnMore: [
       { label: 'Document and package', href: '/express-document-parcel', description: 'Express shipping of documents and parcels' },
-      { label: 'Retailers or bulk shipping (business only)', href: '/', description: '' },
+      { label: 'E-Commerce Fulfillment', href: '/solutions/ecommerce', description: 'Fast order fulfillment for online retailers' },
     ],
     pallets: {
       title: 'Pallets, containers and freight',
       subtitle: 'FOR PROFESSIONAL USE ONLY',
       description: 'Air and sea freight, as well as customs and logistics services with OPS Global Forwarding.',
       buttonLabel: 'Explore freight services',
-      href: '#',
+      href: '/solutions/freight',
     },
     business: {
       title: 'OPS for your business',
       subtitle: "LET'S BE SHIPPING PARTNERS",
       description: "Small start-up? Medium-sized businesses going international? Meet your company's shipping needs.",
       buttonLabel: 'Discover our special offers',
-      href: '#',
+      href: '/solutions/contract-logistics',
     },
   };
 
   const enterpriseOptions = {
     solutions: [
-      { label: 'Contract Logistics', href: '#' },
-      { label: 'E-Commerce Fulfillment', href: '#' },
-      { label: 'Customs & Compliance', href: '#' },
-      { label: 'Cold Chain Logistics', href: '#' },
-      { label: 'Last Mile Delivery', href: '#' },
+      { label: 'Contract Logistics', href: '/solutions/contract-logistics' },
+      { label: 'E-Commerce Fulfillment', href: '/solutions/ecommerce' },
+      { label: 'Customs & Compliance', href: '/solutions/customs' },
+      { label: 'Cold Chain Logistics', href: '/solutions/cold-chain' },
+      { label: 'Last Mile Delivery', href: '/solutions/last-mile' },
     ],
     industries: [
-      { label: 'Technology', href: '#' },
-      { label: 'Healthcare & Life Sciences', href: '#' },
-      { label: 'Retail & Fashion', href: '#' },
-      { label: 'Automotive', href: '#' },
-      { label: 'Energy & Utilities', href: '#' },
+      { label: 'Technology', href: '/industries/technology' },
+      { label: 'Healthcare & Life Sciences', href: '/industries/healthcare' },
+      { label: 'Retail & Fashion', href: '/industries/retail' },
+      { label: 'Automotive', href: '/industries/automotive' },
+      { label: 'Energy & Utilities', href: '/industries/energy' },
     ],
     resources: [
-      { label: 'Case Studies', href: '#' },
-      { label: 'White Papers', href: '#' },
-      { label: 'Logistics Insights Blog', href: '#' },
-      { label: 'Tariff Updates', href: '#' },
+      { label: 'Case Studies', href: '/case-studies' },
+      { label: 'White Papers', href: '/white-papers' },
+      { label: 'Logistics Insights Blog', href: '/blog' },
+      { label: 'Tariff Updates', href: '/tariff-updates' },
     ],
   };
 
