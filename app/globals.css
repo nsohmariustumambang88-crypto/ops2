@@ -8,13 +8,13 @@
   --navy-dark: #061B3B;
   --light-blue: #EDF4FD;
   --light-gray: #E3E9F2;
-  --text-primary: #0B2C5F;
-  --text-secondary: #4A5A73;
-  --text-tertiary: #667085;
-  --text-muted: #767676;
+  --text-primary: #000000;
+  --text-secondary: #1A1A1A;
+  --text-tertiary: #333333;
+  --text-muted: #666666;
   --border: #D5DFEC;
   --background: #ffffff;
-  --foreground: #0B2C5F;
+  --foreground: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
