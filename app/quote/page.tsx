@@ -52,8 +52,7 @@ export default function QuotePage() {
 
   return (
     <>
-      <Header />
-      <main className="bg-white">
+      <div className="bg-white">
         {/* Hero Section */}
         <section className="bg-white py-16 md:py-20 lg:py-24">
           <Container>
@@ -65,7 +64,7 @@ export default function QuotePage() {
                   <h1 className="text-3xl md:text-4xl font-bold text-navy mb-4" style={{ color: "#0B2C5F" }}>
                     Tell us what is moving. We will price it properly.
                   </h1>
-                  <p className="text-gray-600 text-base" style={{ color: "#4A5A73" }}>
+                  <p className="text-gray-600 text-base" style={{ color: "#1A1A1A" }}>
                     Six fields are required. Everything else is optional and genuinely is – a half-filled enquiry still reaches a person, and we would rather ask you one question than have you give up on a form.
                   </p>
                 </div>
@@ -278,7 +277,7 @@ export default function QuotePage() {
                         </div>
                       </div>
                       <h3 className="font-bold text-navy mb-2" style={{ color: "#0B2C5F" }}>{card.title}</h3>
-                      <p className="text-sm text-gray-600" style={{ color: "#4A5A73" }}>{card.description}</p>
+                      <p className="text-sm text-gray-600" style={{ color: "#1A1A1A" }}>{card.description}</p>
                     </div>
                   ))}
                 </div>
@@ -346,7 +345,7 @@ export default function QuotePage() {
               ].map((item, index) => (
                 <div key={index} className="border-t-4 border-primary pt-6">
                   <h3 className="text-lg font-bold text-navy mb-3" style={{ color: "#0B2C5F" }}>{item.title}</h3>
-                  <p className="text-gray-600" style={{ color: "#4A5A73" }}>{item.desc}</p>
+                  <p className="text-gray-600" style={{ color: "#1A1A1A" }}>{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -368,8 +367,7 @@ export default function QuotePage() {
             </div>
           </Container>
         </section>
-      </main>
-      <Footer />
+      </div>
     </>
   );
 }

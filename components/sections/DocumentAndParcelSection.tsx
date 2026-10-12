@@ -33,7 +33,7 @@ export default function DocumentAndParcelSection() {
               One envelope. One box.{' '}
               <span style={{ color: '#1173D4' }}>Same care as a container.</span>
             </h2>
-            <p className='text-base md:text-lg mb-8 leading-relaxed' style={{ color: '#4A5A73' }}>
+            <p className='text-base md:text-lg mb-8 leading-relaxed' style={{ color: '#1A1A1A' }}>
               A signed contract, a passport, a spare part holding up a line, a sample a customer is waiting on. Small things with disproportionate consequences — collected from your door and delivered to theirs, tracked the whole way.
             </p>
 

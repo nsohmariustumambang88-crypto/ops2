@@ -84,7 +84,7 @@ export default function CargoShippingSection() {
             </p>
 
             {/* Description */}
-            <p className='text-xs mb-4 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+            <p className='text-xs mb-4 leading-relaxed' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
               Discover shipping and logistics service options from OPS Global Forwarding.
             </p>
 

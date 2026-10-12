@@ -114,12 +114,12 @@ export default function ShippingContainersForSaleSection() {
               </h2>
 
               {/* Description 1 */}
-              <p className='text-xs md:text-sm mb-3 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+              <p className='text-xs md:text-sm mb-3 leading-relaxed' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
                 Shop reliable shipping containers for sale for storage, commercial use, transportation, construction projects, equipment storage, and container conversions.
               </p>
 
               {/* Description 2 */}
-              <p className='text-xs mb-4 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+              <p className='text-xs mb-4 leading-relaxed' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
                 Explore a selection of new and used shipping containers in popular sizes and configurations. Whether you need a container for secure storage, business operations, a building project, or a custom conversion, find practical options designed for a wide range of applications.
               </p>
 
@@ -170,7 +170,7 @@ export default function ShippingContainersForSaleSection() {
                     </h4>
 
                     {/* Description */}
-                    <p className='text-xs md:text-sm leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+                    <p className='text-xs md:text-sm leading-relaxed' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
                       {feature.description}
                     </p>
                   </div>

@@ -31,8 +31,7 @@ export default function ShipNowPage() {
 
   return (
     <>
-      <Header />
-      <main className="bg-white">
+      <div className="bg-white">
         {/* Section 1: Intro */}
         <section className="bg-white py-16 md:py-20 lg:py-24">
           <Container>
@@ -41,7 +40,7 @@ export default function ShipNowPage() {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy mb-8" style={{ color: "#0B2C5F" }}>
                 You have decided. Let us come and <span style={{ color: "#1173D4" }}>get it.</span>
               </h1>
-              <p className="text-base md:text-lg text-gray-600" style={{ color: "#4A5A73" }}>
+              <p className="text-base md:text-lg text-gray-600" style={{ color: "#1A1A1A" }}>
                 This is a collection request, not an instant checkout – it reaches a person who confirms the collection with you. Ten fields, seven of them required, and no pricing questions, because you are past that part.
               </p>
             </div>
@@ -56,7 +55,7 @@ export default function ShipNowPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 Which of these are you?
               </h2>
-              <p className="text-base text-gray-600" style={{ color: "#4A5A73" }}>
+              <p className="text-base text-gray-600" style={{ color: "#1A1A1A" }}>
                 If you already have an account, the portal is considerably faster – your addresses and saved lanes are already in it.
               </p>
             </div>
@@ -78,7 +77,7 @@ export default function ShipNowPage() {
                 <h3 className="text-2xl font-bold text-navy mb-4" style={{ color: "#0B2C5F" }}>
                   First time, or a one-off
                 </h3>
-                <p className="text-base text-gray-600 mb-6" style={{ color: "#4A5A73" }}>
+                <p className="text-base text-gray-600 mb-6" style={{ color: "#1A1A1A" }}>
                   No account needed. Fill in the short form below and we will confirm the collection with you directly. If it turns into a regular thing, we can set up an account afterwards.
                 </p>
                 <span className="inline-flex items-center font-bold" style={{ color: "#1173D4" }}>
@@ -98,7 +97,7 @@ export default function ShipNowPage() {
                 <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                   Three steps
                 </h2>
-                <p className="text-base text-gray-600" style={{ color: "#4A5A73" }}>
+                <p className="text-base text-gray-600" style={{ color: "#1A1A1A" }}>
                   Everything we need to send someone. If a field does not apply, leave it – we would rather ask one question than have you abandon the form.
                 </p>
               </div>
@@ -125,7 +124,7 @@ export default function ShipNowPage() {
                       <label className="block text-sm font-bold text-navy mb-2" style={{ color: "#0B2C5F" }}>Anything we should know <span className="text-gray-400 font-normal text-xs">OPTIONAL</span></label>
                       <textarea name="anythingElse" placeholder="Fragile, batteries inside, needs a tail lift, awkward access..." value={formData.anythingElse} onChange={handleChange} rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary resize-none" />
                     </div>
-                    <p className="text-sm text-gray-500" style={{ color: "#4A5A73" }}>Batteries, liquids and aerosols are regulated – mention them and we will tell you what applies.</p>
+                    <p className="text-sm text-gray-500" style={{ color: "#1A1A1A" }}>Batteries, liquids and aerosols are regulated – mention them and we will tell you what applies.</p>
                   </div>
                 </div>
 
@@ -155,7 +154,7 @@ export default function ShipNowPage() {
                         <option value="Next week">Next week</option>
                       </select>
                     </div>
-                    <p className="text-sm text-gray-500" style={{ color: "#4A5A73" }}>Tell us when it is ready and we will confirm what is achievable rather than promising a slot we have not checked.</p>
+                    <p className="text-sm text-gray-500" style={{ color: "#1A1A1A" }}>Tell us when it is ready and we will confirm what is achievable rather than promising a slot we have not checked.</p>
                   </div>
                 </div>
 
@@ -186,7 +185,7 @@ export default function ShipNowPage() {
                         <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary" />
                       </div>
                     </div>
-                    <p className="text-sm text-gray-500" style={{ color: "#4A5A73" }}>Required for a collection, not for marketing.</p>
+                    <p className="text-sm text-gray-500" style={{ color: "#1A1A1A" }}>Required for a collection, not for marketing.</p>
                   </div>
                 </div>
 
@@ -196,7 +195,7 @@ export default function ShipNowPage() {
                 </button>
 
                 {/* Footer Text */}
-                <p className="text-sm text-gray-600 text-center" style={{ color: "#4A5A73" }}>
+                <p className="text-sm text-gray-600 text-center" style={{ color: "#1A1A1A" }}>
                   This opens an email to us. A person reads it and comes back to confirm the collection – it is not an automatic booking. In a hurry? Call <a href="tel:+18564287703" className="font-bold" style={{ color: "#1173D4" }}>+1 856-428-7703</a>, open around the clock. We use what you send to arrange the shipment and nothing else; see our <a href="#" style={{ color: "#1173D4" }} className="underline">privacy policy</a>.
                 </p>
               </form>
@@ -266,7 +265,7 @@ export default function ShipNowPage() {
               <div className="p-6 rounded-lg bg-white" style={{ borderTop: "4px solid #1173D4", border: "1px solid #E5E7EB", borderTopWidth: "4px" }}>
                 <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Instead 01</p>
                 <h3 className="text-lg font-bold text-navy mb-3" style={{ color: "#0B2C5F" }}>You want a price first</h3>
-                <p className="text-sm text-gray-600" style={{ color: "#4A5A73" }}>
+                <p className="text-sm text-gray-600" style={{ color: "#1A1A1A" }}>
                   Perfectly reasonable. The quote form asks the cargo questions this one deliberately skips.
                 </p>
               </div>
@@ -274,7 +273,7 @@ export default function ShipNowPage() {
               <div className="p-6 rounded-lg bg-white" style={{ borderTop: "4px solid #1173D4", border: "1px solid #E5E7EB", borderTopWidth: "4px" }}>
                 <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Instead 02</p>
                 <h3 className="text-lg font-bold text-navy mb-3" style={{ color: "#0B2C5F" }}>You will be doing this weekly</h3>
-                <p className="text-sm text-gray-600" style={{ color: "#4A5A73" }}>
+                <p className="text-sm text-gray-600" style={{ color: "#1A1A1A" }}>
                   Do not fill this in every time. An account stores your addresses and puts it all on one invoice.
                 </p>
               </div>
@@ -282,15 +281,14 @@ export default function ShipNowPage() {
               <div className="p-6 rounded-lg bg-white" style={{ borderTop: "4px solid #1173D4", border: "1px solid #E5E7EB", borderTopWidth: "4px" }}>
                 <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Instead 03</p>
                 <h3 className="text-lg font-bold text-navy mb-3" style={{ color: "#0B2C5F" }}>You already sent it</h3>
-                <p className="text-sm text-gray-600" style={{ color: "#4A5A73" }}>
+                <p className="text-sm text-gray-600" style={{ color: "#1A1A1A" }}>
                   Tracking is the page you want. Have the reference from your confirmation to hand.
                 </p>
               </div>
             </div>
           </Container>
         </section>
-      </main>
-      <Footer />
+      </div>
     </>
   );
 }

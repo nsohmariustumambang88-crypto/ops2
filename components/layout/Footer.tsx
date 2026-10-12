@@ -86,7 +86,7 @@ export default function Footer() {
               <div className='mb-6'>
                 <OPSLogo />
               </div>
-              <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+              <p className='text-sm md:text-base leading-relaxed' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
                 Delivering excellence worldwide. Air, sea, road and rail freight to over 220 countries and territories.
               </p>
             </div>

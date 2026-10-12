@@ -135,7 +135,7 @@ export default function Hero() {
                       <h3 className='text-xs md:text-sm font-bold mb-2' style={{ color: '#1173D4' }}>
                         {card.title}
                       </h3>
-                      <p className='text-xs' style={{ color: '#4A5A73' }}>
+                      <p className='text-xs' style={{ color: '#1A1A1A' }}>
                         {card.description}
                       </p>
                     </div>

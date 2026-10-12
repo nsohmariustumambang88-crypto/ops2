@@ -75,7 +75,7 @@ export default function ServiceUpdatesSection() {
           <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Important Service Updates
           </h2>
-          <p className='text-sm md:text-base mb-8' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+          <p className='text-sm md:text-base mb-8' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
             Service bulletins keep you up to date with news and alerts
           </p>
 
@@ -110,7 +110,7 @@ export default function ServiceUpdatesSection() {
                 </h3>
 
                 {/* Description */}
-                <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+                <p className='text-sm md:text-base leading-relaxed' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
                   {update.description}
                 </p>
               </div>

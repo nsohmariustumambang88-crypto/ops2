@@ -117,7 +117,7 @@ export default function WhyOPSLogisticsSection() {
                 <h3 className='text-4xl md:text-5xl lg:text-6xl font-bold mb-4' style={{ fontFamily: 'Poppins, sans-serif', color: '#1173D4' }}>
                   {stat.number}
                 </h3>
-                <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73' }}>
+                <p className='text-sm md:text-base leading-relaxed' style={{ color: '#1A1A1A' }}>
                   {stat.label}
                 </p>
               </div>
@@ -140,7 +140,7 @@ export default function WhyOPSLogisticsSection() {
           </h2>
 
           {/* Description */}
-          <p className='text-sm md:text-base mb-8 md:mb-10 leading-relaxed text-center' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+          <p className='text-sm md:text-base mb-8 md:mb-10 leading-relaxed text-center' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
             Freight goes wrong in the gaps — between carriers, between borders, between someone booking a shipment and someone knowing where it is. We built OPS to close those gaps.
           </p>
 
@@ -163,7 +163,7 @@ export default function WhyOPSLogisticsSection() {
                 </h3>
 
                 {/* Description */}
-                <p className='text-sm md:text-base leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+                <p className='text-sm md:text-base leading-relaxed' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
                   {feature.description}
                 </p>
               </div>

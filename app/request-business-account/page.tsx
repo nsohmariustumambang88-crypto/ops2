@@ -7,8 +7,7 @@ import Footer from "@/components/layout/Footer";
 export default function RequestBusinessAccountPage() {
   return (
     <>
-      <Header />
-      <main className="bg-white">
+      <div className="bg-white">
         {/* Intro Section */}
         <section className="bg-white py-16 md:py-20 lg:py-24">
           <Container>
@@ -17,7 +16,7 @@ export default function RequestBusinessAccountPage() {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy mb-8" style={{ color: "#0B2C5F" }}>
                 Send three months of shipments. That is the <span style={{ color: "#1173D4" }}>whole ask.</span>
               </h1>
-              <p className="text-base md:text-lg text-gray-600" style={{ color: "#4A5A73" }}>
+              <p className="text-base md:text-lg text-gray-600" style={{ color: "#1A1A1A" }}>
                 No tender document, no volume forecast, no commitment. Lanes, weights and how often – and you get your actual routes priced against what you pay now, itemised so you can see where the difference comes from.
               </p>
             </div>
@@ -32,7 +31,7 @@ export default function RequestBusinessAccountPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 An account is not right for everyone yet
               </h2>
-              <p className="text-base text-gray-600" style={{ color: "#4A5A73" }}>
+              <p className="text-base text-gray-600" style={{ color: "#1A1A1A" }}>
                 There is no minimum volume and we will not turn you away for being small. But an account is administration, and administration should earn its place.
               </p>
             </div>
@@ -79,7 +78,7 @@ export default function RequestBusinessAccountPage() {
                   ].map((item, index) => (
                     <div key={index} className="flex items-start gap-3">
                       <span className="text-gray-400 font-bold mt-0.5">–</span>
-                      <span className="text-sm text-gray-600" style={{ color: "#4A5A73" }}>{item}</span>
+                      <span className="text-sm text-gray-600" style={{ color: "#1A1A1A" }}>{item}</span>
                     </div>
                   ))}
                 </div>
@@ -88,7 +87,7 @@ export default function RequestBusinessAccountPage() {
 
             {/* Bottom Note */}
             <div className="p-6 rounded-lg bg-white" style={{ borderLeft: "4px solid #1173D4" }}>
-              <p className="text-sm text-gray-600" style={{ color: "#4A5A73" }}>
+              <p className="text-sm text-gray-600" style={{ color: "#1A1A1A" }}>
                 If you are on the right-hand side, use the <a href="/quote" className="font-semibold" style={{ color: "#1173D4" }}>quote form</a> instead. It takes less time, gets you a price for the shipment you actually have, and you can always <a href="#" className="font-semibold" style={{ color: "#1173D4" }}>open an account later once the pattern appears</a>.
               </p>
             </div>
@@ -103,7 +102,7 @@ export default function RequestBusinessAccountPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 Nine fields, five of them required
               </h2>
-              <p className="text-base text-gray-600 mb-12" style={{ color: "#4A5A73" }}>
+              <p className="text-base text-gray-600 mb-12" style={{ color: "#1A1A1A" }}>
                 Deliberately short. What decides your rates is the shipping history, not the form – so put your effort into the attachment rather than into filling boxes.
               </p>
 
@@ -131,7 +130,7 @@ export default function RequestBusinessAccountPage() {
                         type="text"
                         placeholder="Helps us understand what you ship"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                        style={{ borderColor: "#D5DFEC", color: "#4A5A73" }}
+                        style={{ borderColor: "#D5DFEC", color: "#1A1A1A" }}
                       />
                     </div>
                   </div>
@@ -183,7 +182,7 @@ export default function RequestBusinessAccountPage() {
                         type="text"
                         placeholder="Carrier, forwarder, or 'nobody yet'"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                        style={{ borderColor: "#D5DFEC", color: "#4A5A73" }}
+                        style={{ borderColor: "#D5DFEC", color: "#1A1A1A" }}
                       />
                     </div>
                   </div>
@@ -197,7 +196,7 @@ export default function RequestBusinessAccountPage() {
                       type="text"
                       placeholder="e.g. packaged electronics, apparel, machine parts"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                      style={{ borderColor: "#D5DFEC", color: "#4A5A73" }}
+                      style={{ borderColor: "#D5DFEC", color: "#1A1A1A" }}
                     />
                   </div>
 
@@ -210,7 +209,7 @@ export default function RequestBusinessAccountPage() {
                       placeholder="Roughly where from and where to. One per line is fine – exact volumes not needed here."
                       rows={4}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm resize-none"
-                      style={{ borderColor: "#D5DFEC", color: "#4A5A73" }}
+                      style={{ borderColor: "#D5DFEC", color: "#1A1A1A" }}
                     />
                   </div>
 
@@ -227,7 +226,7 @@ export default function RequestBusinessAccountPage() {
                           className="px-6 py-2 rounded-lg font-medium text-sm transition-all border"
                           style={{
                             backgroundColor: option === "Weekly" ? "#1173D4" : "transparent",
-                            color: option === "Weekly" ? "white" : "#4A5A73",
+                            color: option === "Weekly" ? "white" : "#1A1A1A",
                             borderColor: option === "Weekly" ? "#1173D4" : "#D5DFEC",
                           }}
                           onMouseEnter={(e) => {
@@ -255,7 +254,7 @@ export default function RequestBusinessAccountPage() {
                     <h4 className="font-semibold text-navy mb-3" style={{ color: "#0B2C5F" }}>
                       The part that actually matters
                     </h4>
-                    <p className="text-sm text-gray-700" style={{ color: "#4A5A73" }}>
+                    <p className="text-sm text-gray-700" style={{ color: "#1A1A1A" }}>
                       When your email opens, <span className="font-semibold">attach three months of shipping history</span> if you have it – a spreadsheet export, a batch of invoices, even a screenshot. Lanes, weights, frequency and what you paid. That is what lets us price your routes properly instead of guessing at a band. No history? Send it anyway and we will work from the lanes above.
                     </p>
                   </div>
@@ -269,7 +268,7 @@ export default function RequestBusinessAccountPage() {
                       placeholder="Deadlines, problems with your current setup, seasonal peaks, anything that keeps going wrong"
                       rows={4}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm resize-none"
-                      style={{ borderColor: "#D5DFEC", color: "#4A5A73" }}
+                      style={{ borderColor: "#D5DFEC", color: "#1A1A1A" }}
                     />
                   </div>
 
@@ -370,7 +369,7 @@ export default function RequestBusinessAccountPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 What setup usually asks for
               </h2>
-              <p className="text-base text-gray-600 mb-12" style={{ color: "#4A5A73" }}>
+              <p className="text-base text-gray-600 mb-12" style={{ color: "#1A1A1A" }}>
                 None of this is needed to apply. It is here so nothing arrives as a surprise once a conversation is under way.
               </p>
 
@@ -408,7 +407,7 @@ export default function RequestBusinessAccountPage() {
                     <h3 className="text-lg font-bold text-navy mb-3" style={{ color: "#0B2C5F" }}>
                       {item.title}
                     </h3>
-                    <p className="text-sm text-gray-600" style={{ color: "#4A5A73" }}>
+                    <p className="text-sm text-gray-600" style={{ color: "#1A1A1A" }}>
                       {item.description}
                     </p>
                   </div>
@@ -464,7 +463,7 @@ export default function RequestBusinessAccountPage() {
                     <h3 className="text-lg font-bold text-navy mb-3" style={{ color: "#0B2C5F" }}>
                       {item.title}
                     </h3>
-                    <p className="text-sm text-gray-600" style={{ color: "#4A5A73" }}>
+                    <p className="text-sm text-gray-600" style={{ color: "#1A1A1A" }}>
                       {item.description}
                     </p>
                   </a>
@@ -473,8 +472,7 @@ export default function RequestBusinessAccountPage() {
             </div>
           </Container>
         </section>
-      </main>
-      <Footer />
+      </div>
     </>
   );
 }

@@ -9,10 +9,10 @@ export default function Header() {
   const [isShipDropdownOpen, setIsShipDropdownOpen] = useState(false);
 
   const navigationItems = [
-    { label: 'Follow', href: '#' },
+    { label: 'Follow', href: '/track' },
     { label: 'SHIP', href: '#', hasDropdown: true },
     { label: 'Enterprise logistics services', href: '#', hasDropdown: true },
-    { label: 'Service Clients', href: '#' },
+    { label: 'Service Clients', href: '/request-business-account' },
   ];
 
   const shipOptions = [

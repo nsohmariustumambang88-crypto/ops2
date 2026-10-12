@@ -87,7 +87,7 @@ export default function RetailerVolumeShippingSection() {
             </p>
 
             {/* Description */}
-            <p className='text-xs mb-4 leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+            <p className='text-xs mb-4 leading-relaxed' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
               We have two divisions that offer reliable business shipping for e-commerce, supplier or manufacturing companies.
             </p>
 
@@ -107,7 +107,7 @@ export default function RetailerVolumeShippingSection() {
                         <h3 className='text-sm md:text-base font-bold mb-2' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                           {division.title}
                         </h3>
-                        <p className='text-xs md:text-sm leading-relaxed' style={{ color: '#4A5A73', fontFamily: 'Barlow, sans-serif' }}>
+                        <p className='text-xs md:text-sm leading-relaxed' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>
                           {division.description}
                         </p>
                       </div>
