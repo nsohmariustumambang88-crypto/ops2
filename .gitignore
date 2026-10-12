@@ -42,3 +42,7 @@ yarn-error.log*
 next-env.d.ts
 public/images/frontend/node_modules/
 ops2-environmentals.env
+
+.vercel
+.env*
+public/images/impeccable/
