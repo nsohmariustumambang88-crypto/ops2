@@ -27,7 +27,7 @@ export async function GET(request: Request, { params }: Ctx) {
 
   try {
     const detail = path.match(new RegExp('^shipments\\/([^/]+)$'));
-    if (detail) {
+    if (detail && /^\d+$/.test(detail[1])) {
       const sh = await db.query('SELECT * FROM shipments WHERE id = $1', [detail[1]]);
       if (sh.rows.length === 0) return NextResponse.json({ error: 'Shipment not found' }, { status: 404 });
       const ev = await db.query('SELECT id, status, location, notes, timestamp FROM shipment_tracking WHERE shipment_id = $1 ORDER BY timestamp DESC', [detail[1]]);
@@ -124,7 +124,7 @@ export async function POST(request: Request, { params }: Ctx) {
 
   try {
     const evMatch = path.match(new RegExp('^shipments\\/([^/]+)\\/events$'));
-    if (evMatch) {
+    if (evMatch && /^\d+$/.test(evMatch[1])) {
       const { status, location, notes } = await request.json();
       if (!status) return NextResponse.json({ error: 'Status is required' }, { status: 400 });
       await db.query('UPDATE shipments SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', [status, evMatch[1]]);
