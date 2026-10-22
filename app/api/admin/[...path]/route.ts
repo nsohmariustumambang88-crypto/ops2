@@ -34,6 +34,16 @@ export async function GET(request: Request, { params }: Ctx) {
       return NextResponse.json({ shipment: sh.rows[0], events: ev.rows });
     }
 
+    if (path === 'settings') {
+      const r = await db.query('SELECT key, value, updated_at FROM site_settings ORDER BY key');
+      return NextResponse.json({ data: r.rows });
+    }
+
+    if (path === 'subscribers') {
+      const r = await db.query('SELECT id, email, created_at FROM subscribers ORDER BY created_at DESC LIMIT 500');
+      return NextResponse.json({ data: r.rows });
+    }
+
     if (path === 'dashboard') {
       const r = await db.query(`SELECT
         (SELECT COUNT(*) FROM shipments) AS total_shipments,
@@ -123,6 +133,16 @@ export async function POST(request: Request, { params }: Ctx) {
   const path = (await params).path.join('/');
 
   try {
+    if (path === 'subscribers') {
+      const { email } = await request.json();
+      if (!email || !String(email).includes('@')) {
+        return NextResponse.json({ error: 'A valid email is required' }, { status: 400 });
+      }
+      const r = await db.query('INSERT INTO subscribers (email) VALUES ($1) ON CONFLICT (email) DO NOTHING RETURNING id, email, created_at', [String(email).trim().toLowerCase()]);
+      if (r.rows.length === 0) return NextResponse.json({ error: 'That email is already subscribed' }, { status: 409 });
+      return NextResponse.json({ message: 'Subscriber added', subscriber: r.rows[0] }, { status: 201 });
+    }
+
     if (path === 'shipments') {
       const b = await request.json();
       if (!b.customer_id || !b.tracking_number) {
@@ -167,6 +187,16 @@ export async function PUT(request: Request, { params }: Ctx) {
   const path = (await params).path.join('/');
 
   try {
+    const settingMatch = path.match(new RegExp('^settings\\/([^/]+)$'));
+    if (settingMatch) {
+      const { value } = await request.json();
+      const r = await db.query(
+        'INSERT INTO site_settings (key, value, updated_at) VALUES ($1, $2, now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now() RETURNING key, value, updated_at',
+        [settingMatch[1], String(value ?? '')]
+      );
+      return NextResponse.json({ message: 'Setting saved', setting: r.rows[0] });
+    }
+
     const tierMatch = path.match(/^customers\/([^/]+)\/tier$/);
     if (tierMatch) {
       const { volume_tier } = await request.json();
@@ -176,6 +206,24 @@ export async function PUT(request: Request, { params }: Ctx) {
       );
       if (r.rows.length === 0) return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
       return NextResponse.json({ message: 'Customer tier updated', customer: r.rows[0] });
+    }
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  } catch {
+    return NextResponse.json({ error: 'Request failed' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request, { params }: Ctx) {
+  const auth = requireUser(request, ['admin']);
+  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
+  const path = (await params).path.join('/');
+
+  try {
+    const m = path.match(new RegExp('^subscribers\/([0-9]+)$'));
+    if (m) {
+      const r = await db.query('DELETE FROM subscribers WHERE id = $1 RETURNING id', [m[1]]);
+      if (r.rows.length === 0) return NextResponse.json({ error: 'Subscriber not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Subscriber removed' });
     }
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   } catch {
