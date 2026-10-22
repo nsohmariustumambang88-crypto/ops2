@@ -42,8 +42,30 @@ export default function ShipmentForm({
   });
   const set = (key: string) => (e: { target: { value: string } }) => setV({ ...v, [key]: e.target.value });
 
+  const [problems, setProblems] = useState<string[]>([]);
+  const [checked, setChecked] = useState(false);
+
+  const validate = () => {
+    const issues: string[] = [];
+    if (showCustomer && !v.customer_id) issues.push('Select a customer account.');
+    if (!v.sender_name?.trim()) issues.push('Sender name is required.');
+    if (!v.receiver_name?.trim()) issues.push('Receiver name is required.');
+    if (!v.transport_mode) issues.push('Choose how the shipment is transported (land, air or sea).');
+    if (!v.route_origin?.trim()) issues.push('Route origin is required.');
+    if (!v.route_destination?.trim()) issues.push('Route destination is required.');
+    if (v.departure_at && v.arrival_at && new Date(v.arrival_at) < new Date(v.departure_at)) {
+      issues.push('Arrival must be after departure.');
+    }
+    if (v.sender_email && !v.sender_email.includes('@')) issues.push('Sender email looks invalid.');
+    if (v.receiver_email && !v.receiver_email.includes('@')) issues.push('Receiver email looks invalid.');
+    setProblems(issues);
+    setChecked(true);
+    return issues.length === 0;
+  };
+
   const submit = (e: FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
     onSubmit(v);
   };
 
@@ -169,7 +191,22 @@ export default function ShipmentForm({
         </div>
       </section>
 
+      {checked && problems.length > 0 && (
+        <div role='alert' className='rounded-xl border border-red-300 bg-red-50 text-red-800 px-5 py-4'>
+          <p className='font-bold mb-2'>Fix these before saving:</p>
+          <ul className='list-disc pl-5 space-y-1'>
+            {problems.map((p) => <li key={p}>{p}</li>)}
+          </ul>
+        </div>
+      )}
+      {checked && problems.length === 0 && (
+        <div role='status' className='rounded-xl border border-green-300 bg-green-50 text-green-800 px-5 py-4'>All required details are valid.</div>
+      )}
+
       <div className='flex gap-3'>
+        <button type='button' onClick={validate} className='h-[42px] px-6 rounded border border-primary text-primary font-bold'>
+          Track
+        </button>
         <button type='submit' disabled={saving} className='h-[42px] px-6 rounded bg-primary text-white font-bold disabled:opacity-60'>
           {saving ? 'Saving...' : submitLabel}
         </button>

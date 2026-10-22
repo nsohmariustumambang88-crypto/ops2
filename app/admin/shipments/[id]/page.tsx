@@ -19,7 +19,22 @@ export default function ShipmentDetailPage() {
   const [notes, setNotes] = useState('');
   const [saving, setSaving] = useState(false);
 
+  const [trackMsg, setTrackMsg] = useState('');
+
   const token = () => localStorage.getItem('adminToken') ?? '';
+
+  const trackRegistration = async () => {
+    if (!detail) return;
+    const ref = detail.shipment.tracking_number;
+    setTrackMsg('Checking...');
+    const res = await fetch(`/api/tracking/${encodeURIComponent(ref)}`);
+    if (!res.ok) {
+      setTrackMsg(`Registration ${ref} was not found.`);
+      return;
+    }
+    const j = await res.json();
+    setTrackMsg(`Registration ${ref} is valid. Current status: ${String(j.status).replace(/_/g, ' ')}.`);
+  };
 
   const load = async () => {
     const res = await fetch(`/api/admin/shipments/${id}`, { headers: { Authorization: `Bearer ${token()}` } });
@@ -64,9 +79,13 @@ export default function ShipmentDetailPage() {
             <div>
               <div className='flex items-center justify-between gap-4'>
                 <h1 className='text-[36px] font-extrabold text-navy'>{detail.shipment.tracking_number}</h1>
-                <Link href={`/admin/shipments/${id}/edit`} className='h-[42px] px-5 inline-flex items-center rounded border border-border font-bold'>Edit shipment</Link>
+                <div className='flex gap-3'>
+                  <button type='button' onClick={trackRegistration} className='h-[42px] px-5 rounded border border-primary text-primary font-bold'>Track</button>
+                  <Link href={`/admin/shipments/${id}/edit`} className='h-[42px] px-5 inline-flex items-center rounded border border-border font-bold'>Edit shipment</Link>
+                </div>
               </div>
               <p className='text-text-primary'>Current status: <span className='font-bold capitalize'>{detail.shipment.status.replace(/_/g, ' ')}</span></p>
+              {trackMsg && <p role='status' className='mt-2 text-primary font-bold'>{trackMsg}</p>}
             </div>
 
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
