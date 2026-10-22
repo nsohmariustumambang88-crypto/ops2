@@ -61,7 +61,7 @@ export default function QuotePage() {
               <div className="lg:col-span-2">
                 <div className="mb-12">
                   <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Get a Quote</p>
-                  <h1 className="text-3xl md:text-4xl font-bold text-navy mb-4" style={{ color: "#0B2C5F" }}>
+                  <h1 className="text-[40px] md:text-[56px] font-extrabold text-navy mb-4" style={{ color: "#0B2C5F" }}>
                     Tell us what is moving. We will price it properly.
                   </h1>
                   <p className="text-gray-600 text-base" style={{ color: "#1A1A1A" }}>

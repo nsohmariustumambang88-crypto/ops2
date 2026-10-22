@@ -37,7 +37,7 @@ export default function ShipNowPage() {
           <Container>
             <div className="max-w-3xl">
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Ship Now</p>
-              <h1 className="text-[40px] md:text-[56px] font-extrabold font-bold text-navy mb-8" style={{ color: "#0B2C5F" }}>
+              <h1 className="text-[40px] md:text-[56px] font-extrabold text-navy mb-8" style={{ color: "#0B2C5F" }}>
                 You have decided. Let us come and <span style={{ color: "#1173D4" }}>get it.</span>
               </h1>
               <p className="text-base md:text-lg text-gray-600" style={{ color: "#1A1A1A" }}>

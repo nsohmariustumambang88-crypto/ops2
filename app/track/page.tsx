@@ -45,7 +45,7 @@ export default function TrackPage() {
         <Container>
           <div className="max-w-2xl">
             <p className="text-xs font-bold uppercase tracking-widest text-white/80 mb-3">Track a shipment</p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Where is my parcel?</h1>
+            <h1 className="text-[40px] md:text-[56px] font-extrabold mb-4">Where is my parcel?</h1>
             <p className="text-white/90 mb-8">Enter the tracking number from your booking confirmation to see every scan.</p>
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
               <label htmlFor="tracking" className="sr-only">Tracking number</label>
