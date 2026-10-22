@@ -17,7 +17,7 @@ export default function HealthcarePage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Pharma-Grade Standards</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Pharma-Grade Standards</h2>
               <p className='text-text-secondary mb-4'>99.7% on-time delivery with temperature-controlled handling for critical pharmaceutical shipments.</p>
               <div className='space-y-4'>
                 {['2-8°C Control', 'Real-time Monitoring', 'FDA Compliant', 'Chain of Custody', 'Emergency Response', 'Global Coverage'].map((item, i) => (
@@ -49,7 +49,7 @@ export default function HealthcarePage() {
       <section className='py-section-lg bg-primary text-white'>
         <Container>
           <div className='text-center max-w-2xl mx-auto'>
-            <h2 className='text-h2 font-bold mb-6'>Trust us with your pharmaceuticals</h2>
+            <h2 className='text-h2 font-extrabold mb-6'>Trust us with your pharmaceuticals</h2>
             <Button href='/' className='bg-white text-primary hover:bg-gray-100'>Contact Sales</Button>
           </div>
         </Container>

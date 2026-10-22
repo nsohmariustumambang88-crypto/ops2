@@ -72,7 +72,7 @@ export default function ServiceUpdatesSection() {
       <Container>
         {/* Header Section */}
         <div ref={headerRef} className='mb-10 md:mb-12 pb-6 md:pb-8 border-b border-gray-200 text-center'>
-          <h2 className='text-2xl sm:text-2xl md:text-[28px] font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+          <h2 className='text-2xl sm:text-2xl md:text-[28px] font-extrabold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
             Important Service Updates
           </h2>
           <p className='text-sm md:text-base mb-8' style={{ color: '#1A1A1A', fontFamily: 'Barlow, sans-serif' }}>

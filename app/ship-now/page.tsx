@@ -37,7 +37,7 @@ export default function ShipNowPage() {
           <Container>
             <div className="max-w-3xl">
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Ship Now</p>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy mb-8" style={{ color: "#0B2C5F" }}>
+              <h1 className="text-[40px] md:text-[56px] font-extrabold font-bold text-navy mb-8" style={{ color: "#0B2C5F" }}>
                 You have decided. Let us come and <span style={{ color: "#1173D4" }}>get it.</span>
               </h1>
               <p className="text-base md:text-lg text-gray-600" style={{ color: "#1A1A1A" }}>
@@ -52,7 +52,7 @@ export default function ShipNowPage() {
           <Container>
             <div className="mb-12">
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Two Ways In</p>
-              <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
+              <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 Which of these are you?
               </h2>
               <p className="text-base text-gray-600" style={{ color: "#1A1A1A" }}>
@@ -94,7 +94,7 @@ export default function ShipNowPage() {
             <div className="max-w-4xl">
               <div className="mb-12">
                 <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">The Request</p>
-                <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
+                <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                   Three steps
                 </h2>
                 <p className="text-base text-gray-600" style={{ color: "#1A1A1A" }}>
@@ -207,7 +207,7 @@ export default function ShipNowPage() {
           <Container>
             <div className="mb-12">
               <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#1173D4" }}>Before We Arrive</p>
-              <h2 className="text-2xl md:text-[28px] font-bold mb-6" style={{ color: "#FFFFFF" }}>
+              <h2 className="text-2xl md:text-[28px] font-extrabold mb-6" style={{ color: "#FFFFFF" }}>
                 Four things that stop a collection failing
               </h2>
               <p className="text-base md:text-lg max-w-2xl" style={{ color: "#FFFFFF" }}>
@@ -256,7 +256,7 @@ export default function ShipNowPage() {
           <Container>
             <div className="mb-12">
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Not This</p>
-              <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
+              <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 Three other doors
               </h2>
             </div>

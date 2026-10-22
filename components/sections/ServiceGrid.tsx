@@ -90,7 +90,7 @@ export default function ServiceGrid() {
       <Container>
         {/* Section Title */}
         <div className='mb-16 text-center max-w-3xl mx-auto'>
-          <h2 className='text-h2 font-bold mb-4 text-text-primary'>
+          <h2 className='text-h2 font-extrabold mb-4 text-text-primary'>
             Our Services
           </h2>
           <p className='text-body text-text-secondary'>

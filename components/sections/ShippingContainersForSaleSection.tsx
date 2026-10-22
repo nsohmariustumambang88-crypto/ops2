@@ -93,7 +93,7 @@ export default function ShippingContainersForSaleSection() {
               </div>
 
               {/* Heading */}
-              <h2 className='text-2xl sm:text-2xl md:text-[28px] font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+              <h2 className='text-2xl sm:text-2xl md:text-[28px] font-extrabold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                 Shipping Containers For Sale
               </h2>
 

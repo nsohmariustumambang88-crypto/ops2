@@ -414,3 +414,9 @@ p, body {
 .form-group:last-child {
   margin-bottom: 0;
 }
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+select {
+  min-height: 42px;
+  font-size: 15.5px;
+}

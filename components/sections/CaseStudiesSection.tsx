@@ -51,7 +51,7 @@ export default function CaseStudiesSection() {
       <Container>
         <div className='mb-16 text-center max-w-3xl mx-auto'>
           <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Success Stories</p>
-          <h2 className='text-h2 font-bold mb-6 text-text-primary'>Real results from real partners</h2>
+          <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Real results from real partners</h2>
           <p className='text-body text-text-secondary'>
             See how companies across industries have optimized their supply chains with our logistics solutions.
           </p>

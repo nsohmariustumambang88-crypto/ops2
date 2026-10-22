@@ -91,7 +91,7 @@ export default function EnterpriseLogisticsSection() {
           {/* Right - Content Card */}
           <div ref={contentRef} className='bg-white rounded-2xl border border-gray-200 p-5 md:p-6 shadow-sm'>
             {/* Heading */}
-            <h2 className='text-xl sm:text-2xl md:text-[28px] font-bold mb-2 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+            <h2 className='text-xl sm:text-2xl md:text-[28px] font-extrabold mb-2 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
               Enterprise Logistics Services
             </h2>
 

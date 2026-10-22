@@ -74,7 +74,7 @@ export default function QuotePage() {
                   <div className="border-b border-gray-200 pb-8">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">1</div>
-                      <h2 className="text-lg font-bold text-navy" style={{ color: "#0B2C5F" }}>The route</h2>
+                      <h2 className="text-lg font-extrabold text-navy" style={{ color: "#0B2C5F" }}>The route</h2>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 mb-4">
@@ -138,7 +138,7 @@ export default function QuotePage() {
                   <div className="border-b border-gray-200 pb-8">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">2</div>
-                      <h2 className="text-lg font-bold text-navy" style={{ color: "#0B2C5F" }}>The cargo</h2>
+                      <h2 className="text-lg font-extrabold text-navy" style={{ color: "#0B2C5F" }}>The cargo</h2>
                     </div>
 
                     <div className="mb-4">
@@ -170,7 +170,7 @@ export default function QuotePage() {
                   <div className="border-b border-gray-200 pb-8">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">3</div>
-                      <h2 className="text-lg font-bold text-navy" style={{ color: "#0B2C5F" }}>The dates</h2>
+                      <h2 className="text-lg font-extrabold text-navy" style={{ color: "#0B2C5F" }}>The dates</h2>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -201,7 +201,7 @@ export default function QuotePage() {
                   <div className="pb-8">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">4</div>
-                      <h2 className="text-lg font-bold text-navy" style={{ color: "#0B2C5F" }}>You</h2>
+                      <h2 className="text-lg font-extrabold text-navy" style={{ color: "#0B2C5F" }}>You</h2>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 mb-4">
@@ -291,7 +291,7 @@ export default function QuotePage() {
           <Container>
             <div className="text-center mb-12">
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">What happens next</p>
-              <h2 className="text-2xl md:text-[28px] font-bold text-white mb-4">
+              <h2 className="text-2xl md:text-[28px] font-extrabold text-white mb-4">
                 A person reads it. Not a rate engine.
               </h2>
               <p className="text-white/80 max-w-2xl mx-auto">
@@ -320,7 +320,7 @@ export default function QuotePage() {
           <Container>
             <div className="text-center mb-12">
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Why this beats email</p>
-              <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-4" style={{ color: "#0B2C5F" }}>
+              <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-4" style={{ color: "#0B2C5F" }}>
                 Three faster routes than this form
               </h2>
               <p className="text-gray-600">

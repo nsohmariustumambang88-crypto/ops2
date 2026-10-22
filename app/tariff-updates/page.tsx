@@ -59,7 +59,7 @@ export default function TariffUpdatesPage() {
       <section className='py-section-lg bg-primary text-white'>
         <Container>
           <div className='text-center'>
-            <h2 className='text-h2 font-bold mb-4'>Subscribe to tariff alerts</h2>
+            <h2 className='text-h2 font-extrabold mb-4'>Subscribe to tariff alerts</h2>
             <p className='mb-6 text-white/90'>Get notified about trade policy changes affecting your shipments</p>
             <div className='flex gap-3 max-w-md mx-auto'>
               <input

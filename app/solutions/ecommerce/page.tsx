@@ -17,7 +17,7 @@ export default function EcommercePage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Scale Your E-Commerce</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Scale Your E-Commerce</h2>
               <p className='text-text-secondary mb-4'>From order placement to customer delivery, we handle every step with speed and precision.</p>
               <div className='space-y-4'>
                 {['Same-Day Dispatch', 'Multi-Channel Integration', 'Returns Handling', 'Inventory Management', 'Real-time Tracking', 'Cost Optimization'].map((item) => (

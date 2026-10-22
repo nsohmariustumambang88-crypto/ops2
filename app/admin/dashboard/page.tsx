@@ -68,7 +68,7 @@ export default function AdminDashboard() {
 
         {/* Quick Actions */}
         <div className='bg-white border border-border rounded-lg p-6'>
-          <h2 className='text-lg font-bold text-text-primary mb-4'>Quick Actions</h2>
+          <h2 className='text-lg font-extrabold text-text-primary mb-4'>Quick Actions</h2>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
             {quickActions.map((action, idx) => (
               <Link
@@ -86,7 +86,7 @@ export default function AdminDashboard() {
         {/* Recent Shipments */}
         <div className='bg-white border border-border rounded-lg overflow-hidden'>
           <div className='p-6 border-b border-border flex items-center justify-between'>
-            <h2 className='text-lg font-bold text-text-primary'>Recent Shipments</h2>
+            <h2 className='text-lg font-extrabold text-text-primary'>Recent Shipments</h2>
             <Link href='/admin/shipments' className='text-primary font-bold text-sm hover:underline'>
               View All →
             </Link>

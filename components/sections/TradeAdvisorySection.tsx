@@ -71,7 +71,7 @@ export default function TradeAdvisorySection() {
             </p>
 
             {/* Heading */}
-            <h2 className='text-2xl md:text-[28px] font-bold mb-5 md:mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#FFFFFF' }}>
+            <h2 className='text-2xl md:text-[28px] font-extrabold mb-5 md:mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#FFFFFF' }}>
               Navigating Latest Tariff Developments
             </h2>
 

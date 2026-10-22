@@ -55,7 +55,7 @@ export default function GlobalReachSection() {
       <Container>
         <div className='text-center mb-20'>
           <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Global Reach</p>
-          <h2 className='text-h2 font-bold mb-6'>220+ Countries, One Logistics Partner</h2>
+          <h2 className='text-h2 font-extrabold mb-6'>220+ Countries, One Logistics Partner</h2>
           <p className='text-body text-white/80 max-w-3xl mx-auto'>
             OPS Logistics operates the most extensive global network in shipping and logistics. From the smallest package to the largest freight, we deliver with consistency and reliability wherever you need to ship.
           </p>

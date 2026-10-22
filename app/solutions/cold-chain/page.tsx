@@ -17,7 +17,7 @@ export default function ColdChainPage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Precision Control</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Precision Control</h2>
               <div className='space-y-4'>
                 {['2-8°C Pharmaceutical Grade', 'Real-time Temperature Monitoring', 'Backup Systems & Contingencies', 'FDA & Health Authority Compliant', 'Chain of Custody Documentation', 'Global Temperature-Controlled Network'].map((item, i) => (
                   <div key={i} className='flex items-start gap-3'>
@@ -44,7 +44,7 @@ export default function ColdChainPage() {
       <section className='py-section-lg bg-primary text-white'>
         <Container>
           <div className='text-center'>
-            <h2 className='text-h2 font-bold mb-6'>Ready to trust us with your shipment?</h2>
+            <h2 className='text-h2 font-extrabold mb-6'>Ready to trust us with your shipment?</h2>
             <Button href='/' className='bg-white text-primary hover:bg-gray-100'>Get Quote</Button>
           </div>
         </Container>

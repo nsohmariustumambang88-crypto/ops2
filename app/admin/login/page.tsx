@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
 
         {/* Login Card */}
         <div className='bg-white rounded-lg shadow-deep p-8'>
-          <h2 className='text-2xl font-bold text-text-primary mb-2'>Admin Login</h2>
+          <h2 className='text-2xl font-extrabold text-text-primary mb-2'>Admin Login</h2>
           <p className='text-text-secondary mb-6'>Access your admin panel</p>
 
           {error && (

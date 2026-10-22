@@ -70,7 +70,7 @@ export default function TrustSignalsSection() {
       <Container>
         <div className='text-center mb-16'>
           <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Trust & Security</p>
-          <h2 className='text-h2 font-bold mb-6 text-text-primary'>Industry-Leading Certifications</h2>
+          <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Industry-Leading Certifications</h2>
           <p className='text-body text-text-secondary max-w-3xl mx-auto'>
             OPS Logistics maintains the highest standards of quality, security, and compliance. Our extensive certifications and partnerships demonstrate our commitment to excellence.
           </p>

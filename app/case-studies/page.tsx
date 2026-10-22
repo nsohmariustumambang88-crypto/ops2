@@ -77,7 +77,7 @@ export default function CaseStudiesPage() {
                   <span className='inline-block px-4 py-2 bg-light-blue rounded-full text-primary font-bold text-sm mb-4'>
                     {study.industry}
                   </span>
-                  <h2 className='text-h2 font-bold mb-2 text-text-primary'>{study.title}</h2>
+                  <h2 className='text-h2 font-extrabold mb-2 text-text-primary'>{study.title}</h2>
                   <p className='text-lg font-bold text-primary mb-4'>{study.result}</p>
                   <p className='text-text-secondary mb-6 leading-relaxed'>{study.description}</p>
 
@@ -143,7 +143,7 @@ export default function CaseStudiesPage() {
       <section className='py-section-lg bg-primary text-white'>
         <Container>
           <div className='text-center max-w-2xl mx-auto'>
-            <h2 className='text-h2 font-bold mb-6'>Ready to transform your supply chain?</h2>
+            <h2 className='text-h2 font-extrabold mb-6'>Ready to transform your supply chain?</h2>
             <p className='text-lg mb-8 text-white/90'>
               Join hundreds of leading companies optimizing their logistics with OPS.
             </p>

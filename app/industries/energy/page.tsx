@@ -17,7 +17,7 @@ export default function EnergyPage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Industrial Expertise</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Industrial Expertise</h2>
               <p className='text-text-secondary mb-4'>Navigate complex regulations, oversized shipments, and critical infrastructure requirements with confidence.</p>
               <div className='space-y-4'>
                 {['Hazmat Certified', 'Oversized Cargo', 'Heavy Equipment', 'Project Logistics', 'Emergency Response', 'Compliance Focus'].map((item) => (
@@ -44,7 +44,7 @@ export default function EnergyPage() {
       <section className='py-section-lg bg-primary text-white'>
         <Container>
           <div className='text-center'>
-            <h2 className='text-h2 font-bold mb-6'>Power your industrial logistics</h2>
+            <h2 className='text-h2 font-extrabold mb-6'>Power your industrial logistics</h2>
             <Button href='/' className='bg-white text-primary hover:bg-gray-100'>Contact Us</Button>
           </div>
         </Container>

@@ -99,7 +99,7 @@ export default function TrackPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-lg font-bold text-navy mb-4">Tracking history</h2>
+                  <h2 className="text-lg font-extrabold text-navy mb-4">Tracking history</h2>
                   {result.tracking_history.length === 0 ? (
                     <p>No scans yet. Updates appear here as the parcel moves.</p>
                   ) : (

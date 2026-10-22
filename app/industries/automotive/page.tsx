@@ -17,7 +17,7 @@ export default function AutomotivePage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Global Automotive Expertise</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Global Automotive Expertise</h2>
               <p className='text-text-secondary mb-4'>We understand the complex requirements of automotive supply chains, from component delivery to finished vehicle distribution.</p>
               <div className='space-y-4'>
                 {['JIT Delivery', 'Secure Transport', 'Global Network', 'Compliance', 'Tracking', 'Consolidation'].map((item) => (
@@ -44,7 +44,7 @@ export default function AutomotivePage() {
       <section className='py-section-lg bg-primary text-white'>
         <Container>
           <div className='text-center'>
-            <h2 className='text-h2 font-bold mb-6'>Ready to optimize your automotive logistics?</h2>
+            <h2 className='text-h2 font-extrabold mb-6'>Ready to optimize your automotive logistics?</h2>
             <Button href='/' className='bg-white text-primary hover:bg-gray-100'>Get Started</Button>
           </div>
         </Container>

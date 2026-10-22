@@ -52,7 +52,7 @@ export default function LastMileSection() {
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20'>
           <div ref={contentRef} className='order-1'>
             <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Last Mile Delivery</p>
-            <h2 className='text-h2 font-bold mb-6 text-text-primary'>Get It There, Perfect and On Time</h2>
+            <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Get It There, Perfect and On Time</h2>
             <p className='text-body text-text-secondary mb-8'>
               The final mile of delivery is where customer satisfaction is made or broken. OPS Logistics provides comprehensive last-mile solutions that combine reliability, flexibility, and real-time visibility to ensure your packages arrive in perfect condition.
             </p>

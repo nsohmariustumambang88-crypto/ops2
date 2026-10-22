@@ -87,7 +87,7 @@ export default function WhitePapersPage() {
       <section className='py-section-lg bg-light-blue'>
         <Container>
           <div className='text-center max-w-2xl mx-auto'>
-            <h2 className='text-h2 font-bold mb-6 text-text-primary'>Need more insights?</h2>
+            <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Need more insights?</h2>
             <p className='text-lg text-text-secondary mb-8'>
               Subscribe to our research newsletter for the latest supply chain insights and industry analysis.
             </p>

@@ -17,7 +17,7 @@ export default function LastMilePage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Delivery Excellence</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Delivery Excellence</h2>
               <p className='text-text-secondary mb-4'>From urban centers to remote locations, we deliver with speed, reliability, and customer care.</p>
               <div className='space-y-4'>
                 {['Same-Day Delivery', 'Proof of Delivery', 'Customer Communication', 'Flexible Options', 'Eco-Friendly Fleet', 'Real-Time Tracking'].map((item) => (

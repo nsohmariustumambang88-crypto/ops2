@@ -68,7 +68,7 @@ export default function WhyOPSSection() {
       <Container>
         <div className='mb-16 text-center max-w-3xl mx-auto'>
           <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Why OPS Logistics</p>
-          <h2 className='text-h2 font-bold mb-6 text-text-primary'>Designed for shippers who can't afford surprises</h2>
+          <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Designed for shippers who can't afford surprises</h2>
           <p className='text-body text-text-secondary'>
             Freight makes mistakes in the gaps—between carriers, between borders, between someone booking a shipment and someone who knows where it is. We built OPS to fill those gaps.
           </p>

@@ -154,7 +154,7 @@ export default function BlogPage() {
       <section className='py-section-lg bg-navy text-white'>
         <Container>
           <div className='max-w-2xl mx-auto text-center'>
-            <h2 className='text-h2 font-bold mb-4'>Subscribe to Our Newsletter</h2>
+            <h2 className='text-h2 font-extrabold mb-4'>Subscribe to Our Newsletter</h2>
             <p className='text-white/80 mb-8'>Get weekly insights delivered to your inbox on logistics trends and supply chain best practices.</p>
             <div className='flex gap-3 max-w-md mx-auto'>
               <input

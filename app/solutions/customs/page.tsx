@@ -17,7 +17,7 @@ export default function CustomsPage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Expert Clearance Services</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Expert Clearance Services</h2>
               <p className='text-text-secondary mb-4'>Navigate complex tariff codes, documentation requirements, and regulatory changes with our specialized team.</p>
               <div className='space-y-4'>
                 {['HS Code Expertise', 'Documentation', 'Tariff Optimization', 'Compliance Audits', 'Broker Network', 'Trade Compliance'].map((item) => (

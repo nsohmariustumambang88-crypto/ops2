@@ -17,7 +17,7 @@ export default function ContractLogisticsPage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Custom Solutions</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Custom Solutions</h2>
               <p className='text-text-secondary mb-4'>Scale your operations without the overhead. Our 3PL services handle warehousing, distribution, and supply chain optimization.</p>
               <div className='space-y-4'>
                 {['Warehousing', 'Inventory Management', 'Distribution', 'Packaging', 'Returns Processing', 'Analytics'].map((item) => (

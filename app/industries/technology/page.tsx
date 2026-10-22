@@ -21,7 +21,7 @@ export default function TechnologyPage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Expert Technology Logistics</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Expert Technology Logistics</h2>
               <p className='text-text-secondary mb-4'>We specialize in the complex requirements of technology shipments, from semiconductors to consumer electronics.</p>
               <div className='space-y-4'>
                 {['Anti-static handling', 'Temperature control', 'Real-time tracking', 'Insurance coverage', 'Customs expertise', 'Last-mile delivery'].map((item, i) => (
@@ -55,7 +55,7 @@ export default function TechnologyPage() {
       <section className='py-section-lg bg-primary text-white'>
         <Container>
           <div className='text-center max-w-2xl mx-auto'>
-            <h2 className='text-h2 font-bold mb-6'>Ready to streamline your tech logistics?</h2>
+            <h2 className='text-h2 font-extrabold mb-6'>Ready to streamline your tech logistics?</h2>
             <Button href='/' className='bg-white text-primary hover:bg-gray-100'>Get Started</Button>
           </div>
         </Container>

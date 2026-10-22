@@ -61,7 +61,7 @@ export default function ColdChainSection() {
 
           <div ref={contentRef} className='order-1 lg:order-2'>
             <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Cold Chain Logistics</p>
-            <h2 className='text-h2 font-bold mb-6 text-text-primary'>Temperature-Controlled Shipping Excellence</h2>
+            <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Temperature-Controlled Shipping Excellence</h2>
             <p className='text-body text-text-secondary mb-8'>
               OPS Logistics specializes in cold chain management for pharmaceutical, food, and life science cargo. Our temperature-controlled network ensures product integrity across every mile of your shipment journey.
             </p>

@@ -30,7 +30,7 @@ export default function CommercialAdviceSection() {
           {/* Text Content */}
           <div ref={textRef} className='order-2 lg:order-2'>
             <p className='text-primary font-bold text-sm md:text-base mb-4 uppercase tracking-wider'>Commercial Advice</p>
-            <h2 className='text-h2 font-bold mb-6 text-text-primary'>Navigate the latest pricing developments</h2>
+            <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Navigate the latest pricing developments</h2>
             <p className='text-body text-text-secondary mb-8'>
               Global trade is becoming increasingly complex as new US tariffs vary and reciprocal measures emerge between countries and industries. At OPS Logistics, we are committed to helping you navigate these changes.
             </p>

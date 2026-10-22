@@ -37,7 +37,7 @@ export default function PartnersSection() {
       <Container>
         <div className='text-center mb-16'>
           <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Our Ecosystem</p>
-          <h2 className='text-h2 font-bold mb-6 text-text-primary'>Strategic Partnerships</h2>
+          <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Strategic Partnerships</h2>
           <p className='text-body text-text-secondary max-w-3xl mx-auto'>
             OPS Logistics partners with industry leaders to deliver comprehensive solutions. Our integrations streamline your operations and maximize efficiency.
           </p>

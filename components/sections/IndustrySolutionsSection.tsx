@@ -79,7 +79,7 @@ export default function IndustrySolutionsSection() {
       <Container>
         <div className='mb-16'>
           <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Industry Solutions</p>
-          <h2 className='text-h2 font-bold mb-6 text-text-primary'>Specialized logistics for every industry</h2>
+          <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Specialized logistics for every industry</h2>
           <p className='text-body text-text-secondary max-w-3xl'>
             From automotive to healthcare, energy to technology, we provide industry-specific solutions tailored to your unique operational requirements.
           </p>

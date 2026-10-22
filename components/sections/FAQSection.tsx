@@ -60,7 +60,7 @@ export default function FAQSection() {
         <div className='max-w-3xl mx-auto'>
           <div className='text-center mb-16'>
             <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Frequently Asked Questions</p>
-            <h2 className='text-h2 font-bold mb-6 text-text-primary'>Find answers to common questions</h2>
+            <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Find answers to common questions</h2>
             <p className='text-body text-text-secondary'>
               Learn more about our services, shipping options, and how OPS Logistics can help optimize your supply chain.
             </p>

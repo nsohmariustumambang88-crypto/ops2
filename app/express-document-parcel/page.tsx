@@ -115,7 +115,7 @@ export default function ExpressDocumentParcelPage() {
         <Container>
           <div className="max-w-2xl mb-12">
             <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">How it works</p>
-            <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-4">From booking to signature in four steps</h2>
+            <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-4">From booking to signature in four steps</h2>
             <p className="text-black leading-relaxed">
               You do not need an account to send a one-off shipment, but a business account gives you saved addresses,
               invoices and shipment history.
@@ -141,7 +141,7 @@ export default function ExpressDocumentParcelPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">What you can send</p>
-              <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-6">Documents and parcels for individuals and businesses</h2>
+              <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-6">Documents and parcels for individuals and businesses</h2>
               <ul className="space-y-4">
                 {sendItems.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-black">
@@ -171,7 +171,7 @@ export default function ExpressDocumentParcelPage() {
         <Container>
           <div className="max-w-3xl mx-auto">
             <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3 text-center">Questions</p>
-            <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-10 text-center">Express shipping FAQ</h2>
+            <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-10 text-center">Express shipping FAQ</h2>
             <div className="space-y-4">
               {faqs.map((faq) => (
                 <details key={faq.q} className="bg-white rounded-xl border border-border p-6 group">
@@ -191,7 +191,7 @@ export default function ExpressDocumentParcelPage() {
       <section className="py-16 md:py-20 bg-primary text-white">
         <Container>
           <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[28px] font-bold mb-4">Ready to send your first shipment?</h2>
+            <h2 className="text-2xl md:text-[28px] font-extrabold mb-4">Ready to send your first shipment?</h2>
             <p className="text-white/90 mb-8">Book online in a few minutes, or talk to our team about regular shipments.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/ship-now" className="px-8 py-3 font-bold rounded-lg bg-white text-primary hover:bg-gray-100 transition-colors">

@@ -9,7 +9,7 @@ export default function CTABannerSection() {
       <Container>
         <div className='flex flex-col sm:flex-row items-center justify-between gap-8'>
           <div className='flex-1'>
-            <h2 className='text-2xl md:text-[28px] font-bold text-text-primary'>
+            <h2 className='text-2xl md:text-[28px] font-extrabold text-text-primary'>
               Need help with your shipment? Our team is available 24/7.
             </h2>
           </div>

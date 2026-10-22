@@ -17,7 +17,7 @@ export default function RetailPage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-12 mb-16'>
             <div>
-              <h2 className='text-h2 font-bold mb-6 text-text-primary'>Fast-Fashion Expertise</h2>
+              <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Fast-Fashion Expertise</h2>
               <p className='text-text-secondary mb-4'>Handle seasonal peaks, returns management, and rapid distribution with our proven retail solutions.</p>
               <div className='space-y-4'>
                 {['24-48hr Delivery', 'Returns Management', 'Stock Optimization', 'Multi-Channel', 'Real-time Visibility', 'Cost Efficiency'].map((item) => (
@@ -44,7 +44,7 @@ export default function RetailPage() {
       <section className='py-section-lg bg-primary text-white'>
         <Container>
           <div className='text-center'>
-            <h2 className='text-h2 font-bold mb-6'>Scale your retail operations globally</h2>
+            <h2 className='text-h2 font-extrabold mb-6'>Scale your retail operations globally</h2>
             <Button href='/' className='bg-white text-primary hover:bg-gray-100'>Request Quote</Button>
           </div>
         </Container>

@@ -58,7 +58,7 @@ export default function TestimonialsSection() {
       <Container>
         <div className='text-center mb-16'>
           <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Customer Testimonials</p>
-          <h2 className='text-h2 font-bold mb-6'>What our partners say</h2>
+          <h2 className='text-h2 font-extrabold mb-6'>What our partners say</h2>
           <p className='text-body text-white/80 max-w-3xl mx-auto'>
             Hear from logistics leaders who have transformed their operations with OPS Logistics solutions.
           </p>

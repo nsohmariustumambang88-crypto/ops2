@@ -65,7 +65,7 @@ export default function ContentSection({
 
           {/* Text Content */}
           <div ref={textRef} className={isImageLeft ? 'order-2 lg:order-2' : 'order-1 lg:order-1'}>
-            <h2 className='text-h2 font-bold mb-6 text-text-primary'>{title}</h2>
+            <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>{title}</h2>
 
             <p className='text-body text-text-secondary mb-6 leading-relaxed'>
               {description}

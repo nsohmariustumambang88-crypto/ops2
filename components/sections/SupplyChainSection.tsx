@@ -59,7 +59,7 @@ export default function SupplyChainSection() {
       <Container>
         <div className='mb-16'>
           <p className='text-primary font-bold text-sm mb-4 uppercase tracking-wider'>Supply Chain Solutions</p>
-          <h2 className='text-h2 font-bold mb-6 text-text-primary'>Outsource the parts that are slowing you down</h2>
+          <h2 className='text-h2 font-extrabold mb-6 text-text-primary'>Outsource the parts that are slowing you down</h2>
           <p className='text-body text-text-secondary max-w-3xl'>
             Our supply chain division functions as your third-party logistics provider – warehousing, fulfillment, customs clearance and delivery, built around how your business already operates.
           </p>
