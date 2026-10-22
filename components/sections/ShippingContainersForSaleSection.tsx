@@ -7,21 +7,6 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const WavyBorderSVG = ({ color }: { color: string }) => (
-  <svg
-    className='absolute inset-0 w-full h-full'
-    viewBox='0 0 400 600'
-    preserveAspectRatio='none'
-    style={{ pointerEvents: 'none' }}
-  >
-    <path
-      d='M 10 30 Q 50 10, 100 20 T 200 15 T 300 25 T 390 20 L 390 590 Q 350 570, 300 580 T 200 585 T 100 580 T 10 590 Z'
-      fill='none'
-      stroke={color}
-      strokeWidth='4'
-    />
-  </svg>
-);
 
 export default function ShippingContainersForSaleSection() {
   const leftRef = useRef<HTMLDivElement>(null);
@@ -100,7 +85,6 @@ export default function ShippingContainersForSaleSection() {
             className='relative p-8 md:p-12 lg:p-16 flex flex-col justify-center rounded-3xl overflow-hidden'
             style={{ backgroundColor: '#F3F4F6' }}
           >
-            <WavyBorderSVG color='#3B82F6' />
             <div className='relative z-10'>
               {/* Badge */}
               <div className='inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-3 w-fit shadow-sm'>
@@ -140,7 +124,6 @@ export default function ShippingContainersForSaleSection() {
             className='relative p-8 md:p-12 lg:p-16 flex flex-col justify-center rounded-3xl overflow-hidden'
             style={{ backgroundColor: '#EDF2F7' }}
           >
-            <WavyBorderSVG color='#EF4444' />
             <div className='relative z-10'>
               {/* Label */}
               <p className='text-xs font-bold uppercase tracking-widest mb-2' style={{ color: '#1173D4' }}>
