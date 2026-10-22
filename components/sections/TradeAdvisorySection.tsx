@@ -71,12 +71,12 @@ export default function TradeAdvisorySection() {
             </p>
 
             {/* Heading */}
-            <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-5 md:mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+            <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-5 md:mb-6 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#FFFFFF' }}>
               Navigating Latest Tariff Developments
             </h2>
 
             {/* Description */}
-            <p className='text-sm md:text-base text-white/90 mb-6 md:mb-8 leading-relaxed'>
+            <p className='text-sm md:text-base mb-6 md:mb-8 leading-relaxed' style={{ color: '#E6EEF8' }}>
               Global trade is becoming increasingly complex as new U.S. tariffs and varying reciprocal measures emerge across countries and industries. At OPS Logistics, we are committed to helping you navigate these changes.
             </p>
 
