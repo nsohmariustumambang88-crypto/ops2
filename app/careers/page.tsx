@@ -2,7 +2,7 @@ import InfoPage from '@/components/pages/InfoPage';
 
 export default function CareersPage() {
   return (
-    <InfoPage
+    <InfoPage titleClass="text-[48px] md:text-[70px]"
       eyebrow="Careers"
       title="Work where shipments matter"
       intro="We hire operations, customer service, sales and technology people who want to keep global supply chains moving."

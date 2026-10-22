@@ -2,7 +2,7 @@ import InfoPage from '@/components/pages/InfoPage';
 
 export default function SustainabilityPage() {
   return (
-    <InfoPage
+    <InfoPage titleClass="text-[44px] md:text-[61px]"
       eyebrow="Sustainability"
       title="Lower emissions, same reliable delivery"
       intro="We measure the emissions of every shipment and give customers the choice of lower-carbon routes where they are available."

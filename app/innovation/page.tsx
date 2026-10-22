@@ -2,7 +2,7 @@ import InfoPage from '@/components/pages/InfoPage';
 
 export default function InnovationPage() {
   return (
-    <InfoPage
+    <InfoPage titleClass="text-[44px] md:text-[65px]"
       eyebrow="Innovation"
       title="Technology that makes logistics simpler"
       intro="We build the tools behind our services: live tracking, digital customs paperwork and faster quotes for every kind of shipment."

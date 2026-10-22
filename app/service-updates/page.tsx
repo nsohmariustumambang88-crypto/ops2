@@ -9,7 +9,7 @@ export default function ServiceUpdatesPage() {
 
   return (
     <div>
-      <InfoPage
+      <InfoPage titleClass="text-[40px] md:text-[56px]"
         eyebrow="Service updates"
         title="Important updates for your shipments"
         intro="Delays, schedule changes and new services are posted here as they happen."
