@@ -18,7 +18,7 @@ export default function InfoPage({ eyebrow, title, intro, sections, cta }: Props
         <Container>
           <div className="max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-widest text-white/80 mb-3">{eyebrow}</p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">{title}</h1>
+            <h1 className="text-[40px] md:text-[64px] font-extrabold mb-4 leading-tight">{title}</h1>
             <p className="text-lg text-white/90 leading-relaxed">{intro}</p>
           </div>
         </Container>
@@ -29,7 +29,7 @@ export default function InfoPage({ eyebrow, title, intro, sections, cta }: Props
           <div className="max-w-3xl space-y-12">
             {sections.map((s) => (
               <div key={s.title}>
-                <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-4">{s.title}</h2>
+                <h2 className="text-[36px] font-extrabold text-navy mb-4">{s.title}</h2>
                 {s.body.map((p, i) => (
                   <p key={i} className="mb-4 leading-relaxed">{p}</p>
                 ))}
