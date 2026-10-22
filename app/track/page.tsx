@@ -43,9 +43,9 @@ export default function TrackPage() {
     <div className="bg-white text-black">
       <section className="py-16 md:py-20 bg-navy text-white">
         <Container>
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-[720px] text-center">
             <p className="text-xs font-bold uppercase tracking-widest text-white/80 mb-3">Track a shipment</p>
-            <h1 className="text-[40px] md:text-[56px] font-extrabold mb-4">Where is my parcel?</h1>
+            <h1 className="text-[40px] md:text-[50px] font-extrabold mb-4">Where is my parcel?</h1>
             <p className="text-white/90 mb-8">Enter the tracking number from your booking confirmation to see every scan.</p>
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
               <label htmlFor="tracking" className="sr-only">Tracking number</label>
@@ -54,12 +54,12 @@ export default function TrackPage() {
                 value={trackingNumber}
                 onChange={(e) => setTrackingNumber(e.target.value)}
                 placeholder="e.g. OPS1717000000ABC123"
-                className="flex-1 px-4 py-3 rounded-lg text-black bg-white border border-border focus:outline-none focus:border-primary"
+                className="flex-1 h-[42px] px-4 text-[17px] rounded-lg text-black bg-white border border-border focus:outline-none focus:border-primary"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="px-8 py-3 font-bold rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-60"
+                className="h-[42px] px-8 text-[18px] font-bold rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-60"
               >
                 {loading ? 'Tracking...' : 'Track'}
               </button>
@@ -70,7 +70,7 @@ export default function TrackPage() {
 
       <section className="py-12 md:py-16">
         <Container>
-          <div className="max-w-3xl mx-auto">
+          <div className="mx-auto max-w-[720px]">
             {error && (
               <div role="alert" className="rounded-xl border border-red-300 bg-red-50 text-red-800 px-5 py-4">
                 {error}
