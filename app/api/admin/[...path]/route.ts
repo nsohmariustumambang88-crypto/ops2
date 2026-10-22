@@ -1,0 +1,154 @@
+import { NextResponse } from 'next/server';
+import bcrypt from 'bcryptjs';
+import { db } from '@/lib/db';
+import { requireUser } from '@/lib/auth';
+
+type Ctx = { params: Promise<{ path: string[] }> };
+
+function page(url: URL) {
+  const page = Number(url.searchParams.get('page') || 1);
+  const limit = Number(url.searchParams.get('limit') || 20);
+  return { page, limit, offset: (page - 1) * limit };
+}
+
+async function listQuery(base: string, where: string | null, whereParams: unknown[], order: string, url: URL) {
+  const { page: p, limit, offset } = page(url);
+  const params = [...whereParams, limit, offset];
+  const sql = `${base}${where ? ` WHERE ${where}` : ''} ORDER BY ${order} LIMIT $${whereParams.length + 1} OFFSET $${whereParams.length + 2}`;
+  const result = await db.query(sql, params);
+  return NextResponse.json({ data: result.rows, pagination: { page: p, limit } });
+}
+
+export async function GET(request: Request, { params }: Ctx) {
+  const auth = requireUser(request, ['admin', 'support']);
+  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
+  const path = (await params).path.join('/');
+  const url = new URL(request.url);
+
+  try {
+    if (path === 'dashboard') {
+      const r = await db.query(`SELECT
+        (SELECT COUNT(*) FROM shipments) AS total_shipments,
+        (SELECT COUNT(*) FROM shipments WHERE status = 'delivered') AS delivered,
+        (SELECT COUNT(*) FROM shipments WHERE status = 'in_transit') AS in_transit,
+        (SELECT COUNT(*) FROM shipments WHERE status = 'failed') AS failed,
+        (SELECT COUNT(*) FROM orders WHERE payment_status = 'paid') AS total_orders,
+        (SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE payment_status = 'paid') AS total_revenue,
+        (SELECT COUNT(*) FROM customers) AS total_customers,
+        (SELECT COUNT(*) FROM users) AS total_users`);
+      return NextResponse.json(r.rows[0]);
+    }
+
+    if (path === 'shipments') {
+      const status = url.searchParams.get('status');
+      return listQuery(
+        'SELECT id, tracking_number, customer_id, status, weight, created_at FROM shipments',
+        status ? 'status = $1' : null, status ? [status] : [], 'created_at DESC', url
+      );
+    }
+
+    if (path === 'customers') {
+      const tier = url.searchParams.get('volume_tier');
+      return listQuery(
+        `SELECT c.id, c.business_name, c.phone, c.volume_tier, c.total_shipments, c.total_spending, u.email, c.created_at
+         FROM customers c JOIN users u ON c.user_id = u.id`,
+        tier ? 'c.volume_tier = $1' : null, tier ? [tier] : [], 'c.created_at DESC', url
+      );
+    }
+
+    const customerMatch = path.match(/^customers\/([^/]+)$/);
+    if (customerMatch) {
+      const r = await db.query(
+        `SELECT c.id, c.business_name, c.phone, c.industry, c.volume_tier, c.total_shipments, c.total_spending,
+                u.email, u.first_name, u.last_name
+         FROM customers c JOIN users u ON c.user_id = u.id WHERE c.id = $1`,
+        [customerMatch[1]]
+      );
+      if (r.rows.length === 0) return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
+      return NextResponse.json(r.rows[0]);
+    }
+
+    if (path === 'orders') {
+      const status = url.searchParams.get('payment_status');
+      return listQuery(
+        `SELECT o.id, o.order_number, o.customer_id, o.total_amount, o.payment_status, o.order_status, o.created_at FROM orders o`,
+        status ? 'o.payment_status = $1' : null, status ? [status] : [], 'o.created_at DESC', url
+      );
+    }
+
+    if (path === 'reports/revenue') {
+      const start = url.searchParams.get('start_date');
+      const end = url.searchParams.get('end_date');
+      const params: unknown[] = [];
+      let sql = `SELECT DATE(created_at) AS date, COUNT(*) AS orders, COALESCE(SUM(total_amount), 0) AS revenue
+                 FROM orders WHERE payment_status = 'paid'`;
+      if (start) { params.push(start); sql += ` AND created_at >= $${params.length}`; }
+      if (end) { params.push(end); sql += ` AND created_at <= $${params.length}`; }
+      sql += ' GROUP BY DATE(created_at) ORDER BY date DESC';
+      const r = await db.query(sql, params);
+      return NextResponse.json(r.rows);
+    }
+
+    if (path === 'reports/shipments') {
+      const r = await db.query(
+        'SELECT service_type, COUNT(*) AS count, AVG(weight) AS avg_weight FROM shipments GROUP BY service_type ORDER BY count DESC'
+      );
+      return NextResponse.json(r.rows);
+    }
+
+    if (path === 'users') {
+      const r = await db.query(
+        'SELECT id, email, first_name, last_name, role, status, created_at FROM users ORDER BY created_at DESC'
+      );
+      return NextResponse.json(r.rows);
+    }
+
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  } catch {
+    return NextResponse.json({ error: 'Request failed' }, { status: 500 });
+  }
+}
+
+export async function POST(request: Request, { params }: Ctx) {
+  const auth = requireUser(request, ['admin']);
+  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
+  const path = (await params).path.join('/');
+
+  try {
+    if (path === 'users') {
+      const { email, password, first_name, last_name, role } = await request.json();
+      const passwordHash = await bcrypt.hash(password, 10);
+      const r = await db.query(
+        `INSERT INTO users (email, password_hash, first_name, last_name, role)
+         VALUES ($1, $2, $3, $4, $5) RETURNING id, email, role`,
+        [email, passwordHash, first_name, last_name, role]
+      );
+      return NextResponse.json({ message: 'User created successfully', user: r.rows[0] }, { status: 201 });
+    }
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  } catch {
+    return NextResponse.json({ error: 'Request failed' }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request, { params }: Ctx) {
+  const auth = requireUser(request, ['admin']);
+  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
+  const path = (await params).path.join('/');
+
+  try {
+    const tierMatch = path.match(/^customers\/([^/]+)\/tier$/);
+    if (tierMatch) {
+      const { volume_tier } = await request.json();
+      const r = await db.query(
+        'UPDATE customers SET volume_tier = $1 WHERE id = $2 RETURNING id, volume_tier',
+        [volume_tier, tierMatch[1]]
+      );
+      if (r.rows.length === 0) return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Customer tier updated', customer: r.rows[0] });
+    }
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  } catch {
+    return NextResponse.json({ error: 'Request failed' }, { status: 500 });
+  }
+}
