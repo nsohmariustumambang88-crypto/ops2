@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import { useLanguage } from '@/lib/i18n';
+import CountrySelector from '@/components/layout/CountrySelector';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -121,10 +122,7 @@ export default function Header() {
                 <option value='en'>English</option>
                 <option value='fr'>Français</option>
               </select>
-              <button type='button' className='flex items-center gap-2 h-[30px] px-3 border border-border rounded text-[12px] text-text-primary'>
-                <span aria-hidden='true'>🇨🇲</span>
-                {t('country')}
-              </button>
+              <CountrySelector />
             </div>
           </div>
         </Container>
