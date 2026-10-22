@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { db } from '@/lib/db';
 import { requireUser } from '@/lib/auth';
+import { pickShipmentFields, newReferenceNumber } from '@/lib/shipments';
 
 type Ctx = { params: Promise<{ path: string[] }> };
 
@@ -144,16 +145,19 @@ export async function POST(request: Request, { params }: Ctx) {
     }
 
     if (path === 'shipments') {
-      const b = await request.json();
-      if (!b.customer_id || !b.tracking_number) {
-        return NextResponse.json({ error: 'Customer and tracking number are required' }, { status: 400 });
+      const body = await request.json();
+      if (!body.customer_id || !body.sender_name || !body.receiver_name) {
+        return NextResponse.json({ error: 'Customer, sender name and receiver name are required' }, { status: 400 });
       }
-      const r = await db.query(
-        `INSERT INTO shipments (tracking_number, customer_id, shipment_type, service_type, weight, dimensions, contents, status)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, tracking_number, status`,
-        [b.tracking_number, b.customer_id, b.shipment_type || null, b.service_type || null, b.weight || null, b.dimensions || null, b.contents || null, b.status || 'registered']
-      );
-      return NextResponse.json({ message: 'Shipment created', shipment: r.rows[0] }, { status: 201 });
+      const fields = pickShipmentFields(body);
+      const reference = newReferenceNumber();
+      fields.reference_number = reference;
+      fields.tracking_number = reference;
+      fields.status = fields.status ?? 'registered';
+      const keys = Object.keys(fields);
+      const sql = `INSERT INTO shipments (${keys.join(', ')}) VALUES (${keys.map((_, i) => `$${i + 1}`).join(', ')}) RETURNING id, reference_number, tracking_number, status`;
+      const r = await db.query(sql, Object.values(fields));
+      return NextResponse.json({ message: 'Shipment registered', shipment: r.rows[0] }, { status: 201 });
     }
 
     const evMatch = path.match(new RegExp('^shipments\\/([^/]+)\\/events$'));
@@ -187,6 +191,21 @@ export async function PUT(request: Request, { params }: Ctx) {
   const path = (await params).path.join('/');
 
   try {
+    const shipmentEdit = path.match(new RegExp('^shipments\\/([0-9]+)$'));
+    if (shipmentEdit) {
+      const fields = pickShipmentFields(await request.json());
+      delete fields.reference_number;
+      const keys = Object.keys(fields);
+      if (keys.length === 0) return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
+      const set = keys.map((k, i) => `${k} = $${i + 1}`).join(', ');
+      const r = await db.query(
+        `UPDATE shipments SET ${set}, updated_at = CURRENT_TIMESTAMP WHERE id = $${keys.length + 1} RETURNING *`,
+        [...Object.values(fields), shipmentEdit[1]]
+      );
+      if (r.rows.length === 0) return NextResponse.json({ error: 'Shipment not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Shipment updated', shipment: r.rows[0] });
+    }
+
     const settingMatch = path.match(new RegExp('^settings\\/([^/]+)$'));
     if (settingMatch) {
       const { value } = await request.json();

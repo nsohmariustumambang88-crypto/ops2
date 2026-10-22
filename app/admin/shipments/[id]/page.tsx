@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
 
 type Event = { id: string; status: string; location: string | null; notes: string | null; timestamp: string };
@@ -61,7 +62,10 @@ export default function ShipmentDetailPage() {
         {detail && (
           <>
             <div>
-              <h1 className='text-[36px] font-extrabold text-navy'>{detail.shipment.tracking_number}</h1>
+              <div className='flex items-center justify-between gap-4'>
+                <h1 className='text-[36px] font-extrabold text-navy'>{detail.shipment.tracking_number}</h1>
+                <Link href={`/admin/shipments/${id}/edit`} className='h-[42px] px-5 inline-flex items-center rounded border border-border font-bold'>Edit shipment</Link>
+              </div>
               <p className='text-text-primary'>Current status: <span className='font-bold capitalize'>{detail.shipment.status.replace(/_/g, ' ')}</span></p>
             </div>
 
