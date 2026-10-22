@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -12,6 +12,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!localStorage.getItem('adminToken')) router.replace('/admin/login');
+  }, [router]);
 
   const menuItems = [
     { label: 'Dashboard', icon: '📊', href: '/admin/dashboard' },
