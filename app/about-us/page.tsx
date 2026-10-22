@@ -3,6 +3,7 @@ import InfoPage from '@/components/pages/InfoPage';
 export default function AboutUsPage() {
   return (
     <InfoPage
+      titleClass="text-[48px] md:text-[72px]"
       eyebrow="About OPS"
       title="Logistics built around the shipper"
       intro="OPS Logistics moves documents, parcels, containers and freight for individuals, online sellers and enterprises across more than 220 countries and territories."

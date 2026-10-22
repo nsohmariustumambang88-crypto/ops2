@@ -4,6 +4,7 @@ import Container from '@/components/ui/Container';
 export type InfoSection = { title: string; body: string[]; bullets?: string[] };
 
 type Props = {
+  titleClass?: string;
   eyebrow: string;
   title: string;
   intro: string;
@@ -11,14 +12,14 @@ type Props = {
   cta?: { label: string; href: string };
 };
 
-export default function InfoPage({ eyebrow, title, intro, sections, cta }: Props) {
+export default function InfoPage({ eyebrow, title, intro, sections, cta, titleClass }: Props) {
   return (
     <div className="bg-white text-black">
       <section className="py-16 md:py-20 bg-navy text-white">
         <Container>
           <div className="max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-widest text-white/80 mb-3">{eyebrow}</p>
-            <h1 className="text-[40px] md:text-[64px] font-extrabold mb-4 leading-tight">{title}</h1>
+            <h1 className={`${titleClass ?? "text-[40px] md:text-[64px]"} font-extrabold mb-4 leading-tight`}>{title}</h1>
             <p className="text-lg text-white/90 leading-relaxed">{intro}</p>
           </div>
         </Container>
