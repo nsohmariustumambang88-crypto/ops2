@@ -13,11 +13,13 @@ export function getTokenUser(request: Request): TokenUser | null {
   }
 }
 
-export function requireUser(request: Request, roles?: string[]) {
+export type AuthResult = { user: TokenUser } | { error: string; status: number };
+
+export function requireUser(request: Request, roles?: string[]): AuthResult {
   const user = getTokenUser(request);
-  if (!user) return { error: 'Invalid token', status: 401 } as const;
-  if (roles && !roles.includes(user.role)) return { error: 'Access denied', status: 403 } as const;
-  return { user } as const;
+  if (!user) return { error: 'Invalid token', status: 401 };
+  if (roles && !roles.includes(user.role)) return { error: 'Access denied', status: 403 };
+  return { user };
 }
 
 export function signToken(user: { id: string; email: string; role: string }) {
