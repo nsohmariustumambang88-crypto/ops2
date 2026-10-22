@@ -151,7 +151,7 @@ export default function Header() {
 
                   {item.label === 'SHIP' && item.hasDropdown && (
                     <div className='fixed left-0 right-0 mt-0 bg-white shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50'>
-                      <div className='max-w-7xl mx-auto px-6 sm:px-8 md:px-16 lg:px-24 py-8'>
+                      <div className='max-w-[1220px] mx-auto px-6 sm:px-8 md:px-16 lg:px-24 py-8'>
                         <div className='grid grid-cols-4 gap-8'>
                           {/* Start Shipping Column */}
                           <div>
@@ -234,7 +234,7 @@ export default function Header() {
 
                   {item.label === 'Enterprise logistics services' && item.hasDropdown && (
                     <div className='fixed left-0 right-0 mt-0 bg-white shadow-deep opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50'>
-                      <div className='max-w-7xl mx-auto px-6 sm:px-8 md:px-16 lg:px-24 py-8'>
+                      <div className='max-w-[1220px] mx-auto px-6 sm:px-8 md:px-16 lg:px-24 py-8'>
                         <div className='grid grid-cols-4 gap-8'>
                         {/* Left Column */}
                         <div>
