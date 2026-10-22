@@ -72,14 +72,14 @@ export default function TrackPage() {
         <Container>
           <div className="max-w-3xl mx-auto">
             {error && (
-              <div role="alert" className="rounded-card border border-red-300 bg-red-50 text-red-800 px-5 py-4">
+              <div role="alert" className="rounded-xl border border-red-300 bg-red-50 text-red-800 px-5 py-4">
                 {error}
               </div>
             )}
 
             {result && (
               <div className="space-y-8">
-                <div className="rounded-card border border-border p-6">
+                <div className="rounded-xl border border-border p-6">
                   <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Tracking number</p>
                   <p className="text-xl font-bold text-navy break-all">{result.shipment.tracking_number}</p>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-sm">

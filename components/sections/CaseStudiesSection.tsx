@@ -59,7 +59,7 @@ export default function CaseStudiesSection() {
 
         <div ref={containerRef} className='grid grid-cols-1 md:grid-cols-3 gap-8'>
           {caseStudies.map((study, index) => (
-            <div key={index} data-case-study className='bg-light-gray rounded-card overflow-hidden hover:shadow-deep transition-all duration-300'>
+            <div key={index} data-case-study className='bg-light-gray rounded-xl overflow-hidden hover:shadow-deep transition-all duration-300'>
               <div className='h-48 bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center overflow-hidden'>
                 <img
                   src={study.image}

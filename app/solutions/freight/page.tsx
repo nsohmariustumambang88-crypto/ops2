@@ -22,7 +22,7 @@ export default function FreightPage() {
               { title: 'Road Transport', desc: 'Reliable ground delivery', icon: '🚚' },
               { title: 'Rail Logistics', desc: 'Efficient bulk transport', icon: '🚂' },
             ].map((mode) => (
-              <div key={mode.title} className='bg-light-gray rounded-card p-8 text-center'>
+              <div key={mode.title} className='bg-light-gray rounded-xl p-8 text-center'>
                 <div className='text-4xl mb-4'>{mode.icon}</div>
                 <h3 className='text-h4 font-bold text-text-primary mb-2'>{mode.title}</h3>
                 <p className='text-text-secondary'>{mode.desc}</p>

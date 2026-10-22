@@ -28,7 +28,7 @@ export default function AutomotivePage() {
                 ))}
               </div>
             </div>
-            <div className='h-96 bg-light-gray rounded-card overflow-hidden flex items-center justify-center'>
+            <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
                 src='/images/automotive/Batteries are the hardest thing in the vehicle to move.webp'
                 alt='Automotive logistics'

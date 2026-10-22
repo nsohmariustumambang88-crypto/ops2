@@ -61,7 +61,7 @@ export default function CaseStudiesPage() {
             {caseStudies.map((study, idx) => (
               <div key={study.id} className={`grid md:grid-cols-2 gap-12 items-center ${idx % 2 === 1 ? 'md:[&>*]:order-1' : ''}`}>
                 {/* Image */}
-                <div className='h-80 bg-light-gray rounded-card overflow-hidden flex items-center justify-center'>
+                <div className='h-80 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
                   <img
                     src={study.image}
                     alt={study.title}

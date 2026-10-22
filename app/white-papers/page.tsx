@@ -58,7 +58,7 @@ export default function WhitePapersPage() {
         <Container>
           <div className='grid md:grid-cols-2 gap-8'>
             {whitePapers.map((paper) => (
-              <div key={paper.id} className='bg-white border border-border rounded-card overflow-hidden hover:shadow-deep transition-all duration-300'>
+              <div key={paper.id} className='bg-white border border-border rounded-xl overflow-hidden hover:shadow-deep transition-all duration-300'>
                 <div className='h-48 bg-light-gray flex items-center justify-center overflow-hidden'>
                   <img
                     src={paper.image}

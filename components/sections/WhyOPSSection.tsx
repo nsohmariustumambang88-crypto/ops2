@@ -79,7 +79,7 @@ export default function WhyOPSSection() {
             <div
               key={index}
               data-feature-block
-              className='bg-light-gray rounded-card p-8 border border-border hover:shadow-medium transition-all duration-300'
+              className='bg-light-gray rounded-xl p-8 border border-border hover:shadow-medium transition-all duration-300'
             >
               <div className='mb-4'>{feature.icon}</div>
               <h3 className='text-h4 font-bold text-text-primary mb-4'>{feature.title}</h3>

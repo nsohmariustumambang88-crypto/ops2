@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
+import { useLanguage } from '@/lib/i18n';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isShipDropdownOpen, setIsShipDropdownOpen] = useState(false);
+  const { t, lang, setLang } = useLanguage();
 
   const navigationItems = [
     { label: 'Follow', href: '/track' },
@@ -95,26 +97,33 @@ export default function Header() {
       {/* Top Header */}
       <header className='bg-white border-b border-border'>
         <Container>
-          <div className='flex items-center justify-center h-14 relative w-full'>
-            {/* Logo */}
-            <Link href='/' className='flex items-center absolute left-0'>
-              <span className='text-2xl font-bold text-primary'>OPS<br />LOGISTICS</span>
+          <div className='flex items-center justify-between h-[90px] w-full'>
+            <Link href='/' className='flex items-center gap-3 shrink-0'>
+              <span className='text-[28px] font-extrabold leading-none text-navy'>OPS</span>
+              <span className='text-[12px] font-bold tracking-widest leading-tight text-primary'>LOGISTICS</span>
             </Link>
 
-            {/* Right side */}
-            <div className='hidden md:flex items-center gap-6 absolute right-0'>
-              <button className='p-2 hover:bg-light-gray rounded-lg transition-colors'>
-                <svg className='w-5 h-5 text-text-secondary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012-2v-1a2 2 0 012-2h1.055M8 16H6a2 2 0 01-2-2v-2a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2h-2.055M15 12H17' />
+            <div className='hidden md:flex items-center gap-5'>
+              <Link href='/about-us' className='text-[12px] text-text-primary hover:text-primary transition-colors'>{t('about')}</Link>
+              <button type='button' className='flex items-center gap-2 text-[12px] text-text-primary hover:text-primary transition-colors'>
+                <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                  <circle cx='11' cy='11' r='7' strokeWidth={2} />
+                  <path strokeLinecap='round' strokeWidth={2} d='M20 20l-4-4' />
                 </svg>
+                {t('search')}
               </button>
-              <button className='text-text-secondary hover:text-primary font-medium text-sm'>To research</button>
-              <button className='flex items-center gap-2 px-3 py-2 border border-border rounded-lg hover:bg-light-gray transition-colors'>
-                <span className='w-4 h-4 bg-red-600 rounded-sm'></span>
-                <span className='text-text-secondary text-sm font-medium'>Cameroon</span>
-                <svg className='w-4 h-4 text-text-secondary' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 14l-7 7m0 0l-7-7m7 7V3' />
-                </svg>
+              <select
+                aria-label={t('language')}
+                value={lang}
+                onChange={(e) => setLang(e.target.value as 'en' | 'fr')}
+                className='h-[30px] px-2 border border-border rounded text-[12px] text-text-primary bg-white'
+              >
+                <option value='en'>English</option>
+                <option value='fr'>Français</option>
+              </select>
+              <button type='button' className='flex items-center gap-2 h-[30px] px-3 border border-border rounded text-[12px] text-text-primary'>
+                <span aria-hidden='true'>🇨🇲</span>
+                {t('country')}
               </button>
             </div>
           </div>

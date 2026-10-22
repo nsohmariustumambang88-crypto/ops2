@@ -32,7 +32,7 @@ export default function TechnologyPage() {
                 ))}
               </div>
             </div>
-            <div className='h-96 bg-light-gray rounded-card overflow-hidden flex items-center justify-center'>
+            <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
                 src='/images/technology/Most tech ships more than once.webp'
                 alt='Technology logistics'
@@ -43,7 +43,7 @@ export default function TechnologyPage() {
           </div>
 
           {/* Case Study */}
-          <div className='bg-light-blue rounded-card p-8 md:p-12'>
+          <div className='bg-light-blue rounded-xl p-8 md:p-12'>
             <h3 className='text-h3 font-bold text-text-primary mb-4'>Scaling Global Tech Distribution</h3>
             <p className='text-text-secondary mb-6'>A technology manufacturer scaled to 50+ countries in 18 months using our global forwarding network and customs expertise.</p>
             <Button href='/case-studies' className='bg-primary text-white hover:bg-primary/90'>Read Full Case Study</Button>

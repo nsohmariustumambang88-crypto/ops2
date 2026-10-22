@@ -27,7 +27,7 @@ export default function ColdChainPage() {
                 ))}
               </div>
             </div>
-            <div className='h-96 bg-light-gray rounded-card overflow-hidden flex items-center justify-center'>
+            <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
                 src='/images/cold-chain/The chain breaks at the joins.webp'
                 alt='Cold chain logistics'

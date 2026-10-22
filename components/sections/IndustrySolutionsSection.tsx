@@ -90,7 +90,7 @@ export default function IndustrySolutionsSection() {
             <div
               key={index}
               data-industry
-              className='bg-white rounded-card p-6 border border-border hover:shadow-medium transition-all duration-300'
+              className='bg-white rounded-xl p-6 border border-border hover:shadow-medium transition-all duration-300'
             >
               <div className='mb-4'>{industry.icon}</div>
               <h3 className='text-h4 font-bold text-text-primary mb-3'>{industry.name}</h3>

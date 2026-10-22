@@ -55,7 +55,7 @@ export default function IndustriesPage() {
                 href={industry.href}
                 className='!p-0 !bg-transparent !text-text-primary hover:!bg-transparent group'
               >
-                <div className='w-full bg-white border border-border rounded-card p-8 hover:shadow-deep transition-all text-left'>
+                <div className='w-full bg-white border border-border rounded-xl p-8 hover:shadow-deep transition-all text-left'>
                   <div className='text-4xl mb-4'>{industry.icon}</div>
                   <h3 className='text-h4 font-bold mb-2 group-hover:text-primary transition-colors'>{industry.name}</h3>
                   <p className='text-text-secondary text-sm'>{industry.description}</p>

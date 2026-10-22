@@ -28,7 +28,7 @@ export default function RetailPage() {
                 ))}
               </div>
             </div>
-            <div className='h-96 bg-light-gray rounded-card overflow-hidden flex items-center justify-center'>
+            <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
                 src='/images/retail/Fashion returns are not an exception, they are the model.webp'
                 alt='Retail logistics'

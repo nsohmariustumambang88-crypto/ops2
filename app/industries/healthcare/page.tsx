@@ -28,7 +28,7 @@ export default function HealthcarePage() {
                 ))}
               </div>
             </div>
-            <div className='h-96 bg-light-gray rounded-card overflow-hidden flex items-center justify-center'>
+            <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
                 src='/images/healthcare/The shipment is the evidence..webp'
                 alt='Healthcare logistics'
@@ -38,7 +38,7 @@ export default function HealthcarePage() {
             </div>
           </div>
 
-          <div className='bg-light-blue rounded-card p-8 md:p-12'>
+          <div className='bg-light-blue rounded-xl p-8 md:p-12'>
             <h3 className='text-h3 font-bold text-text-primary mb-4'>99.7% On-Time Delivery</h3>
             <p className='text-text-secondary mb-6'>European healthcare distributor achieved perfect compliance with specialized cold chain management and real-time tracking.</p>
             <Button href='/case-studies' className='bg-primary text-white hover:bg-primary/90'>See Case Study</Button>

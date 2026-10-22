@@ -123,7 +123,7 @@ export default function ExpressDocumentParcelPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => (
-              <div key={step.title} className="bg-white rounded-card p-6 border border-border">
+              <div key={step.title} className="bg-white rounded-xl p-6 border border-border">
                 <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white font-bold mb-4">
                   {i + 1}
                 </span>
@@ -151,7 +151,7 @@ export default function ExpressDocumentParcelPage() {
                 ))}
               </ul>
             </div>
-            <div className="bg-light-gray rounded-card p-8">
+            <div className="bg-light-gray rounded-xl p-8">
               <h3 className="text-lg font-bold text-navy mb-4">Before you book</h3>
               <ul className="space-y-4">
                 {restricted.map((item) => (
@@ -174,7 +174,7 @@ export default function ExpressDocumentParcelPage() {
             <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-10 text-center">Express shipping FAQ</h2>
             <div className="space-y-4">
               {faqs.map((faq) => (
-                <details key={faq.q} className="bg-white rounded-card border border-border p-6 group">
+                <details key={faq.q} className="bg-white rounded-xl border border-border p-6 group">
                   <summary className="cursor-pointer font-bold text-navy list-none flex items-center justify-between gap-4">
                     {faq.q}
                     <span className="text-primary text-xl group-open:rotate-45 transition-transform">+</span>
