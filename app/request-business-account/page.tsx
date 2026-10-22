@@ -28,7 +28,7 @@ export default function RequestBusinessAccountPage() {
           <Container>
             <div className="mb-12">
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Before You Fill Anything In</p>
-              <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-6" style={{ color: "#0B2C5F" }}>
+              <h2 className="text-[36px] font-extrabold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 An account is not right for everyone yet
               </h2>
               <p className="text-base text-gray-600" style={{ color: "#1A1A1A" }}>
@@ -99,7 +99,7 @@ export default function RequestBusinessAccountPage() {
           <Container>
             <div>
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">The Application</p>
-              <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-6" style={{ color: "#0B2C5F" }}>
+              <h2 className="text-[36px] font-extrabold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 Nine fields, five of them required
               </h2>
               <p className="text-base text-gray-600 mb-12" style={{ color: "#1A1A1A" }}>
@@ -298,7 +298,7 @@ export default function RequestBusinessAccountPage() {
           <Container>
             <div>
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">What Happens Next</p>
-              <h2 className="text-2xl md:text-[28px] lg:text-2xl md:text-[28px] font-extrabold text-white mb-6">
+              <h2 className="text-[36px] lg:text-[36px] font-extrabold text-white mb-6">
                 Four steps, and you can stop after any of them
               </h2>
               <p className="text-base md:text-lg text-white mb-12" style={{ color: "rgba(255, 255, 255, 0.8)" }}>
@@ -366,7 +366,7 @@ export default function RequestBusinessAccountPage() {
           <Container>
             <div>
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Later, Not Now</p>
-              <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-6" style={{ color: "#0B2C5F" }}>
+              <h2 className="text-[36px] font-extrabold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 What setup usually asks for
               </h2>
               <p className="text-base text-gray-600 mb-12" style={{ color: "#1A1A1A" }}>
@@ -422,7 +422,7 @@ export default function RequestBusinessAccountPage() {
           <Container>
             <div>
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Not This</p>
-              <h2 className="text-2xl md:text-[28px] font-extrabold text-navy mb-12" style={{ color: "#0B2C5F" }}>
+              <h2 className="text-[36px] font-extrabold text-navy mb-12" style={{ color: "#0B2C5F" }}>
                 Three other doors
               </h2>
 
