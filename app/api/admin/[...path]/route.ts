@@ -26,6 +26,14 @@ export async function GET(request: Request, { params }: Ctx) {
   const url = new URL(request.url);
 
   try {
+    const detail = path.match(new RegExp('^shipments\\/([^/]+)$'));
+    if (detail) {
+      const sh = await db.query('SELECT * FROM shipments WHERE id = $1', [detail[1]]);
+      if (sh.rows.length === 0) return NextResponse.json({ error: 'Shipment not found' }, { status: 404 });
+      const ev = await db.query('SELECT id, status, location, notes, timestamp FROM shipment_tracking WHERE shipment_id = $1 ORDER BY timestamp DESC', [detail[1]]);
+      return NextResponse.json({ shipment: sh.rows[0], events: ev.rows });
+    }
+
     if (path === 'dashboard') {
       const r = await db.query(`SELECT
         (SELECT COUNT(*) FROM shipments) AS total_shipments,
@@ -115,6 +123,15 @@ export async function POST(request: Request, { params }: Ctx) {
   const path = (await params).path.join('/');
 
   try {
+    const evMatch = path.match(new RegExp('^shipments\\/([^/]+)\\/events$'));
+    if (evMatch) {
+      const { status, location, notes } = await request.json();
+      if (!status) return NextResponse.json({ error: 'Status is required' }, { status: 400 });
+      await db.query('UPDATE shipments SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', [status, evMatch[1]]);
+      const r = await db.query('INSERT INTO shipment_tracking (shipment_id, status, location, notes) VALUES ($1, $2, $3, $4) RETURNING id, status, location, notes, timestamp', [evMatch[1], status, location || null, notes || null]);
+      return NextResponse.json({ message: 'Event added', event: r.rows[0] }, { status: 201 });
+    }
+
     if (path === 'users') {
       const { email, password, first_name, last_name, role } = await request.json();
       const passwordHash = await bcrypt.hash(password, 10);

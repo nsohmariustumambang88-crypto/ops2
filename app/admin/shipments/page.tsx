@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
 
 type Shipment = {
@@ -98,7 +99,7 @@ export default function ShipmentsPage() {
               )}
               {filtered.map((s) => (
                 <tr key={s.id} className='border-t border-border'>
-                  <td className='px-5 py-3 font-bold text-navy'>{s.tracking_number}</td>
+                  <td className='px-5 py-3 font-bold text-navy'><Link href={`/admin/shipments/${s.id}`} className='hover:underline'>{s.tracking_number}</Link></td>
                   <td className='px-5 py-3'>
                     <span className={`px-3 py-1 rounded-full text-[12px] font-bold ${statusStyle[s.status] ?? 'bg-gray-100 text-gray-800'}`}>
                       {s.status.replace(/_/g, ' ')}
