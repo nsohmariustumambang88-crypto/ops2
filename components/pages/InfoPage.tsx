@@ -29,7 +29,7 @@ export default function InfoPage({ eyebrow, title, intro, sections, cta }: Props
           <div className="max-w-3xl space-y-12">
             {sections.map((s) => (
               <div key={s.title}>
-                <h2 className="text-2xl md:text-3xl font-bold text-navy mb-4">{s.title}</h2>
+                <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-4">{s.title}</h2>
                 {s.body.map((p, i) => (
                   <p key={i} className="mb-4 leading-relaxed">{p}</p>
                 ))}

@@ -52,7 +52,7 @@ export default function ShipNowPage() {
           <Container>
             <div className="mb-12">
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Two Ways In</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
+              <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 Which of these are you?
               </h2>
               <p className="text-base text-gray-600" style={{ color: "#1A1A1A" }}>
@@ -63,7 +63,7 @@ export default function ShipNowPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-8 rounded-2xl bg-navy text-left" style={{ backgroundColor: "#0B2C5F" }}>
                 <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Door 01</p>
-                <h3 className="text-2xl font-bold text-white mb-4">I have an account</h3>
+                <h3 className="text-[19px] font-bold text-white mb-4">I have an account</h3>
                 <p className="text-base text-white/90 mb-6">
                   Book in the portal. Your addresses, saved lanes and service preferences are already stored, so a repeat collection takes about a minute and everything lands on your monthly invoice.
                 </p>
@@ -74,7 +74,7 @@ export default function ShipNowPage() {
 
               <div className="p-8 rounded-2xl border-2 bg-white text-left" style={{ borderColor: "#1173D4" }}>
                 <p className="text-xs font-bold text-primary uppercase tracking-widest mb-3">Door 02</p>
-                <h3 className="text-2xl font-bold text-navy mb-4" style={{ color: "#0B2C5F" }}>
+                <h3 className="text-[19px] font-bold text-navy mb-4" style={{ color: "#0B2C5F" }}>
                   First time, or a one-off
                 </h3>
                 <p className="text-base text-gray-600 mb-6" style={{ color: "#1A1A1A" }}>
@@ -94,7 +94,7 @@ export default function ShipNowPage() {
             <div className="max-w-4xl">
               <div className="mb-12">
                 <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">The Request</p>
-                <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
+                <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                   Three steps
                 </h2>
                 <p className="text-base text-gray-600" style={{ color: "#1A1A1A" }}>
@@ -207,7 +207,7 @@ export default function ShipNowPage() {
           <Container>
             <div className="mb-12">
               <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#1173D4" }}>Before We Arrive</p>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: "#FFFFFF" }}>
+              <h2 className="text-2xl md:text-[28px] font-bold mb-6" style={{ color: "#FFFFFF" }}>
                 Four things that stop a collection failing
               </h2>
               <p className="text-base md:text-lg max-w-2xl" style={{ color: "#FFFFFF" }}>
@@ -256,7 +256,7 @@ export default function ShipNowPage() {
           <Container>
             <div className="mb-12">
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Not This</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
+              <h2 className="text-2xl md:text-[28px] font-bold text-navy mb-6" style={{ color: "#0B2C5F" }}>
                 Three other doors
               </h2>
             </div>

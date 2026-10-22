@@ -29,7 +29,7 @@ export default function DocumentAndParcelSection() {
             <p className='text-xs font-bold text-primary uppercase tracking-widest mb-4' style={{ color: '#1173D4' }}>
               OPS EXPRESS
             </p>
-            <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight' style={{ color: '#0B2C5F' }}>
+            <h2 className='text-2xl md:text-[28px] lg:text-6xl font-bold mb-6 leading-tight' style={{ color: '#0B2C5F' }}>
               One envelope. One box.{' '}
               <span style={{ color: '#1173D4' }}>Same care as a container.</span>
             </h2>

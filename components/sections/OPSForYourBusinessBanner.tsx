@@ -37,7 +37,7 @@ export default function OPSForYourBusinessBanner() {
         {/* Right - Content Area */}
         <div ref={contentRef} className='flex-1 px-4 md:px-6 lg:px-8 py-8 md:py-10 text-white flex flex-col justify-center'>
           {/* Heading */}
-          <h2 className='text-xl sm:text-2xl md:text-3xl font-bold mb-3 md:mb-4 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h2 className='text-xl sm:text-2xl md:text-[28px] font-bold mb-3 md:mb-4 leading-tight' style={{ fontFamily: 'Poppins, sans-serif' }}>
             OPS for Your Business
           </h2>
 

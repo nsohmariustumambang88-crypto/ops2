@@ -65,7 +65,7 @@ export default function GlobalReachSection() {
           {regions.map((region, index) => (
             <div key={index} className='bg-white/10 backdrop-blur-sm rounded-lg p-8 border border-white/20 hover:border-primary/50 hover:bg-white/15 transition-all text-center'>
               <p className='text-white/70 text-sm uppercase tracking-wider mb-2'>Coverage in</p>
-              <h3 className='text-2xl font-bold text-white mb-2'>{region.name}</h3>
+              <h3 className='text-[19px] font-bold text-white mb-2'>{region.name}</h3>
               <p className='text-3xl font-bold text-primary'>{region.coverage} countries</p>
             </div>
           ))}

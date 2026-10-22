@@ -109,7 +109,7 @@ export default function ShippingContainersForSaleSection() {
               </div>
 
               {/* Heading */}
-              <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+              <h2 className='text-2xl sm:text-2xl md:text-[28px] font-bold mb-3 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                 Shipping Containers For Sale
               </h2>
 
@@ -148,7 +148,7 @@ export default function ShippingContainersForSaleSection() {
               </p>
 
               {/* Heading */}
-              <h3 className='text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+              <h3 className='text-xl sm:text-[19px] font-bold mb-4 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                 Built Around Your Storage & Project Needs
               </h3>
 

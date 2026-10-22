@@ -77,7 +77,7 @@ export default function RetailerVolumeShippingSection() {
           {/* Right - Content */}
           <div ref={contentRef}>
             {/* Heading */}
-            <h2 className='text-xl sm:text-2xl md:text-3xl font-bold mb-2 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
+            <h2 className='text-xl sm:text-2xl md:text-[28px] font-bold mb-2 leading-tight' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
               Retailer or Volume Shipping
             </h2>
 

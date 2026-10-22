@@ -21,7 +21,7 @@ export default function ShippingContainersSection() {
           {/* Text Content */}
           <div ref={textRef} className='order-1 lg:order-1'>
             <p className='text-primary font-bold text-xs md:text-sm mb-4 uppercase tracking-wider'>Quality Containers Available</p>
-            <h2 className='text-3xl md:text-h2 font-bold mb-6 text-text-primary'>Shipping containers for sale</h2>
+            <h2 className='text-2xl md:text-[28px] md:text-h2 font-bold mb-6 text-text-primary'>Shipping containers for sale</h2>
             <p className='text-body text-text-secondary mb-4'>
               Shop reliable shipping containers for sale for storage, commercial use, transportation, construction projects, equipment storage and container conversions.
             </p>

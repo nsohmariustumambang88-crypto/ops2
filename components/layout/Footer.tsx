@@ -38,24 +38,24 @@ const OPSLogo = () => (
 
 export default function Footer() {
   const services = [
-    { name: 'Express Shipping', href: '#' },
-    { name: 'OPS Express', href: '#' },
-    { name: 'eCommerce', href: '#' },
-    { name: 'Supply chain', href: '#' },
+    { name: 'Express Shipping', href: '/express-document-parcel' },
+    { name: 'Express Delivery', href: '/express-document-parcel' },
+    { name: 'eCommerce', href: '/solutions/ecommerce' },
+    { name: 'Supply Chain', href: '/solutions' },
   ];
 
   const company = [
-    { name: 'About OPS', href: '#' },
-    { name: 'Sustainability', href: '#' },
-    { name: 'Innovation', href: '#' },
-    { name: 'Careers', href: '#' },
+    { name: 'About Us', href: '/about-us' },
+    { name: 'Sustainability', href: '/sustainability' },
+    { name: 'Innovation', href: '/innovation' },
+    { name: 'Careers', href: '/careers' },
   ];
 
   const support = [
-    { name: 'Customer Service', href: '#' },
-    { name: 'mise à jour de service', href: '#' },
-    { name: 'Request a Business Account', href: '#' },
-    { name: 'FAQ', href: '#' },
+    { name: 'Customer Service', href: '/customer-service' },
+    { name: 'Service Updates', href: '/service-updates' },
+    { name: 'Request a Business Account', href: '/request-business-account' },
+    { name: 'FAQ', href: '/faq' },
   ];
 
   return (
