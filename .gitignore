@@ -46,3 +46,4 @@ ops2-environmentals.env
 .vercel
 .env*
 public/images/impeccable/
+vercel.envy
