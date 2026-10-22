@@ -79,7 +79,7 @@ export default function SupplyChainSolutionsSection() {
     },
     {
       icon: '📦',
-      title: 'Gestion des services de fret',
+      title: 'Freight Management',
       description: 'Pallets, containers and project freight with OPS Global Forwarding.',
     },
   ];

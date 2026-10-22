@@ -134,7 +134,7 @@ export default function Footer() {
             {/* Support */}
             <div>
               <h4 className='text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8' style={{ color: '#0B2C5F', fontFamily: 'Poppins, sans-serif' }}>
-                AIDE
+                HELP
               </h4>
               <ul className='space-y-3 md:space-y-4'>
                 {support.map((item, index) => (
