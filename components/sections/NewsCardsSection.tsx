@@ -7,8 +7,33 @@ import { animateStagger } from '@/lib/animations';
 interface NewsCard {
   title: string;
   description: string;
-  category?: string;
+  category: string;
+  image: string;
 }
+
+const newsCards: NewsCard[] = [
+  {
+    title: 'Lower-carbon supply chains',
+    description:
+      'We measure the emissions of every shipment and offer lower-carbon routes wherever they are available.',
+    category: 'Sustainability',
+    image: '/images/home/Sustainable development ›.webp',
+  },
+  {
+    title: 'New tools for shippers',
+    description:
+      'Live tracking, digital customs paperwork and faster quotes, all built on one shared record for each shipment.',
+    category: 'Technology',
+    image: '/images/home/Innovation ›.webp',
+  },
+  {
+    title: 'Trade reaches record levels',
+    description:
+      'Our network covers more than 220 countries and territories, with air, sea, road and rail under one booking.',
+    category: 'Global',
+    image: '/images/home/Globalization is holding strong at a record level.webp',
+  },
+];
 
 export default function NewsCardsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -20,53 +45,35 @@ export default function NewsCardsSection() {
     }
   }, []);
 
-  const newsCards: NewsCard[] = [
-    {
-      title: 'Sustainable development',
-      description:
-        'Sustainable businesses start with low-carbon supply chains. Discover what we have to offer and how we integrate sustainability into our operations to reduce the environmental impact of your supply chain.',
-      category: 'Sustainability',
-    },
-    {
-      title: 'Innovation',
-      description:
-        'Discover the future of logistics through customer-centric innovation, cutting-edge trend research, and next-generation solutions.',
-      category: 'Technology',
-    },
-    {
-      title: 'Globalization is holding strong at a record level',
-      description:
-        'The PAHO Global Connectivity Report 2026 offers the most comprehensive view of globalization available.',
-      category: 'Global',
-    },
-  ];
-
   return (
-    <section className='py-section-lg bg-white'>
+    <section className='py-16 md:py-20 bg-white'>
       <Container>
-        <div ref={containerRef} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
-          {newsCards.map((card, index) => (
-            <div key={index} data-news-card className='bg-white border border-border rounded-card overflow-hidden hover:shadow-medium transition-all duration-300'>
-              {/* Image Placeholder */}
-              <div className='w-full h-48 md:h-56 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center'>
-                <span className='text-gray-500 text-sm'>News Image</span>
+        <div ref={containerRef} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+          {newsCards.map((card) => (
+            <article
+              key={card.title}
+              data-news-card
+              className='bg-white rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-medium'
+              style={{ border: '0.67px solid rgb(213, 223, 236)' }}
+            >
+              <div className='relative w-full aspect-[3/2] overflow-hidden'>
+                <img src={card.image} alt={card.title} className='w-full h-full object-cover' />
               </div>
 
-              {/* Content */}
-              <div className='p-6'>
-                {card.category && (
-                  <p className='text-primary text-xs font-bold uppercase tracking-wider mb-3'>{card.category}</p>
-                )}
-                <h3 className='text-h4 font-bold text-text-primary mb-3'>{card.title}</h3>
-                <p className='text-text-secondary text-sm mb-4'>{card.description}</p>
-                <a href='#' className='text-primary font-semibold hover:underline text-sm inline-flex items-center gap-2'>
+              <div className='px-6 pt-6 pb-7 text-left'>
+                <p className='text-[12px] font-bold uppercase tracking-wider text-primary mb-2'>{card.category}</p>
+                <h3 className='text-[15px] font-extrabold text-navy mb-3 leading-snug' style={{ color: '#002660' }}>
+                  {card.title}
+                </h3>
+                <p className='text-[15px] leading-[26px] text-text-primary mb-4'>{card.description}</p>
+                <a href='#' className='inline-flex items-center gap-2 text-[14px] font-semibold text-primary hover:underline'>
                   Read more
                   <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                     <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
                   </svg>
                 </a>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </Container>
