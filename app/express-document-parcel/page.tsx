@@ -63,7 +63,7 @@ export default function ExpressDocumentParcelPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-4">OPS Express</p>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-navy">
+              <h1 className="text-[40px] md:text-[60px] font-extrabold mb-6 leading-tight text-navy">
                 One envelope. One box.{' '}
                 <span className="text-primary">Same care as a container.</span>
               </h1>
