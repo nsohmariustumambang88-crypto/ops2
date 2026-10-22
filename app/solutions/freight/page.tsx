@@ -15,16 +15,16 @@ export default function FreightPage() {
 
       <section className='py-section-lg'>
         <Container>
-          <div className='grid md:grid-cols-2 gap-8 mb-12'>
+          <div className='grid md:grid-cols-2 gap-5 mb-12'>
             {[
               { title: 'Air Freight', desc: 'Fast international shipping', icon: '✈️' },
               { title: 'Ocean Freight', desc: 'Cost-effective sea transport', icon: '⛴️' },
               { title: 'Road Transport', desc: 'Reliable ground delivery', icon: '🚚' },
               { title: 'Rail Logistics', desc: 'Efficient bulk transport', icon: '🚂' },
             ].map((mode) => (
-              <div key={mode.title} className='bg-light-gray rounded-xl p-8 text-center'>
+              <div key={mode.title} className='bg-light-gray rounded-xl p-5 text-center'>
                 <div className='text-4xl mb-4'>{mode.icon}</div>
-                <h3 className='text-h4 font-bold text-text-primary mb-2'>{mode.title}</h3>
+                <h3 className='text-[15px] font-extrabold text-text-primary mb-2'>{mode.title}</h3>
                 <p className='text-text-secondary'>{mode.desc}</p>
               </div>
             ))}

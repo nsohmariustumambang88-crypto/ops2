@@ -57,10 +57,10 @@ export default function CaseStudiesSection() {
           </p>
         </div>
 
-        <div ref={containerRef} className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+        <div ref={containerRef} className='grid grid-cols-1 md:grid-cols-3 gap-5'>
           {caseStudies.map((study, index) => (
             <div key={index} data-case-study className='bg-light-gray rounded-xl overflow-hidden hover:shadow-deep transition-all duration-300'>
-              <div className='h-48 bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center overflow-hidden'>
+              <div className='aspect-[3/2] bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center overflow-hidden'>
                 <img
                   src={study.image}
                   alt={study.title}
@@ -70,10 +70,10 @@ export default function CaseStudiesSection() {
                   }}
                 />
               </div>
-              <div className='p-8'>
+              <div className='px-6 pt-6 pb-7'>
                 <div className='mb-4'>
                   <p className='text-primary font-bold text-sm uppercase tracking-wider'>{study.company}</p>
-                  <h3 className='text-h4 font-bold text-text-primary mt-2'>{study.title}</h3>
+                  <h3 className='text-[15px] font-extrabold text-text-primary mt-2'>{study.title}</h3>
                 </div>
                 <p className='text-lg font-bold text-primary mb-4'>{study.result}</p>
                 <p className='text-text-secondary text-sm leading-relaxed'>{study.description}</p>

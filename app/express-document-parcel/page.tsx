@@ -123,11 +123,11 @@ export default function ExpressDocumentParcelPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => (
-              <div key={step.title} className="bg-white rounded-xl p-6 border border-border">
+              <div key={step.title} className="bg-white rounded-xl p-5 border border-border">
                 <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white font-bold mb-4">
                   {i + 1}
                 </span>
-                <h3 className="text-lg font-bold text-navy mb-2">{step.title}</h3>
+                <h3 className="text-[15px] font-extrabold text-navy mb-2">{step.title}</h3>
                 <p className="text-black text-sm leading-relaxed">{step.text}</p>
               </div>
             ))}

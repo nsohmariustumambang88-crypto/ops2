@@ -48,16 +48,16 @@ export default function IndustriesPage() {
 
       <section className='py-section-lg'>
         <Container>
-          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
+          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
             {industries.map((industry) => (
               <Button
                 key={industry.name}
                 href={industry.href}
                 className='!p-0 !bg-transparent !text-text-primary hover:!bg-transparent group'
               >
-                <div className='w-full bg-white border border-border rounded-xl p-8 hover:shadow-deep transition-all text-left'>
+                <div className='w-full bg-white border border-border rounded-xl p-5 hover:shadow-deep transition-all text-left'>
                   <div className='text-4xl mb-4'>{industry.icon}</div>
-                  <h3 className='text-h4 font-bold mb-2 group-hover:text-primary transition-colors'>{industry.name}</h3>
+                  <h3 className='text-[15px] font-extrabold mb-2 group-hover:text-primary transition-colors'>{industry.name}</h3>
                   <p className='text-text-secondary text-sm'>{industry.description}</p>
                   <div className='text-primary font-bold text-sm mt-4'>Explore →</div>
                 </div>

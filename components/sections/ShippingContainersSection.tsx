@@ -36,30 +36,30 @@ export default function ShippingContainersSection() {
 
           {/* Features Grid */}
           <div ref={featuresRef} className='order-2 lg:order-2'>
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-5'>
               {/* Feature 1 */}
-              <div className='bg-white rounded-xl p-6'>
+              <div className='bg-white rounded-xl p-5'>
                 <div className='text-primary font-bold text-2xl mb-3'>01</div>
                 <h3 className='font-bold text-text-primary mb-3'>New and used containers</h3>
                 <p className='text-sm text-text-secondary'>Explore several container conditions suitable for storage, commercial, and project applications.</p>
               </div>
 
               {/* Feature 2 */}
-              <div className='bg-white rounded-xl p-6'>
+              <div className='bg-white rounded-xl p-5'>
                 <div className='text-primary font-bold text-2xl mb-3'>02</div>
                 <h3 className='font-bold text-text-primary mb-3'>Multiple sizes</h3>
                 <p className='text-sm text-text-secondary'>Choose from popular container sizes and configurations for different space requirements.</p>
               </div>
 
               {/* Feature 3 */}
-              <div className='bg-white rounded-xl p-6'>
+              <div className='bg-white rounded-xl p-5'>
                 <div className='text-primary font-bold text-2xl mb-3'>03</div>
                 <h3 className='font-bold text-text-primary mb-3'>Secure storage</h3>
                 <p className='text-sm text-text-secondary'>Practical container solutions for equipment, inventory, materials and general storage needs.</p>
               </div>
 
               {/* Feature 4 */}
-              <div className='bg-white rounded-xl p-6'>
+              <div className='bg-white rounded-xl p-5'>
                 <div className='text-primary font-bold text-2xl mb-3'>04</div>
                 <h3 className='font-bold text-text-primary mb-3'>Applications flexibles</h3>
                 <p className='text-sm text-text-secondary'>Suitable for commercial use, personal storage, container construction and conversion.</p>

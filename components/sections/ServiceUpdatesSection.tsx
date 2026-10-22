@@ -92,7 +92,7 @@ export default function ServiceUpdatesSection() {
           {updates.map((update, index) => (
             <div key={index} className='rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-lg hover:-translate-y-2' style={{ borderColor: '#D5DFEC' }}>
               {/* Image */}
-              <div className='h-48 md:h-56 overflow-hidden bg-gray-200'>
+              <div className='aspect-[3/2] overflow-hidden bg-gray-200'>
                 <img
                   src={update.image}
                   alt={update.title}
@@ -101,7 +101,7 @@ export default function ServiceUpdatesSection() {
               </div>
 
               {/* Content */}
-              <div className='p-6 md:p-8 text-center'>
+              <div className='px-6 pt-6 pb-7 text-center'>
                 {/* Title */}
                 <h3 className='text-lg md:text-xl font-bold mb-3 flex items-center justify-center gap-2' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
                   {update.title}

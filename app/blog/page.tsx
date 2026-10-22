@@ -103,13 +103,13 @@ export default function BlogPage() {
           </div>
 
           {/* Articles Grid */}
-          <div className='grid md:grid-cols-3 gap-8 mb-12'>
+          <div className='grid md:grid-cols-3 gap-5 mb-12'>
             {articles.map((article) => (
               <div
                 key={article.id}
                 className='bg-white border border-border rounded-xl overflow-hidden hover:shadow-deep transition-all duration-300 group cursor-pointer'
               >
-                <div className='h-48 bg-light-gray overflow-hidden'>
+                <div className='aspect-[3/2] bg-light-gray overflow-hidden'>
                   <img
                     src={article.image}
                     alt={article.title}
@@ -119,14 +119,14 @@ export default function BlogPage() {
                     }}
                   />
                 </div>
-                <div className='p-6'>
+                <div className='px-6 pt-6 pb-7'>
                   <div className='flex items-center justify-between mb-3'>
                     <span className='px-3 py-1 bg-light-blue text-primary rounded-full text-xs font-bold uppercase tracking-wider'>
                       {article.category}
                     </span>
                     <span className='text-xs text-text-secondary'>{article.readTime}</span>
                   </div>
-                  <h3 className='text-h4 font-bold text-text-primary mb-3 leading-tight group-hover:text-primary transition-colors'>
+                  <h3 className='text-[15px] font-extrabold text-text-primary mb-3 leading-snug group-hover:text-primary transition-colors'>
                     {article.title}
                   </h3>
                   <p className='text-text-secondary text-sm mb-4 leading-relaxed'>{article.excerpt}</p>

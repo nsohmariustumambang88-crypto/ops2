@@ -56,10 +56,10 @@ export default function WhitePapersPage() {
       {/* White Papers Grid */}
       <section className='py-section-lg'>
         <Container>
-          <div className='grid md:grid-cols-2 gap-8'>
+          <div className='grid md:grid-cols-2 gap-5'>
             {whitePapers.map((paper) => (
               <div key={paper.id} className='bg-white border border-border rounded-xl overflow-hidden hover:shadow-deep transition-all duration-300'>
-                <div className='h-48 bg-light-gray flex items-center justify-center overflow-hidden'>
+                <div className='aspect-[3/2] bg-light-gray flex items-center justify-center overflow-hidden'>
                   <img
                     src={paper.image}
                     alt={paper.title}
@@ -69,9 +69,9 @@ export default function WhitePapersPage() {
                     }}
                   />
                 </div>
-                <div className='p-6'>
+                <div className='px-6 pt-6 pb-7'>
                   <p className='text-sm text-primary font-bold mb-2 uppercase tracking-wider'>{paper.readTime}</p>
-                  <h3 className='text-h4 font-bold text-text-primary mb-4 leading-tight'>{paper.title}</h3>
+                  <h3 className='text-[15px] font-extrabold text-text-primary mb-4 leading-snug'>{paper.title}</h3>
                   <p className='text-text-secondary mb-6 text-sm leading-relaxed'>{paper.description}</p>
                   <Button href={paper.downloadUrl} className='w-full bg-primary text-white hover:bg-primary/90'>
                     Download White Paper

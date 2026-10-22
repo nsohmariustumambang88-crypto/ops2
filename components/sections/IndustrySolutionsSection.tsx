@@ -85,15 +85,15 @@ export default function IndustrySolutionsSection() {
           </p>
         </div>
 
-        <div ref={containerRef} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6'>
+        <div ref={containerRef} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5'>
           {industries.map((industry, index) => (
             <div
               key={index}
               data-industry
-              className='bg-white rounded-xl p-6 border border-border hover:shadow-medium transition-all duration-300'
+              className='bg-white rounded-xl p-5 border border-border hover:shadow-medium transition-all duration-300'
             >
               <div className='mb-4'>{industry.icon}</div>
-              <h3 className='text-h4 font-bold text-text-primary mb-3'>{industry.name}</h3>
+              <h3 className='text-[15px] font-extrabold text-text-primary mb-3'>{industry.name}</h3>
               <p className='text-text-secondary text-sm leading-relaxed'>{industry.description}</p>
             </div>
           ))}

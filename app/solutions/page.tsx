@@ -54,16 +54,16 @@ export default function SolutionsPage() {
 
       <section className='py-section-lg'>
         <Container>
-          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
+          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
             {solutions.map((solution) => (
               <Button
                 key={solution.name}
                 href={solution.href}
                 className='!p-0 !bg-transparent !text-text-primary hover:!bg-transparent group'
               >
-                <div className='w-full bg-white border border-border rounded-xl p-8 hover:shadow-deep transition-all text-left'>
+                <div className='w-full bg-white border border-border rounded-xl p-5 hover:shadow-deep transition-all text-left'>
                   <div className='text-4xl mb-4'>{solution.icon}</div>
-                  <h3 className='text-h4 font-bold mb-2 group-hover:text-primary transition-colors'>{solution.name}</h3>
+                  <h3 className='text-[15px] font-extrabold mb-2 group-hover:text-primary transition-colors'>{solution.name}</h3>
                   <p className='text-text-secondary text-sm'>{solution.description}</p>
                   <div className='text-primary font-bold text-sm mt-4'>Learn More →</div>
                 </div>

@@ -74,15 +74,15 @@ export default function WhyOPSSection() {
           </p>
         </div>
 
-        <div ref={containerRef} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+        <div ref={containerRef} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
           {features.map((feature, index) => (
             <div
               key={index}
               data-feature-block
-              className='bg-light-gray rounded-xl p-8 border border-border hover:shadow-medium transition-all duration-300'
+              className='bg-light-gray rounded-xl p-5 border border-border hover:shadow-medium transition-all duration-300'
             >
               <div className='mb-4'>{feature.icon}</div>
-              <h3 className='text-h4 font-bold text-text-primary mb-4'>{feature.title}</h3>
+              <h3 className='text-[15px] font-extrabold text-text-primary mb-4'>{feature.title}</h3>
               <p className='text-text-secondary text-sm leading-relaxed'>{feature.description}</p>
             </div>
           ))}
