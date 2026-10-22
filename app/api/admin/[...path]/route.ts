@@ -123,6 +123,19 @@ export async function POST(request: Request, { params }: Ctx) {
   const path = (await params).path.join('/');
 
   try {
+    if (path === 'shipments') {
+      const b = await request.json();
+      if (!b.customer_id || !b.tracking_number) {
+        return NextResponse.json({ error: 'Customer and tracking number are required' }, { status: 400 });
+      }
+      const r = await db.query(
+        `INSERT INTO shipments (tracking_number, customer_id, shipment_type, service_type, weight, dimensions, contents, status)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, tracking_number, status`,
+        [b.tracking_number, b.customer_id, b.shipment_type || null, b.service_type || null, b.weight || null, b.dimensions || null, b.contents || null, b.status || 'registered']
+      );
+      return NextResponse.json({ message: 'Shipment created', shipment: r.rows[0] }, { status: 201 });
+    }
+
     const evMatch = path.match(new RegExp('^shipments\\/([^/]+)\\/events$'));
     if (evMatch && /^\d+$/.test(evMatch[1])) {
       const { status, location, notes } = await request.json();

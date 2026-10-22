@@ -55,7 +55,10 @@ export default function ShipmentsPage() {
     <AdminLayout>
       <div className='space-y-6'>
         <div>
-          <h1 className='text-[36px] font-extrabold text-navy'>Shipments</h1>
+          <div className='flex items-center justify-between gap-4'>
+            <h1 className='text-[36px] font-extrabold text-navy'>Shipments</h1>
+            <Link href='/admin/shipments/new' className='h-[42px] px-5 inline-flex items-center rounded bg-primary text-white font-bold'>Add shipment</Link>
+          </div>
           <p className='text-text-primary'>Live shipments from the database.</p>
         </div>
 
