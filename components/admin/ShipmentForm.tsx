@@ -204,7 +204,7 @@ export default function ShipmentForm({
       )}
 
       <div className='flex gap-3'>
-        <button type='button' onClick={validate} className='h-[42px] px-6 rounded border border-primary text-primary font-bold'>
+        <button type='button' disabled={saving} onClick={() => { if (validate()) onSubmit(v); }} className='h-[42px] px-6 rounded border border-primary text-primary font-bold disabled:opacity-60'>
           Track
         </button>
         <button type='submit' disabled={saving} className='h-[42px] px-6 rounded bg-primary text-white font-bold disabled:opacity-60'>

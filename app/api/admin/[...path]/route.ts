@@ -150,7 +150,12 @@ export async function POST(request: Request, { params }: Ctx) {
         return NextResponse.json({ error: 'Customer, sender name and receiver name are required' }, { status: 400 });
       }
       const fields = pickShipmentFields(body);
-      const reference = newReferenceNumber();
+      let reference = newReferenceNumber();
+      for (let i = 0; i < 10; i++) {
+        const taken = await db.query('SELECT 1 FROM shipments WHERE reference_number = $1 OR tracking_number = $1', [reference]);
+        if (taken.rows.length === 0) break;
+        reference = newReferenceNumber();
+      }
       fields.reference_number = reference;
       fields.tracking_number = reference;
       fields.status = fields.status ?? 'registered';

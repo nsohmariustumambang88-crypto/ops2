@@ -20,8 +20,7 @@ export function pickShipmentFields(body: Record<string, unknown>) {
 }
 
 export function newReferenceNumber() {
-  const d = new Date();
-  const stamp = `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, '0')}${String(d.getUTCDate()).padStart(2, '0')}`;
-  const rand = Math.random().toString(36).slice(2, 7).toUpperCase();
-  return `OPS-${stamp}-${rand}`;
+  const a = String(Math.floor(Math.random() * 100000)).padStart(5, '0');
+  const b = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+  return `OPS${a}-${b}`;
 }
