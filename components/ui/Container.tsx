@@ -15,11 +15,11 @@ export default function Container({
     sm: 'max-w-2xl',
     md: 'max-w-4xl',
     lg: 'max-w-6xl',
-    xl: 'max-w-[1180px]',
+    xl: 'max-w-[1107px]',
   };
 
   return (
-    <div className={`mx-auto px-7 ${sizes[size]} ${className}`}>
+    <div className={`mx-auto px-5 md:px-0 ${sizes[size]} ${className}`}>
       {children}
     </div>
   );
