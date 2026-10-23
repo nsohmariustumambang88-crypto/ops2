@@ -7,13 +7,14 @@ import ShipmentForm, { type ShipmentValues } from '@/components/admin/ShipmentFo
 import ShipmentReceipt from '@/components/admin/ShipmentReceipt';
 
 type Customer = { id: number; business_name: string | null; email: string | null };
+type Receipt = { values: ShipmentValues; reference: string };
 
 export default function NewShipmentPage() {
   const router = useRouter();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
-  const [live, setLive] = useState<ShipmentValues>({});
+  const [receipt, setReceipt] = useState<Receipt | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken') ?? '';
@@ -44,23 +45,21 @@ export default function NewShipmentPage() {
       setError(j.error || 'Could not register the shipment.');
       return;
     }
-    router.push(`/admin/shipments/${j.shipment.id}`);
+    setReceipt({ values, reference: j.shipment.reference_number });
+    router.replace(`/admin/shipments/${j.shipment.id}`);
   };
 
   return (
     <AdminLayout>
-      <div className='space-y-6 max-w-[860px]'>
+      <div className='space-y-6'>
         <div>
           <h1 className='text-[36px] font-extrabold text-navy'>Register shipment</h1>
-          <p>Sender first, then receiver. A reference number is created when you save.</p>
+          <p>Sender first, then receiver. Press Track to validate and register. The receipt appears on the right.</p>
         </div>
 
         {error && <div role='alert' className='rounded-xl border border-red-300 bg-red-50 text-red-800 px-5 py-4'>{error}</div>}
 
-        <div className='grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 items-start'>
-          <aside className='lg:sticky lg:top-6'>
-            <ShipmentReceipt values={live} />
-          </aside>
+        <div className='grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6 items-start'>
           <ShipmentForm
             initial={{ transport_mode: 'air', status: 'registered', shipment_type: 'parcel', service_type: 'express', priority: 'standard' }}
             customers={customers}
@@ -68,8 +67,10 @@ export default function NewShipmentPage() {
             submitLabel='Register shipment'
             saving={saving}
             onSubmit={save}
-            onChange={setLive}
           />
+          <aside className='xl:sticky xl:top-6'>
+            {receipt && <ShipmentReceipt values={receipt.values} reference={receipt.reference} />}
+          </aside>
         </div>
       </div>
     </AdminLayout>

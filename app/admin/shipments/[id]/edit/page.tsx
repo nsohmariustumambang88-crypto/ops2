@@ -1,17 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ShipmentForm, { type ShipmentValues } from '@/components/admin/ShipmentForm';
+import ShipmentReceipt from '@/components/admin/ShipmentReceipt';
+
+type Receipt = { values: ShipmentValues; reference: string };
 
 export default function EditShipmentPage() {
   const { id } = useParams<{ id: string }>();
-  const router = useRouter();
   const [initial, setInitial] = useState<ShipmentValues | null>(null);
   const [reference, setReference] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const [saving, setSaving] = useState(false);
+  const [receipt, setReceipt] = useState<Receipt | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken') ?? '';
@@ -34,6 +38,7 @@ export default function EditShipmentPage() {
   const save = async (values: ShipmentValues) => {
     setSaving(true);
     setError('');
+    setMessage('');
     const token = localStorage.getItem('adminToken') ?? '';
     const body: Record<string, unknown> = { ...values };
     delete body.id;
@@ -53,28 +58,35 @@ export default function EditShipmentPage() {
       setError(j.error || 'Could not save changes.');
       return;
     }
-    router.push(`/admin/shipments/${id}`);
+    setMessage('Changes saved.');
+    setReceipt({ values, reference });
   };
 
   return (
     <AdminLayout>
-      <div className='space-y-6 max-w-[860px]'>
+      <div className='space-y-6'>
         <div>
           <h1 className='text-[36px] font-extrabold text-navy'>Edit shipment</h1>
-          <p>Every field can be changed, including dates, times and the route.</p>
+          <p>Every field can be changed, including dates, times and the route. Press Track to validate and save.</p>
         </div>
 
+        {message && <div role='status' className='rounded-xl border border-green-300 bg-green-50 text-green-800 px-5 py-4'>{message}</div>}
         {error && <div role='alert' className='rounded-xl border border-red-300 bg-red-50 text-red-800 px-5 py-4'>{error}</div>}
 
-        {initial && (
-          <ShipmentForm
-            initial={initial}
-            submitLabel='Save changes'
-            saving={saving}
-            onSubmit={save}
-            referenceNumber={reference}
-          />
-        )}
+        <div className='grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6 items-start'>
+          {initial && (
+            <ShipmentForm
+              initial={initial}
+              submitLabel='Save changes'
+              saving={saving}
+              onSubmit={save}
+              referenceNumber={reference}
+            />
+          )}
+          <aside className='xl:sticky xl:top-6'>
+            {receipt && <ShipmentReceipt values={receipt.values} reference={receipt.reference} />}
+          </aside>
+        </div>
       </div>
     </AdminLayout>
   );

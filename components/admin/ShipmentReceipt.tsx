@@ -81,6 +81,13 @@ export default function ShipmentReceipt({ values, reference }: { values: Shipmen
         <p className='text-[10px] text-text-secondary mt-3 leading-snug'>
           Keep this receipt. Track your shipment with the reference above.
         </p>
+        <button
+          type='button'
+          onClick={() => window.print()}
+          className='mt-4 w-full h-[40px] rounded border border-navy text-navy font-bold font-sans print:hidden'
+        >
+          Print receipt
+        </button>
       </div>
     </div>
   );

@@ -4,9 +4,12 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
+import type { ShipmentValues } from '@/components/admin/ShipmentForm';
+import ShipmentReceipt from '@/components/admin/ShipmentReceipt';
 
 type Event = { id: string; status: string; location: string | null; notes: string | null; timestamp: string };
-type Detail = { shipment: { id: string; tracking_number: string; status: string; weight: string | number | null; created_at: string }; events: Event[] };
+type Detail = { shipment: Record<string, unknown> & { id: string; tracking_number: string; status: string; created_at: string }; events: Event[] };
+type Receipt = { values: ShipmentValues; reference: string };
 
 const statuses = ['registered', 'picked_up', 'in_transit', 'held_at_customs', 'cleared_for_customs', 'out_for_delivery', 'delivered', 'exception'];
 
@@ -22,6 +25,7 @@ export default function ShipmentDetailPage() {
   const [saving, setSaving] = useState(false);
 
   const [trackMsg, setTrackMsg] = useState('');
+  const [receipt, setReceipt] = useState<Receipt | null>(null);
 
   const token = () => localStorage.getItem('adminToken') ?? '';
 
@@ -31,10 +35,18 @@ export default function ShipmentDetailPage() {
     setTrackMsg('Checking...');
     const res = await fetch(`/api/tracking/${encodeURIComponent(ref)}`);
     if (!res.ok) {
+      setReceipt(null);
       setTrackMsg(`Registration ${ref} was not found.`);
       return;
     }
     const j = await res.json();
+    const values: ShipmentValues = {};
+    Object.entries(detail.shipment).forEach(([k, v]) => {
+      values[k] = v === null || v === undefined ? '' : String(v);
+    });
+    if (detail.shipment.departure_at) values.departure_at = new Date(String(detail.shipment.departure_at)).toISOString();
+    if (detail.shipment.arrival_at) values.arrival_at = new Date(String(detail.shipment.arrival_at)).toISOString();
+    setReceipt({ values, reference: ref });
     setTrackMsg(`Registration ${ref} is valid. Current status: ${String(j.status).replace(/_/g, ' ')}.`);
   };
 
@@ -90,7 +102,8 @@ export default function ShipmentDetailPage() {
               {trackMsg && <p role='status' className='mt-2 text-primary font-bold'>{trackMsg}</p>}
             </div>
 
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+            <div className='grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6 items-start'>
+              <div className='space-y-6'>
               <section className='bg-white border border-border rounded-xl p-6'>
                 <h2 className='text-[28px] font-extrabold text-navy mb-4'>Timeline</h2>
                 {detail.events.length === 0 && <p>No updates yet.</p>}
@@ -135,6 +148,10 @@ export default function ShipmentDetailPage() {
                   </button>
                 </form>
               </section>
+              </div>
+              <aside className='xl:sticky xl:top-6'>
+                {receipt && <ShipmentReceipt values={receipt.values} reference={receipt.reference} />}
+              </aside>
             </div>
           </>
         )}
