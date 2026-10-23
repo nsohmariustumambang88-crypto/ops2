@@ -146,8 +146,8 @@ export async function POST(request: Request, { params }: Ctx) {
 
     if (path === 'shipments') {
       const body = await request.json();
-      if (!body.customer_id || !body.sender_name || !body.receiver_name) {
-        return NextResponse.json({ error: 'Customer, sender name and receiver name are required' }, { status: 400 });
+      if (!body.sender_name || !body.receiver_name) {
+        return NextResponse.json({ error: 'Sender name and receiver name are required' }, { status: 400 });
       }
       const fields = pickShipmentFields(body);
       let reference = newReferenceNumber();

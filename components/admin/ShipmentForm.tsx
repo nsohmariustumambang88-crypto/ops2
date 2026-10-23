@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
+import { COURIER_NAME } from '@/lib/shipments';
 
 export type ShipmentValues = Record<string, string>;
-
-type Customer = { id: number; business_name: string | null; email: string | null };
 
 const statuses = ['registered', 'picked_up', 'in_transit', 'held_at_customs', 'cleared_for_customs', 'out_for_delivery', 'delivered', 'exception'];
 
@@ -20,50 +19,51 @@ function toLocal(value: string) {
 
 export default function ShipmentForm({
   initial,
-  customers,
-  showCustomer,
   submitLabel,
   saving,
   onSubmit,
   referenceNumber,
-  onChange,
 }: {
   initial: ShipmentValues;
-  customers?: Customer[];
-  showCustomer?: boolean;
   submitLabel: string;
   saving: boolean;
   onSubmit: (values: ShipmentValues) => void;
   referenceNumber?: string;
-  onChange?: (values: ShipmentValues) => void;
 }) {
   const [v, setV] = useState<ShipmentValues>({
     ...initial,
+    carrier: COURIER_NAME,
+    pickup_at: toLocal(initial.pickup_at ?? ''),
     departure_at: toLocal(initial.departure_at ?? ''),
     arrival_at: toLocal(initial.arrival_at ?? ''),
   });
 
-  useEffect(() => {
-    onChange?.(v);
-  }, [v, onChange]);
   const set = (key: string) => (e: { target: { value: string } }) => setV({ ...v, [key]: e.target.value });
 
   const [problems, setProblems] = useState<string[]>([]);
   const [checked, setChecked] = useState(false);
+  const isPet = v.shipment_type === 'pet';
 
   const validate = () => {
     const issues: string[] = [];
-    if (showCustomer && !v.customer_id) issues.push('Select a customer account.');
     if (!v.sender_name?.trim()) issues.push('Sender name is required.');
     if (!v.receiver_name?.trim()) issues.push('Receiver name is required.');
     if (!v.transport_mode) issues.push('Choose how the shipment is transported (land, air or sea).');
     if (!v.route_origin?.trim()) issues.push('Route origin is required.');
     if (!v.route_destination?.trim()) issues.push('Route destination is required.');
+    if (v.pickup_at && v.departure_at && new Date(v.departure_at) < new Date(v.pickup_at)) {
+      issues.push('Departure must be after pickup.');
+    }
     if (v.departure_at && v.arrival_at && new Date(v.arrival_at) < new Date(v.departure_at)) {
       issues.push('Arrival must be after departure.');
     }
     if (v.sender_email && !v.sender_email.includes('@')) issues.push('Sender email looks invalid.');
     if (v.receiver_email && !v.receiver_email.includes('@')) issues.push('Receiver email looks invalid.');
+    if (isPet) {
+      if (!v.pet_name?.trim()) issues.push('Pet name is required.');
+      if (!v.pet_species) issues.push('Choose the pet species.');
+      if (!v.pet_weight) issues.push('Pet weight is required.');
+    }
     setProblems(issues);
     setChecked(true);
     return issues.length === 0;
@@ -72,13 +72,22 @@ export default function ShipmentForm({
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    onSubmit(v);
+    onSubmit({ ...v, carrier: COURIER_NAME });
   };
 
   const field = (key: string, label: string, type = 'text', required = false) => (
     <label key={key}>
       <span className='text-[14px] font-bold'>{label}</span>
       <input type={type} required={required} value={v[key] ?? ''} onChange={set(key)} className={input} />
+    </label>
+  );
+
+  const select = (key: string, label: string, options: [string, string][], fallback: string) => (
+    <label key={key}>
+      <span className='text-[14px] font-bold'>{label}</span>
+      <select value={v[key] || fallback} onChange={set(key)} className={input}>
+        {options.map(([value, text]) => <option key={value} value={value}>{text}</option>)}
+      </select>
     </label>
   );
 
@@ -94,17 +103,6 @@ export default function ShipmentForm({
       <section className='bg-white border border-border rounded-xl p-6'>
         <h2 className='text-[24px] font-extrabold text-navy mb-4'>Sender</h2>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          {showCustomer && (
-            <label className='md:col-span-2'>
-              <span className='text-[14px] font-bold'>Customer account</span>
-              <select required value={v.customer_id ?? ''} onChange={set('customer_id')} className={input}>
-                <option value=''>Select a customer</option>
-                {(customers ?? []).map((c) => (
-                  <option key={c.id} value={c.id}>{c.business_name || c.email || `Customer ${c.id}`}</option>
-                ))}
-              </select>
-            </label>
-          )}
           {field('sender_name', 'Full name or company', 'text', true)}
           {field('sender_email', 'Email', 'email')}
           {field('sender_phone', 'Phone')}
@@ -139,10 +137,17 @@ export default function ShipmentForm({
               <option value='sea'>Sea (water)</option>
             </select>
           </label>
-          {field('carrier', 'Carrier or vessel name')}
+          <label>
+            <span className='text-[14px] font-bold'>Courier</span>
+            <input value={COURIER_NAME} readOnly className={`${input} bg-light-blue text-navy font-bold`} />
+          </label>
           {field('flight_number', 'Flight, vessel or truck number')}
           {field('route_origin', 'Route origin (airport, port or city)')}
           {field('route_destination', 'Route destination (airport, port or city)')}
+          <label>
+            <span className='text-[14px] font-bold'>Pickup date and time</span>
+            <input type='datetime-local' value={v.pickup_at ?? ''} onChange={set('pickup_at')} className={input} />
+          </label>
           <label>
             <span className='text-[14px] font-bold'>Departure date and time</span>
             <input type='datetime-local' value={v.departure_at ?? ''} onChange={set('departure_at')} className={input} />
@@ -163,31 +168,23 @@ export default function ShipmentForm({
               {statuses.map((s) => <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>)}
             </select>
           </label>
-          <label>
-            <span className='text-[14px] font-bold'>Type</span>
-            <select value={v.shipment_type ?? 'parcel'} onChange={set('shipment_type')} className={input}>
-              <option value='parcel'>Parcel</option>
-              <option value='document'>Document</option>
-              <option value='pallet'>Pallet</option>
-              <option value='container'>Container</option>
-            </select>
-          </label>
-          <label>
-            <span className='text-[14px] font-bold'>Service</span>
-            <select value={v.service_type ?? 'express'} onChange={set('service_type')} className={input}>
-              <option value='express'>Express</option>
-              <option value='standard'>Standard</option>
-              <option value='economy'>Economy</option>
-              <option value='freight'>Freight</option>
-            </select>
-          </label>
-          <label>
-            <span className='text-[14px] font-bold'>Priority</span>
-            <select value={v.priority ?? 'standard'} onChange={set('priority')} className={input}>
-              <option value='standard'>Standard</option>
-              <option value='urgent'>Urgent</option>
-            </select>
-          </label>
+          {select('shipment_type', 'Type', [
+            ['parcel', 'Parcel'],
+            ['document', 'Document'],
+            ['pallet', 'Pallet'],
+            ['container', 'Container'],
+            ['pet', 'Pet'],
+          ], 'parcel')}
+          {select('service_type', 'Service', [
+            ['express', 'Express'],
+            ['standard', 'Standard'],
+            ['economy', 'Economy'],
+            ['freight', 'Freight'],
+          ], 'express')}
+          {select('priority', 'Priority', [
+            ['standard', 'Standard'],
+            ['urgent', 'Urgent'],
+          ], 'standard')}
           {field('weight', 'Weight (kg)', 'number')}
           {field('dimensions', 'Dimensions (L x W x H cm)')}
           <label className='md:col-span-2'>
@@ -195,6 +192,70 @@ export default function ShipmentForm({
             <textarea rows={3} value={v.contents ?? ''} onChange={set('contents')} className='mt-1 w-full px-3 py-2 border border-border rounded' />
           </label>
         </div>
+
+        {isPet && (
+          <div className='mt-6 pt-6 border-t border-border'>
+            <h3 className='text-[20px] font-extrabold text-navy mb-1'>Pet details</h3>
+            <p className='text-[14px] text-text-secondary mb-4'>
+              Live animal shipments follow IATA live animal rules. Sedation is not recommended for air travel.
+            </p>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              {field('pet_name', 'Pet name', 'text', true)}
+              {select('pet_species', 'Species', [
+                ['', 'Select a species'],
+                ['dog', 'Dog'],
+                ['cat', 'Cat'],
+                ['bird', 'Bird'],
+                ['reptile', 'Reptile'],
+                ['other', 'Other'],
+              ], '')}
+              {field('pet_breed', 'Breed')}
+              {select('pet_sex', 'Sex', [
+                ['unknown', 'Unknown'],
+                ['male', 'Male'],
+                ['female', 'Female'],
+              ], 'unknown')}
+              {field('pet_date_of_birth', 'Date of birth', 'date')}
+              {field('pet_weight', 'Weight (kg)', 'number', true)}
+              {field('pet_microchip', 'Microchip number')}
+              {select('pet_travel_purpose', 'Purpose of travel', [
+                ['relocation', 'Relocation'],
+                ['adoption', 'Adoption'],
+                ['show_or_breeding', 'Show or breeding'],
+                ['medical', 'Medical or veterinary'],
+                ['other', 'Other'],
+              ], 'relocation')}
+              {select('pet_cabin_or_cargo', 'Travel in', [
+                ['cargo', 'Cargo (hold)'],
+                ['cabin', 'Cabin (small pets only)'],
+              ], 'cargo')}
+              {select('pet_crate_type', 'Crate', [
+                ['hard_crate', 'Hard-sided IATA crate'],
+                ['soft_carrier', 'Soft carrier (cabin only)'],
+                ['supplied_by_ops', 'Supplied by OPS Logistics'],
+              ], 'hard_crate')}
+              {field('pet_crate_size', 'Crate size (L x W x H cm)')}
+              {select('pet_health_certificate', 'Health certificate', [
+                ['no', 'Not yet'],
+                ['yes', 'Yes'],
+              ], 'no')}
+              {field('pet_rabies_vaccination_date', 'Rabies vaccination date', 'date')}
+              {field('pet_import_permit', 'Import or export permit number')}
+              {field('pet_vet_name', 'Veterinarian name')}
+              {field('pet_vet_phone', 'Veterinarian phone')}
+              <label className='md:col-span-2'>
+                <span className='text-[14px] font-bold'>Handling and care notes</span>
+                <textarea
+                  rows={3}
+                  value={v.pet_handling_notes ?? ''}
+                  onChange={set('pet_handling_notes')}
+                  placeholder='Feeding, medication, temperament, pickup access instructions'
+                  className='mt-1 w-full px-3 py-2 border border-border rounded'
+                />
+              </label>
+            </div>
+          </div>
+        )}
       </section>
 
       {checked && problems.length > 0 && (
@@ -209,8 +270,13 @@ export default function ShipmentForm({
         <div role='status' className='rounded-xl border border-green-300 bg-green-50 text-green-800 px-5 py-4'>All required details are valid.</div>
       )}
 
-      <div className='flex gap-3'>
-        <button type='button' disabled={saving} onClick={() => { if (validate()) onSubmit(v); }} className='h-[42px] px-6 rounded border border-primary text-primary font-bold disabled:opacity-60'>
+      <div className='flex justify-end items-center gap-3'>
+        <button
+          type='button'
+          disabled={saving}
+          onClick={() => { if (validate()) onSubmit({ ...v, carrier: COURIER_NAME }); }}
+          className='h-[42px] px-6 rounded border border-primary bg-white text-primary font-bold disabled:opacity-60 shadow-[0_0_0_4px_rgba(17,115,212,0.2),0_0_22px_rgba(17,115,212,0.75)] animate-pulse'
+        >
           Track
         </button>
         <button type='submit' disabled={saving} className='h-[42px] px-6 rounded bg-primary text-white font-bold disabled:opacity-60'>

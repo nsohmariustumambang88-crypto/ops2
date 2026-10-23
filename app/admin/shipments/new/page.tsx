@@ -1,28 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ShipmentForm, { type ShipmentValues } from '@/components/admin/ShipmentForm';
 import ShipmentReceipt from '@/components/admin/ShipmentReceipt';
 
-type Customer = { id: number; business_name: string | null; email: string | null };
 type Receipt = { values: ShipmentValues; reference: string };
 
 export default function NewShipmentPage() {
   const router = useRouter();
-  const [customers, setCustomers] = useState<Customer[]>([]);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
   const [receipt, setReceipt] = useState<Receipt | null>(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem('adminToken') ?? '';
-    fetch('/api/admin/customers?limit=200', { headers: { Authorization: `Bearer ${token}` } })
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('load'))))
-      .then((j) => setCustomers(j.data ?? []))
-      .catch(() => setError('Could not load customers.'));
-  }, []);
 
   const save = async (values: ShipmentValues) => {
     setSaving(true);
@@ -30,7 +20,7 @@ export default function NewShipmentPage() {
     const token = localStorage.getItem('adminToken') ?? '';
     const body = {
       ...values,
-      customer_id: Number(values.customer_id),
+      pickup_at: values.pickup_at ? new Date(values.pickup_at).toISOString() : null,
       departure_at: values.departure_at ? new Date(values.departure_at).toISOString() : null,
       arrival_at: values.arrival_at ? new Date(values.arrival_at).toISOString() : null,
     };
@@ -62,8 +52,6 @@ export default function NewShipmentPage() {
         <div className='grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6 items-start'>
           <ShipmentForm
             initial={{ transport_mode: 'air', status: 'registered', shipment_type: 'parcel', service_type: 'express', priority: 'standard' }}
-            customers={customers}
-            showCustomer
             submitLabel='Register shipment'
             saving={saving}
             onSubmit={save}

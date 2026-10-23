@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ShipmentForm, { type ShipmentValues } from '@/components/admin/ShipmentForm';
 import ShipmentReceipt from '@/components/admin/ShipmentReceipt';
+import { toFormValues } from '@/lib/shipments';
 
 type Receipt = { values: ShipmentValues; reference: string };
 
@@ -23,14 +24,8 @@ export default function EditShipmentPage() {
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error('load'))))
       .then((j: { shipment: Record<string, unknown> }) => {
         const s = j.shipment;
-        const values: ShipmentValues = {};
-        Object.entries(s).forEach(([k, v]) => {
-          values[k] = v === null || v === undefined ? '' : String(v);
-        });
-        if (s.departure_at) values.departure_at = new Date(String(s.departure_at)).toISOString();
-        if (s.arrival_at) values.arrival_at = new Date(String(s.arrival_at)).toISOString();
         setReference(String(s.reference_number || s.tracking_number || ''));
-        setInitial(values);
+        setInitial(toFormValues(s));
       })
       .catch(() => setError('Could not load this shipment.'));
   }, [id]);
@@ -45,6 +40,7 @@ export default function EditShipmentPage() {
     delete body.reference_number;
     delete body.created_at;
     delete body.updated_at;
+    body.pickup_at = values.pickup_at ? new Date(values.pickup_at).toISOString() : null;
     body.departure_at = values.departure_at ? new Date(values.departure_at).toISOString() : null;
     body.arrival_at = values.arrival_at ? new Date(values.arrival_at).toISOString() : null;
     const res = await fetch(`/api/admin/shipments/${id}`, {

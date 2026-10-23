@@ -35,7 +35,9 @@ export default function ShipmentReceipt({ values, reference }: { values: Shipmen
       <div className='px-5 py-4 border-b border-dashed border-border'>
         {row('Reference', reference || '—')}
         {row('Issued', new Date().toLocaleString())}
+        {row('Pickup', fmt(values.pickup_at))}
         {row('Transport', modeLabel[val(values, 'transport_mode')] ?? '—')}
+        {row('Courier', val(values, 'carrier'))}
         {row('Service', val(values, 'service_type').toUpperCase())}
         {row('Status', val(values, 'status').replace(/_/g, ' ').toUpperCase())}
       </div>
@@ -74,6 +76,21 @@ export default function ShipmentReceipt({ values, reference }: { values: Shipmen
         {row('Priority', val(values, 'priority'))}
         {row('Contents', val(values, 'contents'))}
       </div>
+
+      {val(values, 'shipment_type') === 'pet' && (
+        <div className='px-5 py-4 border-b border-dashed border-border'>
+          <p className='text-[11px] font-bold tracking-wider text-primary mb-1'>PET</p>
+          {row('Name', val(values, 'pet_name'))}
+          {row('Species', val(values, 'pet_species'))}
+          {row('Breed', val(values, 'pet_breed'))}
+          {row('Sex', val(values, 'pet_sex'))}
+          {row('Weight', values.pet_weight ? `${values.pet_weight} kg` : '—')}
+          {row('Microchip', val(values, 'pet_microchip'))}
+          {row('Travel in', val(values, 'pet_cabin_or_cargo'))}
+          {row('Crate', val(values, 'pet_crate_type'))}
+          {row('Health certificate', val(values, 'pet_health_certificate'))}
+        </div>
+      )}
 
       <div className='px-5 py-5'>
         <div className='h-10 border-b border-navy' />
