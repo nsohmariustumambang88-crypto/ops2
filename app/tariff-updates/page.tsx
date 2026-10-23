@@ -1,6 +1,7 @@
 'use client';
 
 import Container from '@/components/ui/Container';
+import ContentList from '@/components/sections/ContentList';
 
 export default function TariffUpdatesPage() {
   const updates = [
@@ -72,6 +73,7 @@ export default function TariffUpdatesPage() {
           </div>
         </Container>
       </section>
+      <ContentList kind='tariff_update' heading='Latest tariff updates' />
     </div>
   );
 }

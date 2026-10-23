@@ -1,6 +1,7 @@
 'use client';
 
 import Container from '@/components/ui/Container';
+import ContentList from '@/components/sections/ContentList';
 import Button from '@/components/ui/Button';
 
 export default function CaseStudiesPage() {
@@ -153,6 +154,7 @@ export default function CaseStudiesPage() {
           </div>
         </Container>
       </section>
+      <ContentList kind='case_study' heading='More case studies' />
     </div>
   );
 }

@@ -34,7 +34,7 @@ export default function ShipmentDetailPage() {
     if (!detail) return;
     const ref = detail.shipment.tracking_number;
     setTrackMsg('Checking...');
-    const res = await fetch(`/api/tracking/${encodeURIComponent(ref)}`);
+    const res = await fetch(`/api/shipments/track/${encodeURIComponent(ref)}`);
     if (!res.ok) {
       setReceipt(null);
       setTrackMsg(`Registration ${ref} was not found.`);
@@ -42,7 +42,7 @@ export default function ShipmentDetailPage() {
     }
     const j = await res.json();
     setReceipt({ values: toFormValues(detail.shipment), reference: ref });
-    setTrackMsg(`Registration ${ref} is valid. Current status: ${String(j.status).replace(/_/g, ' ')}.`);
+    setTrackMsg(`Registration ${ref} is valid. Current status: ${String(j.shipment.status).replace(/_/g, ' ')}.`);
   };
 
   const load = async () => {

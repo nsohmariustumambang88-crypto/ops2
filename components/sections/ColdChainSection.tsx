@@ -49,7 +49,7 @@ export default function ColdChainSection() {
           <div ref={imageRef} className='order-2 lg:order-1'>
             <div className='relative h-80 md:h-96 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg overflow-hidden'>
               <img
-                src='/images/cold-chain/placeholder-cold-chain.webp'
+                src='/images/cold-chain/The chain breaks at the joins.webp'
                 alt='Cold Chain Logistics'
                 className='w-full h-full object-cover'
                 onError={(e) => {

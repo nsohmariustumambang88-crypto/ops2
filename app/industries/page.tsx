@@ -1,6 +1,7 @@
 'use client';
 
 import Container from '@/components/ui/Container';
+import ContentList from '@/components/sections/ContentList';
 import Button from '@/components/ui/Button';
 
 const industries = [
@@ -66,6 +67,7 @@ export default function IndustriesPage() {
           </div>
         </Container>
       </section>
+      <ContentList kind='industry' heading='Industries we add' />
     </div>
   );
 }

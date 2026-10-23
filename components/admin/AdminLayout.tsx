@@ -19,7 +19,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const menuItems = [
     { label: 'Dashboard', icon: '📊', href: '/admin/dashboard' },
-    { label: 'Shipments', icon: '📦', href: '/admin/shipments', badge: 12 },
+    { label: 'Shipments', icon: '📦', href: '/admin/shipments' },
     { label: 'Blog Posts', icon: '📝', href: '/admin/blogs' },
     { label: 'Case Studies', icon: '🏆', href: '/admin/case-studies' },
     { label: 'Industries', icon: '🏢', href: '/admin/industries' },
@@ -71,11 +71,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               {sidebarOpen && (
                 <>
                   <span className='text-sm font-medium flex-1'>{item.label}</span>
-                  {item.badge && (
-                    <span className='bg-red-500 text-white text-xs px-2 py-1 rounded-full'>
-                      {item.badge}
-                    </span>
-                  )}
                 </>
               )}
             </Link>

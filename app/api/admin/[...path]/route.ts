@@ -3,6 +3,9 @@ import bcrypt from 'bcryptjs';
 import { db } from '@/lib/db';
 import { requireUser } from '@/lib/auth';
 import { pickShipmentFields, newReferenceNumber } from '@/lib/shipments';
+import { isContentKind, pickContentFields } from '@/lib/content';
+
+const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
 
 type Ctx = { params: Promise<{ path: string[] }> };
 
@@ -115,6 +118,21 @@ export async function GET(request: Request, { params }: Ctx) {
       return NextResponse.json(r.rows);
     }
 
+    const contentList = path.match(new RegExp('^content\\/([^/]+)$'));
+    if (contentList) {
+      if (!isContentKind(contentList[1])) return NextResponse.json({ error: 'Unknown content type' }, { status: 404 });
+      const r = await db.query('SELECT * FROM site_content WHERE kind = $1 ORDER BY sort_order, id DESC', [contentList[1]]);
+      return NextResponse.json({ data: r.rows });
+    }
+
+    if (path === 'contact-submissions') {
+      const status = url.searchParams.get('status');
+      return listQuery(
+        'SELECT id, kind, name, email, phone, company, message, payload, status, created_at FROM contact_submissions',
+        status ? 'status = $1' : null, status ? [status] : [], 'created_at DESC', url
+      );
+    }
+
     if (path === 'users') {
       const r = await db.query(
         'SELECT id, email, first_name, last_name, role, status, created_at FROM users ORDER BY created_at DESC'
@@ -176,6 +194,19 @@ export async function POST(request: Request, { params }: Ctx) {
       return NextResponse.json({ message: 'Event added', event: r.rows[0] }, { status: 201 });
     }
 
+    const contentCreate = path.match(new RegExp('^content\\/([^/]+)$'));
+    if (contentCreate) {
+      if (!isContentKind(contentCreate[1])) return NextResponse.json({ error: 'Unknown content type' }, { status: 404 });
+      const fields = pickContentFields(await request.json());
+      if (!fields.title) return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+      const r = await db.query(
+        `INSERT INTO site_content (kind, title, summary, body, image_url, link_url, published, sort_order)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+        [contentCreate[1], fields.title, fields.summary, fields.body, fields.image_url, fields.link_url, fields.published, fields.sort_order]
+      );
+      return NextResponse.json({ message: 'Saved', item: r.rows[0] }, { status: 201 });
+    }
+
     if (path === 'users') {
       const { email, password, first_name, last_name, role } = await request.json();
       const passwordHash = await bcrypt.hash(password, 10);
@@ -223,6 +254,29 @@ export async function PUT(request: Request, { params }: Ctx) {
       return NextResponse.json({ message: 'Setting saved', setting: r.rows[0] });
     }
 
+    const contentItem = path.match(new RegExp('^content\\/item\\/([0-9]+)$'));
+    if (contentItem) {
+      const fields = pickContentFields(await request.json());
+      if (!fields.title) return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+      const r = await db.query(
+        `UPDATE site_content SET title = $1, summary = $2, body = $3, image_url = $4, link_url = $5,
+                published = $6, sort_order = $7, updated_at = now()
+         WHERE id = $8 RETURNING *`,
+        [fields.title, fields.summary, fields.body, fields.image_url, fields.link_url, fields.published, fields.sort_order, contentItem[1]]
+      );
+      if (r.rows.length === 0) return NextResponse.json({ error: 'Item not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Saved', item: r.rows[0] });
+    }
+
+    const enquiryUpdate = path.match(new RegExp('^contact-submissions\\/([0-9]+)$'));
+    if (enquiryUpdate) {
+      const { status } = await request.json();
+      if (!ENQUIRY_STATUSES.includes(status)) return NextResponse.json({ error: 'Unknown status' }, { status: 400 });
+      const r = await db.query('UPDATE contact_submissions SET status = $1 WHERE id = $2 RETURNING id, status', [status, enquiryUpdate[1]]);
+      if (r.rows.length === 0) return NextResponse.json({ error: 'Submission not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Status saved', submission: r.rows[0] });
+    }
+
     const tierMatch = path.match(/^customers\/([^/]+)\/tier$/);
     if (tierMatch) {
       const { volume_tier } = await request.json();
@@ -245,6 +299,20 @@ export async function DELETE(request: Request, { params }: Ctx) {
   const path = (await params).path.join('/');
 
   try {
+    const contentDelete = path.match(new RegExp('^content\\/item\\/([0-9]+)$'));
+    if (contentDelete) {
+      const r = await db.query('DELETE FROM site_content WHERE id = $1 RETURNING id', [contentDelete[1]]);
+      if (r.rows.length === 0) return NextResponse.json({ error: 'Item not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Item deleted' });
+    }
+
+    const enquiryDelete = path.match(new RegExp('^contact-submissions\\/([0-9]+)$'));
+    if (enquiryDelete) {
+      const r = await db.query('DELETE FROM contact_submissions WHERE id = $1 RETURNING id', [enquiryDelete[1]]);
+      if (r.rows.length === 0) return NextResponse.json({ error: 'Submission not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Submission deleted' });
+    }
+
     const m = path.match(new RegExp('^subscribers\/([0-9]+)$'));
     if (m) {
       const r = await db.query('DELETE FROM subscribers WHERE id = $1 RETURNING id', [m[1]]);

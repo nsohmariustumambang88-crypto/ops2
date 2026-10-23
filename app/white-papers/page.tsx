@@ -1,6 +1,7 @@
 'use client';
 
 import Container from '@/components/ui/Container';
+import ContentList from '@/components/sections/ContentList';
 import Button from '@/components/ui/Button';
 
 export default function WhitePapersPage() {
@@ -9,7 +10,7 @@ export default function WhitePapersPage() {
       id: 1,
       title: 'Global Supply Chain Optimization: Best Practices for 2025',
       description: 'Comprehensive guide to optimizing your supply chain operations with actionable strategies for cost reduction and efficiency.',
-      image: '/images/white-papers/Longer than a blog post, because the answer is..webp',
+      image: '/images/white-papers/Longer than a blog post because the answer is..webp',
       downloadUrl: '#',
       readTime: '15 min read',
     },
@@ -17,7 +18,7 @@ export default function WhitePapersPage() {
       id: 2,
       title: 'Cold Chain Logistics: Maintaining Quality in Healthcare Distribution',
       description: 'Explore the complexities of temperature-controlled logistics and how to ensure compliance across global shipments.',
-      image: '/images/cold-chain/If it was not recorded, it did not stay cold.webp',
+      image: '/images/cold-chain/If it was not recorded it did not stay cold.webp',
       downloadUrl: '#',
       readTime: '12 min read',
     },
@@ -102,6 +103,7 @@ export default function WhitePapersPage() {
           </div>
         </Container>
       </section>
+      <ContentList kind='white_paper' heading='New white papers' />
     </div>
   );
 }

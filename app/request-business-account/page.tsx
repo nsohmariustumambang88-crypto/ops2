@@ -1,10 +1,39 @@
 "use client";
 
+import { useState, type FormEvent } from "react";
 import Container from "@/components/ui/Container";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 export default function RequestBusinessAccountPage() {
+  const [frequency, setFrequency] = useState("Weekly");
+  const [status, setStatus] = useState<{ type: "sending" | "sent" | "error"; text: string } | null>(null);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string, string>;
+    setStatus({ type: "sending", text: "Sending..." });
+    const res = await fetch("/api/enquiries", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        kind: "business_account",
+        name: data.name,
+        company: data.company,
+        email: data.email,
+        phone: data.phone,
+        message: data.lanes,
+        payload: { ...data, frequency },
+      }),
+    });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setStatus({ type: "error", text: j.error || "Your application could not be sent. Please try again." });
+      return;
+    }
+    setStatus({ type: "sent", text: j.message });
+  };
+
   return (
     <>
       <div className="bg-white">
@@ -108,14 +137,14 @@ export default function RequestBusinessAccountPage() {
 
               {/* Form Card */}
               <div className="border-t-4 border-primary rounded-lg bg-white p-8 md:p-10" style={{ borderTopColor: "#1173D4" }}>
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   {/* Row 1: Company & Website */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-navy mb-2" style={{ color: "#0B2C5F" }}>
                         Company <span style={{ color: "#DC2626" }}>*</span>
                       </label>
-                      <input
+                      <input name="company" required
                         type="text"
                         placeholder=""
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -126,7 +155,7 @@ export default function RequestBusinessAccountPage() {
                       <label className="block text-sm font-semibold text-navy mb-2" style={{ color: "#0B2C5F" }}>
                         Website <span style={{ fontSize: "0.75rem", color: "#667085" }}>OPTIONAL</span>
                       </label>
-                      <input
+                      <input name="website"
                         type="text"
                         placeholder="Helps us understand what you ship"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
@@ -141,7 +170,7 @@ export default function RequestBusinessAccountPage() {
                       <label className="block text-sm font-semibold text-navy mb-2" style={{ color: "#0B2C5F" }}>
                         Your name <span style={{ color: "#DC2626" }}>*</span>
                       </label>
-                      <input
+                      <input name="name" required
                         type="text"
                         placeholder=""
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -152,7 +181,7 @@ export default function RequestBusinessAccountPage() {
                       <label className="block text-sm font-semibold text-navy mb-2" style={{ color: "#0B2C5F" }}>
                         Work email <span style={{ color: "#DC2626" }}>*</span>
                       </label>
-                      <input
+                      <input name="email" required
                         type="email"
                         placeholder=""
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -167,7 +196,7 @@ export default function RequestBusinessAccountPage() {
                       <label className="block text-sm font-semibold text-navy mb-2" style={{ color: "#0B2C5F" }}>
                         Phone <span style={{ fontSize: "0.75rem", color: "#667085" }}>OPTIONAL</span>
                       </label>
-                      <input
+                      <input name="phone"
                         type="tel"
                         placeholder=""
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -178,7 +207,7 @@ export default function RequestBusinessAccountPage() {
                       <label className="block text-sm font-semibold text-navy mb-2" style={{ color: "#0B2C5F" }}>
                         Who ships for you now <span style={{ fontSize: "0.75rem", color: "#667085" }}>OPTIONAL</span>
                       </label>
-                      <input
+                      <input name="whoShipsNow"
                         type="text"
                         placeholder="Carrier, forwarder, or 'nobody yet'"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
@@ -192,7 +221,7 @@ export default function RequestBusinessAccountPage() {
                     <label className="block text-sm font-semibold text-navy mb-2" style={{ color: "#0B2C5F" }}>
                       What you ship <span style={{ color: "#DC2626" }}>*</span>
                     </label>
-                    <input
+                    <input name="whatYouShip" required
                       type="text"
                       placeholder="e.g. packaged electronics, apparel, machine parts"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
@@ -205,7 +234,7 @@ export default function RequestBusinessAccountPage() {
                     <label className="block text-sm font-semibold text-navy mb-2" style={{ color: "#0B2C5F" }}>
                       Your main lanes <span style={{ color: "#DC2626" }}>*</span>
                     </label>
-                    <textarea
+                    <textarea name="lanes" required
                       placeholder="Roughly where from and where to. One per line is fine – exact volumes not needed here."
                       rows={4}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm resize-none"
@@ -223,19 +252,20 @@ export default function RequestBusinessAccountPage() {
                         <button
                           key={option}
                           type="button"
+                          onClick={() => setFrequency(option)}
                           className="px-6 py-2 rounded-lg font-medium text-sm transition-all border"
                           style={{
-                            backgroundColor: option === "Weekly" ? "#1173D4" : "transparent",
-                            color: option === "Weekly" ? "white" : "#1A1A1A",
-                            borderColor: option === "Weekly" ? "#1173D4" : "#D5DFEC",
+                            backgroundColor: frequency === option ? "#1173D4" : "transparent",
+                            color: frequency === option ? "white" : "#1A1A1A",
+                            borderColor: frequency === option ? "#1173D4" : "#D5DFEC",
                           }}
                           onMouseEnter={(e) => {
-                            if (option !== "Weekly") {
+                            if (frequency !== option) {
                               e.currentTarget.style.backgroundColor = "rgba(17, 115, 212, 0.1)";
                             }
                           }}
                           onMouseLeave={(e) => {
-                            if (option !== "Weekly") {
+                            if (frequency !== option) {
                               e.currentTarget.style.backgroundColor = "transparent";
                             }
                           }}
@@ -264,13 +294,19 @@ export default function RequestBusinessAccountPage() {
                     <label className="block text-sm font-semibold text-navy mb-2" style={{ color: "#0B2C5F" }}>
                       Anything else we should know <span style={{ fontSize: "0.75rem", color: "#667085" }}>OPTIONAL</span>
                     </label>
-                    <textarea
+                    <textarea name="anythingElse"
                       placeholder="Deadlines, problems with your current setup, seasonal peaks, anything that keeps going wrong"
                       rows={4}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm resize-none"
                       style={{ borderColor: "#D5DFEC", color: "#1A1A1A" }}
                     />
                   </div>
+
+                  {status && (
+                    <p role="status" className={status.type === "error" ? "text-red-700 font-bold" : "text-primary font-bold"}>
+                      {status.text}
+                    </p>
+                  )}
 
                   {/* Submit Button */}
                   <button

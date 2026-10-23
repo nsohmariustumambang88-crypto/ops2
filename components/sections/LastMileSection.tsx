@@ -82,7 +82,7 @@ export default function LastMileSection() {
           <div ref={imageRef} className='order-2'>
             <div className='relative h-80 md:h-96 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg overflow-hidden'>
               <img
-                src='/images/lastmile/placeholder-lastmile.webp'
+                src='/images/lastmile/The van is already there.webp'
                 alt='Last Mile Delivery'
                 className='w-full h-full object-cover'
                 onError={(e) => {

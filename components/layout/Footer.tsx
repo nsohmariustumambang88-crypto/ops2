@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import Container from '@/components/ui/Container';
 
 const OPSLogo = () => (
@@ -67,12 +68,13 @@ export default function Footer() {
             <h3 className='text-lg md:text-xl font-bold' style={{ fontFamily: 'Poppins, sans-serif', color: '#0B2C5F' }}>
               Need help with your shipment? Our team is available 24/7.
             </h3>
-            <button
+            <Link
+              href='/track'
               className='px-6 md:px-8 py-3 font-bold text-white rounded-lg w-fit text-sm md:text-base transition-all hover:opacity-90 shrink-0'
               style={{ backgroundColor: '#0B2C5F' }}
             >
               Track your shipment →
-            </button>
+            </Link>
           </div>
         </Container>
       </section>

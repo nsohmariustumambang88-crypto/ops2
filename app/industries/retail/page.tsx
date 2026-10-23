@@ -30,7 +30,7 @@ export default function RetailPage() {
             </div>
             <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
-                src='/images/retail/Fashion returns are not an exception, they are the model.webp'
+                src='/images/retail/Fashion returns are not an exception they are the model.webp'
                 alt='Retail logistics'
                 className='w-full h-full object-cover'
                 onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}

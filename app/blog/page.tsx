@@ -1,6 +1,7 @@
 'use client';
 
 import Container from '@/components/ui/Container';
+import ContentList from '@/components/sections/ContentList';
 import Button from '@/components/ui/Button';
 
 export default function BlogPage() {
@@ -32,7 +33,7 @@ export default function BlogPage() {
       category: 'E-Commerce',
       date: 'September 28, 2025',
       readTime: '6 min',
-      image: '/images/ecommerce/Your customer is judging us, and blaming you..webp',
+      image: '/images/ecommerce/Your customer is judging us and blaming you..webp',
       slug: 'ecommerce-last-mile',
     },
     {
@@ -52,7 +53,7 @@ export default function BlogPage() {
       category: 'Retail',
       date: 'September 20, 2025',
       readTime: '6 min',
-      image: '/images/retail/Fashion returns are not an exception, they are the model.webp',
+      image: '/images/retail/Fashion returns are not an exception they are the model.webp',
       slug: 'retail-logistics',
     },
     {
@@ -167,6 +168,7 @@ export default function BlogPage() {
           </div>
         </Container>
       </section>
+      <ContentList kind='blog' heading='Latest from the blog' />
     </div>
   );
 }

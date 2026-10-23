@@ -24,9 +24,30 @@ export default function ShipNowPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [status, setStatus] = useState<{ type: "sending" | "sent" | "error"; text: string } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setStatus({ type: "sending", text: "Sending..." });
+    const res = await fetch("/api/enquiries", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        kind: "ship_now",
+        name: formData.name,
+        company: formData.company,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.anythingElse,
+        payload: formData,
+      }),
+    });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setStatus({ type: "error", text: j.error || "Your request could not be sent. Please try again." });
+      return;
+    }
+    setStatus({ type: "sent", text: j.message });
   };
 
   return (
@@ -188,6 +209,12 @@ export default function ShipNowPage() {
                     <p className="text-sm text-gray-500" style={{ color: "#1A1A1A" }}>Required for a collection, not for marketing.</p>
                   </div>
                 </div>
+
+                {status && (
+                  <p role="status" className={status.type === "error" ? "text-red-700 font-bold" : "text-primary font-bold"}>
+                    {status.text}
+                  </p>
+                )}
 
                 {/* Submit Button */}
                 <button type="submit" className="w-full py-4 bg-primary text-white font-bold text-lg rounded-lg hover:opacity-90 transition-opacity" style={{ backgroundColor: "#1173D4" }}>

@@ -238,9 +238,9 @@ export default function Header() {
                         <div>
                           <h3 className='text-sm font-bold text-gray-400 uppercase tracking-widest mb-4'>Enterprise Logistics Services</h3>
                           <p className='text-sm text-gray-600 mb-6'>Our Supply Chain division creates custom solutions for enterprise-sized organizations. The perfect fit as your outsourced logistics provider (3PL).</p>
-                          <button className='bg-primary text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-primary/90 transition-colors'>
+                          <Link href='/solutions' className='inline-block bg-primary text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-primary/90 transition-colors'>
                             Explore OPS Supply Chain
-                          </button>
+                          </Link>
                         </div>
 
                         {/* Solutions Column */}

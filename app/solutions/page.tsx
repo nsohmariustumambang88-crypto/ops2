@@ -1,6 +1,7 @@
 'use client';
 
 import Container from '@/components/ui/Container';
+import ContentList from '@/components/sections/ContentList';
 import Button from '@/components/ui/Button';
 
 const solutions = [
@@ -72,6 +73,7 @@ export default function SolutionsPage() {
           </div>
         </Container>
       </section>
+      <ContentList kind='solution' heading='Solutions we add' />
     </div>
   );
 }

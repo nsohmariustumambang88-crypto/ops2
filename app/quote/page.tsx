@@ -26,9 +26,34 @@ export default function QuotePage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [status, setStatus] = useState<{ type: "sending" | "sent" | "error"; text: string } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setStatus({ type: "sending", text: "Sending..." });
+    const res = await fetch("/api/enquiries", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        kind: "quote",
+        name: formData.name,
+        company: formData.company,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.whatShipping,
+        payload: formData,
+      }),
+    });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setStatus({ type: "error", text: j.error || "Your enquiry could not be sent. Please try again." });
+      return;
+    }
+    setStatus({ type: "sent", text: j.message });
+    setFormData({
+      whereFrom: "", whereTo: "", preferredRoute: "", incoterms: "", whatShipping: "", totalWeight: "",
+      readyCollection: "", mustArriveBy: "", name: "", company: "", email: "", phone: "",
+    });
   };
 
   const infoCards = [
@@ -251,6 +276,12 @@ export default function QuotePage() {
                     </div>
                   </div>
 
+                  {status && (
+                    <p role="status" className={status.type === "error" ? "text-red-700 font-bold" : "text-primary font-bold"}>
+                      {status.text}
+                    </p>
+                  )}
+
                   {/* Submit */}
                   <button
                     type="submit"
@@ -361,9 +392,9 @@ export default function QuotePage() {
                   Need help with your shipment? Our team is available 24/7
                 </h3>
               </div>
-              <button className="px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap" style={{ backgroundColor: "#1173D4" }}>
+              <a href="/track" className="px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap" style={{ backgroundColor: "#1173D4" }}>
                 Track Your Shipment
-              </button>
+              </a>
             </div>
           </Container>
         </section>
