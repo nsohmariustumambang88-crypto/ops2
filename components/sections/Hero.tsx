@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import Container from '@/components/ui/Container';
 import gsap from 'gsap';
 
 export default function Hero() {
+  const router = useRouter();
   const [trackingNumber, setTrackingNumber] = useState('');
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const trackingBoxRef = useRef<HTMLDivElement>(null);
@@ -35,9 +37,8 @@ export default function Hero() {
 
   const handleTrack = (e: React.FormEvent) => {
     e.preventDefault();
-    if (trackingNumber.trim()) {
-      console.log('Tracking:', trackingNumber);
-    }
+    const ref = trackingNumber.trim();
+    if (ref) router.push(`/track?ref=${encodeURIComponent(ref)}`);
   };
 
   const actionCards = [
@@ -113,7 +114,7 @@ export default function Hero() {
                       placeholder='Enter your tracking number(s)'
                       value={trackingNumber}
                       onChange={(e) => setTrackingNumber(e.target.value)}
-                      className='flex-1 px-5 md:px-6 py-3 md:py-4 rounded-lg border-none text-text-primary placeholder-gray-400 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all'
+                      className='flex-1 px-5 md:px-6 py-3 md:py-4 rounded-lg border-none bg-white text-black placeholder-gray-400 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all'
                     />
                     <button
                       type='submit'

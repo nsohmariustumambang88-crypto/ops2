@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import Container from '@/components/ui/Container';
 import TrackResult, { type TrackEvent, type TrackShipment } from '@/components/track/TrackResult';
 
@@ -12,9 +12,8 @@ export default function TrackPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    const number = trackingNumber.trim();
+  async function lookup(raw: string) {
+    const number = raw.trim();
     if (!number) return;
 
     setLoading(true);
@@ -36,6 +35,21 @@ export default function TrackPage() {
     }
   }
 
+  // The home page sends the reference as ?ref=... so the result shows straight away.
+  useEffect(() => {
+    const ref = new URLSearchParams(window.location.search).get('ref') ?? '';
+    if (ref) {
+      setTrackingNumber(ref);
+      lookup(ref);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    lookup(trackingNumber);
+  }
+
   return (
     <div className='bg-white text-black'>
       <section className='py-16 md:py-20 bg-navy text-white'>
@@ -51,7 +65,8 @@ export default function TrackPage() {
                 value={trackingNumber}
                 onChange={(e) => setTrackingNumber(e.target.value)}
                 placeholder='OPS75983-895'
-                className='flex-1 h-[42px] px-4 text-[17px] rounded-lg text-black bg-white border border-border focus:outline-none focus:border-primary'
+                autoComplete='off'
+                className='flex-1 h-[42px] px-4 text-[17px] rounded-lg !text-black !bg-white border border-border focus:outline-none focus:border-primary'
               />
               <button
                 type='submit'

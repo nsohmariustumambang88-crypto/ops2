@@ -204,19 +204,22 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* Professional Form Styling */
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="date"],
-textarea,
-select {
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  padding: 12px 14px;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  background-color: var(--background);
+/* Professional Form Styling. Kept in the base layer so Tailwind classes such as bg-white and text-black can override it. */
+@layer base {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  textarea,
+  select {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+    color: #000000;
+  }
 }
 
 input:hover,
