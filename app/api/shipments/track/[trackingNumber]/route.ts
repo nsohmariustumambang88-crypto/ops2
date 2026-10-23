@@ -12,8 +12,8 @@ export async function GET(
       `SELECT id, tracking_number, reference_number, status, transport_mode, carrier, flight_number,
               route_origin, route_destination, pickup_at, departure_at, arrival_at, service_type, shipment_type, weight,
               sender_city, sender_country, receiver_city, receiver_country
-       FROM shipments WHERE tracking_number = $1 OR reference_number = $1`,
-      [trackingNumber]
+       FROM shipments WHERE tracking_number = $1 OR reference_number = $1 OR id = $2`,
+      [trackingNumber, /^\d{1,9}$/.test(trackingNumber) ? Number(trackingNumber) : -1]
     );
     if (s.rows.length === 0) {
       return NextResponse.json({ error: 'Shipment not found' }, { status: 404 });
