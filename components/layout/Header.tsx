@@ -28,6 +28,7 @@ export default function Header() {
     learnMore: [
       { label: 'Document and package', href: '/express-document-parcel', description: 'Express shipping of documents and parcels' },
       { label: 'E-Commerce Fulfillment', href: '/solutions/ecommerce', description: 'Fast order fulfillment for online retailers' },
+      { label: 'Pet shipping', href: '/pet-shipping', description: 'Ship pets and animals internationally' },
     ],
     pallets: {
       title: 'Pallets, containers and freight',

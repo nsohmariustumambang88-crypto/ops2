@@ -7,6 +7,20 @@ export const SHIPMENT_FIELDS = [
   'pet_name', 'pet_species', 'pet_breed', 'pet_sex', 'pet_date_of_birth', 'pet_weight', 'pet_microchip',
   'pet_travel_purpose', 'pet_cabin_or_cargo', 'pet_crate_type', 'pet_crate_size', 'pet_health_certificate',
   'pet_rabies_vaccination_date', 'pet_import_permit', 'pet_vet_name', 'pet_vet_phone', 'pet_handling_notes',
+  'pet_document_checks',
+] as const;
+
+export const PET_DOCUMENT_CHECKS = [
+  ['microchip', 'Microchip number recorded (15 digits, ISO)'],
+  ['microchip_before_rabies', 'Microchip fitted before rabies vaccination (vet record)'],
+  ['rabies_window', 'Rabies vaccination at least 30 days before travel (or the destination period)'],
+  ['titer', 'Titer test done and waiting period passed (if the destination needs it)'],
+  ['health_certificate', 'Health certificate issued within the required days of departure'],
+  ['usda_endorsement', 'USDA endorsement (for US exports)'],
+  ['permit', 'Import or export permit (if required)'],
+  ['crate', 'Crate measured and approved'],
+  ['airline', 'Airline acceptance confirmed in writing'],
+  ['handover', 'Pickup and handover confirmed with the owner'],
 ] as const;
 
 export const TRANSPORT_MODES = ['land', 'air', 'sea'] as const;

@@ -13,7 +13,7 @@ export function isContentKind(value: string): value is ContentKind {
   return Object.prototype.hasOwnProperty.call(CONTENT_KINDS, value);
 }
 
-export const ENQUIRY_KINDS = ['contact', 'quote', 'ship_now', 'business_account'] as const;
+export const ENQUIRY_KINDS = ['contact', 'quote', 'ship_now', 'business_account', 'pet'] as const;
 
 export function pickContentFields(body: Record<string, unknown>) {
   const str = (v: unknown) => (v === undefined || v === null || String(v).trim() === '' ? null : String(v).trim());

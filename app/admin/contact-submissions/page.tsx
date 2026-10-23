@@ -21,6 +21,7 @@ const kindLabels: Record<string, string> = {
   quote: 'Quote request',
   ship_now: 'Ship now',
   business_account: 'Business account',
+  pet: 'Pet shipping',
 };
 
 const statuses = ['new', 'in_progress', 'closed'];

@@ -42,6 +42,7 @@ export default function Footer() {
     { name: 'Express Shipping', href: '/express-document-parcel' },
     { name: 'Express Delivery', href: '/express-document-parcel' },
     { name: 'eCommerce', href: '/solutions/ecommerce' },
+    { name: 'Pet shipping', href: '/pet-shipping' },
     { name: 'Supply Chain', href: '/solutions' },
   ];
 

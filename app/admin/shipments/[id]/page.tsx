@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
 import type { ShipmentValues } from '@/components/admin/ShipmentForm';
-import { toFormValues } from '@/lib/shipments';
+import { PET_DOCUMENT_CHECKS, toFormValues } from '@/lib/shipments';
 import ShipmentReceipt from '@/components/admin/ShipmentReceipt';
 
 type Event = { id: string; status: string; location: string | null; notes: string | null; timestamp: string };
@@ -27,8 +27,29 @@ export default function ShipmentDetailPage() {
 
   const [trackMsg, setTrackMsg] = useState('');
   const [receipt, setReceipt] = useState<Receipt | null>(null);
+  const [checks, setChecks] = useState<Record<string, boolean> | null>(null);
+  const [checksMsg, setChecksMsg] = useState('');
 
   const token = () => localStorage.getItem('adminToken') ?? '';
+
+  const savedChecks = (detail?.shipment.pet_document_checks ?? {}) as Record<string, boolean>;
+  const currentChecks = checks ?? savedChecks;
+
+  const saveChecks = async () => {
+    setChecksMsg('Saving...');
+    const res = await fetch(`/api/admin/shipments/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+      body: JSON.stringify({ pet_document_checks: currentChecks }),
+    });
+    if (!res.ok) {
+      setChecksMsg('Could not save the checklist.');
+      return;
+    }
+    setChecksMsg('Checklist saved.');
+    setChecks(null);
+    load();
+  };
 
   const trackRegistration = async () => {
     if (!detail) return;
@@ -99,6 +120,32 @@ export default function ShipmentDetailPage() {
 
             <div className='grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6 items-start'>
               <div className='space-y-6'>
+              {detail.shipment.shipment_type === 'pet' && (
+                <section className='bg-white border border-border rounded-xl p-6'>
+                  <h2 className='text-[28px] font-extrabold text-navy mb-2'>Pet document checklist</h2>
+                  <p className='text-[14px] text-text-secondary mb-4'>Tick each check as it is confirmed. Dispatch only when all are ticked.</p>
+                  <ul className='space-y-3'>
+                    {PET_DOCUMENT_CHECKS.map(([key, text]) => (
+                      <li key={key}>
+                        <label className='flex items-start gap-3 text-[15px]'>
+                          <input
+                            type='checkbox'
+                            checked={Boolean(currentChecks[key])}
+                            onChange={(e) => setChecks({ ...currentChecks, [key]: e.target.checked })}
+                            className='mt-1 w-5 h-5'
+                          />
+                          {text}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className='mt-4 flex items-center gap-4'>
+                    <button type='button' onClick={saveChecks} className='h-[42px] px-6 rounded bg-primary text-white font-bold'>Save checklist</button>
+                    {checksMsg && <span role='status' className='text-primary font-bold'>{checksMsg}</span>}
+                  </div>
+                </section>
+              )}
+
               <section className='bg-white border border-border rounded-xl p-6'>
                 <h2 className='text-[28px] font-extrabold text-navy mb-4'>Timeline</h2>
                 {detail.events.length === 0 && <p>No updates yet.</p>}
