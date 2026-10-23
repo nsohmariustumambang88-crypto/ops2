@@ -117,7 +117,7 @@ export default function RequestBusinessAccountPage() {
             {/* Bottom Note */}
             <div className="p-6 rounded-lg bg-white" style={{ borderLeft: "4px solid #1173D4" }}>
               <p className="text-sm text-gray-600" style={{ color: "#1A1A1A" }}>
-                If you are on the right-hand side, use the <a href="/quote" className="font-semibold" style={{ color: "#1173D4" }}>quote form</a> instead. It takes less time, gets you a price for the shipment you actually have, and you can always <a href="#" className="font-semibold" style={{ color: "#1173D4" }}>open an account later once the pattern appears</a>.
+                If you are on the right-hand side, use the <a href="/quote" className="font-semibold" style={{ color: "#1173D4" }}>quote form</a> instead. It takes less time, gets you a price for the shipment you actually have, and you can always <a href="/request-business-account" className="font-semibold" style={{ color: "#1173D4" }}>open an account later once the pattern appears</a>.
               </p>
             </div>
           </Container>
@@ -321,7 +321,7 @@ export default function RequestBusinessAccountPage() {
 
                   {/* Footer Text */}
                   <p className="text-xs text-center text-gray-600 mt-6" style={{ color: "#667085" }}>
-                    Prefer to talk it through first? Call <span className="font-semibold">+1 856-428-7703</span>, open around the clock. We use what you send to prepare your pricing and nothing else — see our <a href="#" className="underline" style={{ color: "#1173D4" }}>privacy policy</a>.
+                    Prefer to talk it through first? Call <span className="font-semibold">+1 856-428-7703</span>, open around the clock. We use what you send to prepare your pricing and nothing else — see our <a href="/privacy-policy" className="underline" style={{ color: "#1173D4" }}>privacy policy</a>.
                   </p>
                 </form>
               </div>
@@ -475,13 +475,13 @@ export default function RequestBusinessAccountPage() {
                     number: "02",
                     title: "See what an account includes",
                     description: "Tools, rate factors and how the stages work, before you decide whether to apply for one.",
-                    href: "#"
+                    href: "/business-offerings"
                   },
                   {
                     number: "03",
                     title: "Just ask a question",
                     description: "If you are not sure an account is the thing you need, describe the problem instead and we will tell you what is.",
-                    href: "#"
+                    href: "/contact"
                   }
                 ].map((item, index) => (
                   <a

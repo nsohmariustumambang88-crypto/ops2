@@ -292,7 +292,7 @@ export default function QuotePage() {
                   </button>
 
                   <p className="text-xs text-gray-500 text-center">
-                    Finder to send email confirmation. We will respect your <a href="#" className="text-primary hover:underline">privacy policy</a>
+                    Finder to send email confirmation. We will respect your <a href="/privacy-policy" className="text-primary hover:underline">privacy policy</a>
                   </p>
                 </form>
               </div>

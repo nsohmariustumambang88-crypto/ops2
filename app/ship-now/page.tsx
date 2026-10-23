@@ -223,7 +223,7 @@ export default function ShipNowPage() {
 
                 {/* Footer Text */}
                 <p className="text-sm text-gray-600 text-center" style={{ color: "#1A1A1A" }}>
-                  This opens an email to us. A person reads it and comes back to confirm the collection – it is not an automatic booking. In a hurry? Call <a href="tel:+18564287703" className="font-bold" style={{ color: "#1173D4" }}>+1 856-428-7703</a>, open around the clock. We use what you send to arrange the shipment and nothing else; see our <a href="#" style={{ color: "#1173D4" }} className="underline">privacy policy</a>.
+                  This opens an email to us. A person reads it and comes back to confirm the collection – it is not an automatic booking. In a hurry? Call <a href="tel:+18564287703" className="font-bold" style={{ color: "#1173D4" }}>+1 856-428-7703</a>, open around the clock. We use what you send to arrange the shipment and nothing else; see our <a href="/privacy-policy" style={{ color: "#1173D4" }} className="underline">privacy policy</a>.
                 </p>
               </form>
             </div>
@@ -247,7 +247,7 @@ export default function ShipNowPage() {
                 <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#1173D4" }}>Ready 01</p>
                 <h3 className="text-lg font-bold mb-3" style={{ color: "#FFFFFF" }}>Packed and sealed</h3>
                 <p className="text-sm" style={{ color: "#FFFFFF" }}>
-                  Not still being taped when the van arrives. Drivers work to a route and cannot wait. <a href="#" className="underline font-semibold" style={{ color: "#FFFFFF" }}>Packing guidance</a>.
+                  Not still being taped when the van arrives. Drivers work to a route and cannot wait. <a href="/customer-service" className="underline font-semibold" style={{ color: "#FFFFFF" }}>Packing guidance</a>.
                 </p>
               </div>
 
@@ -263,7 +263,7 @@ export default function ShipNowPage() {
                 <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#1173D4" }}>Ready 03</p>
                 <h3 className="text-lg font-bold mb-3" style={{ color: "#FFFFFF" }}>Paperwork if it crosses a border</h3>
                 <p className="text-sm" style={{ color: "#FFFFFF" }}>
-                  Invoice, contents and values. We will tell you exactly what your destination needs when we confirm. <a href="#" className="underline font-semibold" style={{ color: "#FFFFFF" }}>What customs needs</a>.
+                  Invoice, contents and values. We will tell you exactly what your destination needs when we confirm. <a href="/solutions/customs" className="underline font-semibold" style={{ color: "#FFFFFF" }}>What customs needs</a>.
                 </p>
               </div>
 
