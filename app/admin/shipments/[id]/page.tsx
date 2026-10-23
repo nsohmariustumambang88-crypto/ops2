@@ -17,6 +17,8 @@ export default function ShipmentDetailPage() {
   const [status, setStatus] = useState('in_transit');
   const [location, setLocation] = useState('');
   const [notes, setNotes] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
   const [saving, setSaving] = useState(false);
 
   const [trackMsg, setTrackMsg] = useState('');
@@ -57,7 +59,7 @@ export default function ShipmentDetailPage() {
     const res = await fetch(`/api/admin/shipments/${id}/events`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
-      body: JSON.stringify({ status, location, notes }),
+      body: JSON.stringify({ status, location, notes, latitude, longitude }),
     });
     setSaving(false);
     if (!res.ok) {
@@ -115,6 +117,14 @@ export default function ShipmentDetailPage() {
                   <label className='block'>
                     <span className='text-[14px] font-bold'>Location</span>
                     <input value={location} onChange={(e) => setLocation(e.target.value)} className='mt-1 w-full h-[42px] px-3 border border-border rounded' />
+                    <div className='grid grid-cols-2 gap-3 mt-3'>
+                      <label><span className='text-[13px] font-bold'>Latitude</span>
+                        <input type='number' step='any' value={latitude} onChange={(e) => setLatitude(e.target.value)} placeholder='e.g. 29.76' className='mt-1 w-full h-[42px] px-3 border border-border rounded' />
+                      </label>
+                      <label><span className='text-[13px] font-bold'>Longitude</span>
+                        <input type='number' step='any' value={longitude} onChange={(e) => setLongitude(e.target.value)} placeholder='e.g. -95.37' className='mt-1 w-full h-[42px] px-3 border border-border rounded' />
+                      </label>
+                    </div>
                   </label>
                   <label className='block'>
                     <span className='text-[14px] font-bold'>Notes</span>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 
 export type ShipmentValues = Record<string, string>;
 
@@ -26,6 +26,7 @@ export default function ShipmentForm({
   saving,
   onSubmit,
   referenceNumber,
+  onChange,
 }: {
   initial: ShipmentValues;
   customers?: Customer[];
@@ -34,12 +35,17 @@ export default function ShipmentForm({
   saving: boolean;
   onSubmit: (values: ShipmentValues) => void;
   referenceNumber?: string;
+  onChange?: (values: ShipmentValues) => void;
 }) {
   const [v, setV] = useState<ShipmentValues>({
     ...initial,
     departure_at: toLocal(initial.departure_at ?? ''),
     arrival_at: toLocal(initial.arrival_at ?? ''),
   });
+
+  useEffect(() => {
+    onChange?.(v);
+  }, [v, onChange]);
   const set = (key: string) => (e: { target: { value: string } }) => setV({ ...v, [key]: e.target.value });
 
   const [problems, setProblems] = useState<string[]>([]);

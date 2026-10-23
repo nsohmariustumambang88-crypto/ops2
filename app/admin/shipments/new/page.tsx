@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ShipmentForm, { type ShipmentValues } from '@/components/admin/ShipmentForm';
+import ShipmentReceipt from '@/components/admin/ShipmentReceipt';
 
 type Customer = { id: number; business_name: string | null; email: string | null };
 
@@ -12,6 +13,7 @@ export default function NewShipmentPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+  const [live, setLive] = useState<ShipmentValues>({});
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken') ?? '';
@@ -55,14 +57,20 @@ export default function NewShipmentPage() {
 
         {error && <div role='alert' className='rounded-xl border border-red-300 bg-red-50 text-red-800 px-5 py-4'>{error}</div>}
 
-        <ShipmentForm
-          initial={{ transport_mode: 'air', status: 'registered', shipment_type: 'parcel', service_type: 'express', priority: 'standard' }}
-          customers={customers}
-          showCustomer
-          submitLabel='Register shipment'
-          saving={saving}
-          onSubmit={save}
-        />
+        <div className='grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 items-start'>
+          <aside className='lg:sticky lg:top-6'>
+            <ShipmentReceipt values={live} />
+          </aside>
+          <ShipmentForm
+            initial={{ transport_mode: 'air', status: 'registered', shipment_type: 'parcel', service_type: 'express', priority: 'standard' }}
+            customers={customers}
+            showCustomer
+            submitLabel='Register shipment'
+            saving={saving}
+            onSubmit={save}
+            onChange={setLive}
+          />
+        </div>
       </div>
     </AdminLayout>
   );

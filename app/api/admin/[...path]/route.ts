@@ -167,10 +167,12 @@ export async function POST(request: Request, { params }: Ctx) {
 
     const evMatch = path.match(new RegExp('^shipments\\/([^/]+)\\/events$'));
     if (evMatch && /^\d+$/.test(evMatch[1])) {
-      const { status, location, notes } = await request.json();
+      const { status, location, notes, latitude, longitude } = await request.json();
       if (!status) return NextResponse.json({ error: 'Status is required' }, { status: 400 });
+      const lat = latitude === '' || latitude == null ? null : Number(latitude);
+      const lng = longitude === '' || longitude == null ? null : Number(longitude);
       await db.query('UPDATE shipments SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', [status, evMatch[1]]);
-      const r = await db.query('INSERT INTO shipment_tracking (shipment_id, status, location, notes) VALUES ($1, $2, $3, $4) RETURNING id, status, location, notes, timestamp', [evMatch[1], status, location || null, notes || null]);
+      const r = await db.query('INSERT INTO shipment_tracking (shipment_id, status, location, notes, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, status, location, notes, timestamp, latitude, longitude', [evMatch[1], status, location || null, notes || null, lat, lng]);
       return NextResponse.json({ message: 'Event added', event: r.rows[0] }, { status: 201 });
     }
 
