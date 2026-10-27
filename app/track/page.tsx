@@ -7,8 +7,6 @@ import { useLanguage } from '@/lib/i18n';
 
 type Result = { shipment: TrackShipment; tracking_history: TrackEvent[] };
 
-const REFRESH_MS = 60_000;
-
 const pageCopy = {
   en: {
     kicker: 'Track a shipment',
@@ -20,7 +18,8 @@ const pageCopy = {
     notFound: 'No shipment found with that reference. Check the number and try again.',
     unavailable: 'We could not load this shipment right now. Please try again in a few minutes.',
     network: 'Network error. Check your connection and try again.',
-    refreshNote: 'This page refreshes every minute while your shipment is on its way.',
+    refresh: 'Refresh',
+    refreshNote: 'Press Refresh to see the latest update.',
   },
   fr: {
     kicker: 'Suivre un envoi',
@@ -32,7 +31,8 @@ const pageCopy = {
     notFound: 'Aucun envoi trouvé avec cette référence. Vérifiez le numéro et réessayez.',
     unavailable: 'Nous ne pouvons pas afficher cet envoi pour le moment. Réessayez dans quelques minutes.',
     network: 'Erreur réseau. Vérifiez votre connexion et réessayez.',
-    refreshNote: 'Cette page s’actualise chaque minute tant que votre envoi est en route.',
+    refresh: 'Actualiser',
+    refreshNote: 'Appuyez sur Actualiser pour voir la dernière mise à jour.',
   },
 } as const;
 
@@ -58,7 +58,7 @@ export default function TrackPage() {
       setResult(null);
     }
     try {
-      const res = await fetch(`/api/shipments/track/${encodeURIComponent(number)}`, { cache: 'no-store' });
+      const res = await fetch(`/api/shipments/track/${encodeURIComponent(number)}`);
       if (currentRef.current !== number) return;
       if (res.status === 404) {
         setError(t.notFound);
@@ -87,13 +87,8 @@ export default function TrackPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Refresh every minute until the shipment is delivered.
-  const delivered = result?.shipment.status === 'delivered';
-  useEffect(() => {
-    if (!result || delivered) return;
-    const timer = setInterval(() => lookup(currentRef.current, true), REFRESH_MS);
-    return () => clearInterval(timer);
-  }, [result, delivered, lookup]);
+  // No background timer: the page only asks the server when someone looks up a reference or presses Refresh.
+  const refresh = () => lookup(currentRef.current);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -141,7 +136,12 @@ export default function TrackPage() {
             {result && (
               <>
                 <TrackResult shipment={result.shipment} events={result.tracking_history} lastFetched={lastFetched} />
-                {!delivered && <p className='mt-6 text-[13px] text-text-secondary print:hidden'>{t.refreshNote}</p>}
+                <div className='mt-6 flex items-center gap-4 print:hidden'>
+                  <button type='button' onClick={refresh} disabled={loading} className='h-[40px] px-5 rounded border border-primary text-primary font-bold disabled:opacity-60'>
+                    {loading ? t.tracking : t.refresh}
+                  </button>
+                  <p className='text-[13px] text-text-secondary'>{t.refreshNote}</p>
+                </div>
               </>
             )}
           </div>

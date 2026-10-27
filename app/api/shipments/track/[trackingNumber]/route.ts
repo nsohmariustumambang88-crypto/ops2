@@ -41,10 +41,11 @@ export async function GET(
     const { pet_document_checks: _omit, ...shipment } = row;
     void _omit;
 
-    return NextResponse.json({
-      shipment: { ...shipment, pet_checks: petChecks },
-      tracking_history: ev.rows,
-    });
+    // Cached at Vercel's edge for 2 minutes, so repeated lookups don't run the function or the database each time.
+    return NextResponse.json(
+      { shipment: { ...shipment, pet_checks: petChecks }, tracking_history: ev.rows },
+      { headers: { 'Cache-Control': 'public, max-age=30, s-maxage=120, stale-while-revalidate=300' } }
+    );
   } catch {
     return NextResponse.json({ error: 'Failed to fetch shipment' }, { status: 500 });
   }
