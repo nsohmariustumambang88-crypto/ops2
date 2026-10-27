@@ -12,7 +12,7 @@ type Event = { id: string; status: string; location: string | null; notes: strin
 type Detail = { shipment: Record<string, unknown> & { id: string; tracking_number: string; status: string; created_at: string }; events: Event[] };
 type Receipt = { values: ShipmentValues; reference: string };
 
-const statuses = ['registered', 'picked_up', 'in_transit', 'held_at_customs', 'cleared_for_customs', 'out_for_delivery', 'delivered', 'exception'];
+const statuses = ['registered', 'picked_up', 'in_transit', 'held_at_customs', 'cleared_for_customs', 'out_for_delivery', 'delivered', 'delayed', 'exception'];
 
 export default function ShipmentDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +21,8 @@ export default function ShipmentDetailPage() {
   const [status, setStatus] = useState('in_transit');
   const [location, setLocation] = useState('');
   const [notes, setNotes] = useState('');
+  const [nextStep, setNextStep] = useState('');
+  const [deliveredTo, setDeliveredTo] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [saving, setSaving] = useState(false);
@@ -87,7 +89,7 @@ export default function ShipmentDetailPage() {
     const res = await fetch(`/api/admin/shipments/${id}/events`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
-      body: JSON.stringify({ status, location, notes, latitude, longitude }),
+      body: JSON.stringify({ status, location, notes, latitude, longitude, next_step: nextStep, delivered_to: deliveredTo }),
     });
     setSaving(false);
     if (!res.ok) {
@@ -96,6 +98,8 @@ export default function ShipmentDetailPage() {
     }
     setLocation('');
     setNotes('');
+    setNextStep('');
+    setDeliveredTo('');
     load();
   };
 
@@ -181,6 +185,16 @@ export default function ShipmentDetailPage() {
                       </label>
                     </div>
                   </label>
+                  <label className='block'>
+                    <span className='text-[14px] font-bold'>What happens next (shown to the customer)</span>
+                    <textarea value={nextStep} onChange={(e) => setNextStep(e.target.value)} rows={2} placeholder='For example: a new flight leaves Thursday, and the delivery date moves by one day.' className='mt-1 w-full px-3 py-2 border border-border rounded' />
+                  </label>
+                  {status === 'delivered' && (
+                    <label className='block'>
+                      <span className='text-[14px] font-bold'>Received by</span>
+                      <input value={deliveredTo} onChange={(e) => setDeliveredTo(e.target.value)} placeholder='Name of the person who signed for it' className='mt-1 w-full h-[42px] px-3 border border-border rounded' />
+                    </label>
+                  )}
                   <label className='block'>
                     <span className='text-[14px] font-bold'>Notes</span>
                     <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} className='mt-1 w-full px-3 py-2 border border-border rounded' />

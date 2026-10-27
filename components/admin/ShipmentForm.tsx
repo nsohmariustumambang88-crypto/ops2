@@ -5,7 +5,7 @@ import { COURIER_NAME } from '@/lib/shipments';
 
 export type ShipmentValues = Record<string, string>;
 
-const statuses = ['registered', 'picked_up', 'in_transit', 'held_at_customs', 'cleared_for_customs', 'out_for_delivery', 'delivered', 'exception'];
+const statuses = ['registered', 'picked_up', 'in_transit', 'held_at_customs', 'cleared_for_customs', 'out_for_delivery', 'delivered', 'delayed', 'exception'];
 
 const input = 'mt-1 w-full h-[42px] px-3 border border-border rounded text-[15px]';
 

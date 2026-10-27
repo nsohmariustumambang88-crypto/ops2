@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 import { requireUser } from '@/lib/auth';
 import { pickShipmentFields, newReferenceNumber } from '@/lib/shipments';
 import { isContentKind, pickContentFields } from '@/lib/content';
+import { queueMilestone, sendQueued } from '@/lib/notify';
 
 const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
 
@@ -34,7 +35,7 @@ export async function GET(request: Request, { params }: Ctx) {
     if (detail && /^\d+$/.test(detail[1])) {
       const sh = await db.query('SELECT * FROM shipments WHERE id = $1', [detail[1]]);
       if (sh.rows.length === 0) return NextResponse.json({ error: 'Shipment not found' }, { status: 404 });
-      const ev = await db.query('SELECT id, status, location, notes, timestamp FROM shipment_tracking WHERE shipment_id = $1 ORDER BY timestamp DESC', [detail[1]]);
+      const ev = await db.query('SELECT id, status, location, notes, next_step, timestamp FROM shipment_tracking WHERE shipment_id = $1 ORDER BY timestamp DESC', [detail[1]]);
       return NextResponse.json({ shipment: sh.rows[0], events: ev.rows });
     }
 
@@ -185,12 +186,19 @@ export async function POST(request: Request, { params }: Ctx) {
 
     const evMatch = path.match(new RegExp('^shipments\\/([^/]+)\\/events$'));
     if (evMatch && /^\d+$/.test(evMatch[1])) {
-      const { status, location, notes, latitude, longitude } = await request.json();
+      const { status, location, notes, latitude, longitude, next_step, delivered_to } = await request.json();
       if (!status) return NextResponse.json({ error: 'Status is required' }, { status: 400 });
       const lat = latitude === '' || latitude == null ? null : Number(latitude);
       const lng = longitude === '' || longitude == null ? null : Number(longitude);
-      await db.query('UPDATE shipments SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', [status, evMatch[1]]);
-      const r = await db.query('INSERT INTO shipment_tracking (shipment_id, status, location, notes, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, status, location, notes, timestamp, latitude, longitude', [evMatch[1], status, location || null, notes || null, lat, lng]);
+      const nextStep = next_step ? String(next_step).trim() : null;
+      await db.query(
+        'UPDATE shipments SET status = $1, delivered_to = COALESCE($3, delivered_to), updated_at = CURRENT_TIMESTAMP WHERE id = $2',
+        [status, evMatch[1], status === 'delivered' && delivered_to ? String(delivered_to).trim() : null]
+      );
+      const r = await db.query('INSERT INTO shipment_tracking (shipment_id, status, location, notes, latitude, longitude, next_step) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, status, location, notes, timestamp, latitude, longitude, next_step', [evMatch[1], status, location || null, notes || null, lat, lng, nextStep]);
+      const ref = await db.query('SELECT reference_number, tracking_number FROM shipments WHERE id = $1', [evMatch[1]]);
+      await queueMilestone(Number(evMatch[1]), ref.rows[0]?.reference_number || ref.rows[0]?.tracking_number, status, nextStep);
+      await sendQueued();
       return NextResponse.json({ message: 'Event added', event: r.rows[0] }, { status: 201 });
     }
 

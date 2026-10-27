@@ -1,39 +1,81 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import Container from '@/components/ui/Container';
 import TrackResult, { type TrackEvent, type TrackShipment } from '@/components/track/TrackResult';
+import { useLanguage } from '@/lib/i18n';
 
 type Result = { shipment: TrackShipment; tracking_history: TrackEvent[] };
 
+const REFRESH_MS = 60_000;
+
+const pageCopy = {
+  en: {
+    kicker: 'Track a shipment',
+    title: 'Where is my parcel?',
+    intro: 'Enter the reference number from your receipt, for example OPS75983-895.',
+    label: 'Reference number',
+    track: 'Track',
+    tracking: 'Tracking...',
+    notFound: 'No shipment found with that reference. Check the number and try again.',
+    unavailable: 'We could not load this shipment right now. Please try again in a few minutes.',
+    network: 'Network error. Check your connection and try again.',
+    refreshNote: 'This page refreshes every minute while your shipment is on its way.',
+  },
+  fr: {
+    kicker: 'Suivre un envoi',
+    title: 'Où est mon colis ?',
+    intro: 'Saisissez le numéro de référence de votre reçu, par exemple OPS75983-895.',
+    label: 'Numéro de référence',
+    track: 'Suivre',
+    tracking: 'Recherche...',
+    notFound: 'Aucun envoi trouvé avec cette référence. Vérifiez le numéro et réessayez.',
+    unavailable: 'Nous ne pouvons pas afficher cet envoi pour le moment. Réessayez dans quelques minutes.',
+    network: 'Erreur réseau. Vérifiez votre connexion et réessayez.',
+    refreshNote: 'Cette page s’actualise chaque minute tant que votre envoi est en route.',
+  },
+} as const;
+
 export default function TrackPage() {
+  const { lang } = useLanguage();
+  const t = pageCopy[lang] ?? pageCopy.en;
   const [trackingNumber, setTrackingNumber] = useState('');
   const [result, setResult] = useState<Result | null>(null);
+  const [lastFetched, setLastFetched] = useState<Date | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const currentRef = useRef('');
 
-  async function lookup(raw: string) {
+  // Looks up a reference. A silent refresh keeps the current result on screen while it loads.
+  const lookup = useCallback(async (raw: string, silent = false) => {
     const number = raw.trim();
     if (!number) return;
+    currentRef.current = number;
 
-    setLoading(true);
-    setError('');
-    setResult(null);
+    if (!silent) {
+      setLoading(true);
+      setError('');
+      setResult(null);
+    }
     try {
-      const res = await fetch(`/api/shipments/track/${encodeURIComponent(number)}`);
+      const res = await fetch(`/api/shipments/track/${encodeURIComponent(number)}`, { cache: 'no-store' });
+      if (currentRef.current !== number) return;
       if (res.status === 404) {
-        setError('No shipment found with that reference. Check the number and try again.');
+        setError(t.notFound);
+        setResult(null);
       } else if (!res.ok) {
-        setError('We could not load this shipment right now. Please try again in a few minutes.');
+        if (!silent) setError(t.unavailable);
       } else {
         setResult(await res.json());
+        setError('');
+        setLastFetched(new Date());
       }
     } catch {
-      setError('Network error. Check your connection and try again.');
+      if (!silent) setError(t.network);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
-  }
+  }, [t]);
 
   // The home page sends the reference as ?ref=... so the result shows straight away.
   useEffect(() => {
@@ -45,6 +87,14 @@ export default function TrackPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Refresh every minute until the shipment is delivered.
+  const delivered = result?.shipment.status === 'delivered';
+  useEffect(() => {
+    if (!result || delivered) return;
+    const timer = setInterval(() => lookup(currentRef.current, true), REFRESH_MS);
+    return () => clearInterval(timer);
+  }, [result, delivered, lookup]);
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     lookup(trackingNumber);
@@ -55,11 +105,11 @@ export default function TrackPage() {
       <section className='py-16 md:py-20 bg-navy text-white'>
         <Container>
           <div className='mx-auto max-w-[720px] text-center'>
-            <p className='text-xs font-bold uppercase tracking-widest text-white/80 mb-3'>Track a shipment</p>
-            <h1 className='text-[40px] md:text-[50px] font-extrabold mb-4'>Where is my parcel?</h1>
-            <p className='text-white/90 mb-8'>Enter the reference number from your receipt, for example OPS75983-895.</p>
+            <p className='text-xs font-bold uppercase tracking-widest text-white/80 mb-3'>{t.kicker}</p>
+            <h1 className='text-[40px] md:text-[50px] font-extrabold mb-4'>{t.title}</h1>
+            <p className='text-white/90 mb-8'>{t.intro}</p>
             <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-3'>
-              <label htmlFor='tracking' className='sr-only'>Reference number</label>
+              <label htmlFor='tracking' className='sr-only'>{t.label}</label>
               <input
                 id='tracking'
                 value={trackingNumber}
@@ -73,7 +123,7 @@ export default function TrackPage() {
                 disabled={loading}
                 className='h-[42px] px-8 text-[18px] font-bold rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-60'
               >
-                {loading ? 'Tracking...' : 'Track'}
+                {loading ? t.tracking : t.track}
               </button>
             </form>
           </div>
@@ -88,7 +138,12 @@ export default function TrackPage() {
                 {error}
               </div>
             )}
-            {result && <TrackResult shipment={result.shipment} events={result.tracking_history} />}
+            {result && (
+              <>
+                <TrackResult shipment={result.shipment} events={result.tracking_history} lastFetched={lastFetched} />
+                {!delivered && <p className='mt-6 text-[13px] text-text-secondary print:hidden'>{t.refreshNote}</p>}
+              </>
+            )}
           </div>
         </Container>
       </section>
