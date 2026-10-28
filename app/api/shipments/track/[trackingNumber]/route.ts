@@ -51,7 +51,7 @@ export async function GET(
         shipment: { ...shipment, pet_checks: petChecks, origin_place: places?.origin ?? null, destination_place: places?.destination ?? null },
         tracking_history: ev.rows,
       },
-      { headers: { 'Cache-Control': 'public, max-age=30, s-maxage=120, stale-while-revalidate=300' } }
+      { headers: { 'Cache-Control': 'public, max-age=0, s-maxage=30, stale-while-revalidate=60' } }
     );
   } catch {
     return NextResponse.json({ error: 'Failed to fetch shipment' }, { status: 500 });

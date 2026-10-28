@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import QRCode from 'qrcode';
 import 'leaflet/dist/leaflet.css';
 import { useLanguage } from '@/lib/i18n';
 import { copyFor } from '@/components/track/copy';
 
 export type TrackEvent = { status: string; location: string | null; timestamp: string; notes: string | null; next_step: string | null; latitude: number | null; longitude: number | null };
 export type PetChecks = { crate_inspected: boolean; documents_verified: boolean; airline_accepted: boolean; handover_confirmed: boolean };
+export type Place = { lat: number; lng: number; label: string };
 export type TrackShipment = {
   reference_number?: string | null;
   tracking_number: string;
@@ -34,7 +34,7 @@ export type TrackShipment = {
   destination_place: Place | null;
 };
 
-export type Place = { lat: number; lng: number; label: string };
+type Copy = ReturnType<typeof copyFor>;
 
 // Map pin colour for each status, so the route reads at a glance.
 const pinColor: Record<string, string> = {
@@ -61,10 +61,19 @@ const statusStyle: Record<string, string> = {
   exception: 'bg-red-600 text-white',
 };
 
+// The delivery stages shown on the roadmap, in order.
 const stageKeys = ['registered', 'picked_up', 'in_transit', 'out_for_delivery', 'delivered'];
+
+const card = 'bg-white rounded-2xl border border-border shadow-deep p-6 md:p-8';
 
 function dateLabel(v: string | null, lang: string) {
   return v ? new Date(v).toLocaleString(lang === 'fr' ? 'fr-FR' : undefined) : '—';
+}
+
+// Where the shipment sits on the roadmap. Customs and delays happen while in transit.
+function currentStage(status: string) {
+  if (['held_at_customs', 'cleared_for_customs', 'delayed'].includes(status)) return stageKeys.indexOf('in_transit');
+  return stageKeys.indexOf(status);
 }
 
 function StatusBadge({ status, label }: { status: string; label: string }) {
@@ -75,10 +84,8 @@ function StatusBadge({ status, label }: { status: string; label: string }) {
   );
 }
 
-// Customs happens while the shipment is in transit, and a delay sits on the in-transit step too.
 function ProgressBar({ status, stageNames }: { status: string; stageNames: readonly string[] }) {
-  const onTransit = ['held_at_customs', 'cleared_for_customs', 'delayed'].includes(status);
-  const current = onTransit ? stageKeys.indexOf('in_transit') : stageKeys.indexOf(status);
+  const current = currentStage(status);
   return (
     <ol className='grid grid-cols-5 gap-2'>
       {stageKeys.map((key, i) => {
@@ -87,6 +94,41 @@ function ProgressBar({ status, stageNames }: { status: string; stageNames: reado
           <li key={key} className='flex flex-col items-center text-center'>
             <span className={`w-4 h-4 rounded-full border-2 ${done ? 'bg-primary border-primary' : 'bg-white border-border'}`} aria-hidden='true' />
             <span className={`mt-2 text-[12px] md:text-[13px] font-bold ${done ? 'text-navy' : 'text-text-secondary'}`}>{stageNames[i]}</span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+// The roadmap: each stage with the time it was reached, the current stage highlighted, and the
+// stages still to come shown in grey.
+function Roadmap({ status, events, c, lang }: { status: string; events: TrackEvent[]; c: Copy; lang: string }) {
+  const current = currentStage(status);
+  const reached = (key: string) => events.find((e) => e.status === key);
+  return (
+    <ol className='relative space-y-6 pl-10'>
+      <span className='absolute left-[15px] top-2 bottom-2 w-0.5 bg-border' aria-hidden='true' />
+      {stageKeys.map((key, i) => {
+        const done = current >= 0 && i < current;
+        const now = current >= 0 && i === current;
+        const event = reached(key);
+        return (
+          <li key={key} className='relative'>
+            <span
+              className={`absolute -left-10 top-0 flex h-8 w-8 items-center justify-center rounded-full border-2 text-[13px] font-bold ${
+                done || (now && status === 'delivered') ? 'bg-primary border-primary text-white'
+                  : now ? 'bg-white border-primary text-primary ring-4 ring-primary/20'
+                  : 'bg-white border-border text-text-secondary'
+              }`}
+              aria-hidden='true'
+            >
+              {done || (now && status === 'delivered') ? '✓' : i + 1}
+            </span>
+            <p className={`text-[17px] font-bold ${now || done ? 'text-navy' : 'text-text-secondary'}`}>{c.stageNames[i]}</p>
+            <p className='text-[14px] text-text-secondary'>
+              {event ? [event.location, dateLabel(event.timestamp, lang)].filter(Boolean).join(' · ') : now ? c.statusNow : c.upcoming}
+            </p>
           </li>
         );
       })}
@@ -127,11 +169,11 @@ function LiveMap({ events, origin, destination, emptyText, title }: {
       }
       if (origin) {
         L.circleMarker([origin.lat, origin.lng], { radius: 9, color: '#FFFFFF', weight: 2, fillColor: '#059669', fillOpacity: 1 })
-          .addTo(m).bindTooltip(`Origin · ${origin.label}`, { permanent: false });
+          .addTo(m).bindTooltip(`Origin · ${origin.label}`);
       }
       if (destination) {
         L.circleMarker([destination.lat, destination.lng], { radius: 9, color: '#FFFFFF', weight: 2, fillColor: '#0B2C5F', fillOpacity: 1 })
-          .addTo(m).bindTooltip(`Destination · ${destination.label}`, { permanent: false });
+          .addTo(m).bindTooltip(`Destination · ${destination.label}`);
       }
       eventPoints.forEach((e, i) => {
         const colour = pinColor[e.status] ?? '#1173D4';
@@ -160,7 +202,7 @@ function LiveMap({ events, origin, destination, emptyText, title }: {
   );
 }
 
-function Eta({ arrival, status, c, lang }: { arrival: string | null; status: string; c: ReturnType<typeof copyFor>; lang: string }) {
+function Eta({ arrival, status, c, lang }: { arrival: string | null; status: string; c: Copy; lang: string }) {
   if (status === 'delivered') return <p className='text-[15px] font-bold text-green-700'>{c.delivered}</p>;
   if (!arrival) return <p className='text-[15px] text-text-secondary'>{c.estimatePending}</p>;
   const days = Math.ceil((new Date(arrival).getTime() - Date.now()) / 86400000);
@@ -174,48 +216,10 @@ function Eta({ arrival, status, c, lang }: { arrival: string | null; status: str
   );
 }
 
-function ShareBar({ c, reference }: { c: ReturnType<typeof copyFor>; reference: string }) {
-  const [url, setUrl] = useState('');
-  const [qr, setQr] = useState('');
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    const link = window.location.href;
-    setUrl(link);
-    QRCode.toDataURL(link, { margin: 1, width: 140, color: { dark: '#0B2C5F', light: '#FFFFFF' } })
-      .then(setQr)
-      .catch(() => setQr(''));
-  }, [reference]);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      setCopied(false);
-    }
-  };
-
-  return (
-    <div className='flex items-center gap-4 print:hidden'>
-      {qr && (
-        <div className='text-center'>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={qr} alt={c.qrLabel} width={96} height={96} className='rounded bg-white p-1' />
-          <p className='text-[11px] text-white/80 mt-1'>{c.qrLabel}</p>
-        </div>
-      )}
-      <button type='button' onClick={copy} className='h-[40px] px-5 rounded border border-white/60 text-white font-bold text-[14px] hover:bg-white/10'>
-        {copied ? c.copied : c.copyLink}
-      </button>
-    </div>
-  );
-}
-
 export default function TrackResult({ shipment, events, lastFetched }: { shipment: TrackShipment; events: TrackEvent[]; lastFetched: Date | null }) {
   const { lang } = useLanguage();
   const c = copyFor(lang);
+  const [copied, setCopied] = useState(false);
   const lastUpdate = events[0]?.timestamp ?? null;
   const reference = shipment.reference_number || shipment.tracking_number;
   const label = (s: string) => (c.statuses as Record<string, string>)[s] ?? s.replace(/_/g, ' ');
@@ -227,11 +231,23 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
   const nextStep = latest?.next_step ?? null;
   const pet = shipment.pet_checks;
 
-  return (
-    <div className='space-y-8'>
-      <style>{'@media print { header, footer, nav { display: none !important; } }'}</style>
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
 
-      <div className='bg-navy text-white rounded-xl p-6 md:p-8'>
+  return (
+    <div className='space-y-6'>
+      {/* Printed receipts show every section, so the page is not cut down for paper. */}
+      <style>{'@media print { header, footer, nav { display: none !important; } .print-card { box-shadow: none !important; break-inside: avoid; } }'}</style>
+
+      {/* Header card: reference, status and actions */}
+      <div className='print-card bg-navy text-white rounded-2xl shadow-deep p-6 md:p-8'>
         <div className='flex flex-col md:flex-row md:items-start md:justify-between gap-6'>
           <div>
             <p className='text-[12px] font-bold uppercase tracking-widest text-white/70'>{c.reference}</p>
@@ -240,24 +256,32 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
               {lastUpdate ? `${c.lastUpdated} ${new Date(lastUpdate).toLocaleString(lang === 'fr' ? 'fr-FR' : undefined)}` : c.noUpdates}
               {lastFetched && <span className='block text-[12px] text-white/60'>{lastFetched.toLocaleTimeString(lang === 'fr' ? 'fr-FR' : undefined)}</span>}
             </p>
-            <div className='mt-4'><ShareBar c={c} reference={reference} /></div>
           </div>
           <div className='flex flex-col items-start md:items-end gap-3 print:hidden'>
             <StatusBadge status={shipment.status} label={label(shipment.status)} />
-            <button type='button' onClick={() => window.print()} className='h-[40px] px-5 rounded border border-white/60 text-white font-bold text-[14px] hover:bg-white/10'>
-              {c.printReceipt}
-            </button>
+            <div className='flex gap-3'>
+              <button type='button' onClick={copyLink} className='h-[40px] px-5 rounded border border-white/60 text-white font-bold text-[14px] hover:bg-white/10'>
+                {copied ? c.copied : c.copyLink}
+              </button>
+              <button type='button' onClick={() => window.print()} className='h-[40px] px-5 rounded bg-white text-navy font-bold text-[14px] hover:bg-light-blue'>
+                {c.printReceipt}
+              </button>
+            </div>
           </div>
-        </div>
-        <div className='mt-8 bg-white rounded-lg p-5 text-navy'>
-          <ProgressBar status={shipment.status} stageNames={c.stageNames} />
         </div>
       </div>
 
+      {/* Progress card */}
+      <div className='print-card bg-white rounded-2xl border border-border shadow-deep p-6 md:p-8'>
+        <p className='text-[12px] font-bold uppercase tracking-wider text-primary mb-4'>{c.progress}</p>
+        <ProgressBar status={shipment.status} stageNames={c.stageNames} />
+        <div className='mt-6'><Eta arrival={shipment.arrival_at} status={shipment.status} c={c} lang={lang} /></div>
+      </div>
+
       {customs && (
-        <div role='status' className='flex flex-col md:flex-row gap-5 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 p-4 md:p-5'>
+        <div role='status' className='print-card flex flex-col md:flex-row gap-5 rounded-2xl border border-amber-300 bg-amber-50 text-amber-900 p-4 md:p-5 shadow-deep'>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src='/images/customs/What%20clearance%20actually%20involves.webp' alt='' loading='lazy' className='w-full md:w-[200px] h-[140px] object-cover rounded-lg' />
+          <img src='/images/customs/What%20clearance%20actually%20involves.webp' alt='' loading='lazy' className='w-full md:w-[200px] h-[140px] object-cover rounded-lg print:hidden' />
           <div className='flex-1 py-1'>
             <p className='font-bold text-[17px]'>{shipment.status === 'held_at_customs' ? c.customsHeld : c.customsCleared}</p>
             <p className='text-[15px]'>{shipment.status === 'held_at_customs' ? c.customsHeldText : c.customsClearedText}</p>
@@ -266,28 +290,29 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
       )}
 
       {delayed && (
-        <div role='status' className='rounded-xl border border-red-300 bg-red-50 text-red-900 px-5 py-4'>
+        <div role='status' className='print-card rounded-2xl border border-red-300 bg-red-50 text-red-900 px-5 py-4 shadow-deep'>
           <p className='font-bold'>{c.delayed}</p>
           <p className='text-[15px]'>{c.delayedText}</p>
           {latest?.notes && <p className='text-[15px] mt-2'>{latest.notes}</p>}
         </div>
       )}
 
-      {nextStep && (shipment.status !== 'delivered') && (
-        <div className='rounded-xl border border-primary/30 bg-light-blue px-5 py-4'>
+      {nextStep && shipment.status !== 'delivered' && (
+        <div className='print-card rounded-2xl border border-primary/30 bg-light-blue px-5 py-4 shadow-deep'>
           <p className='text-[12px] font-bold uppercase tracking-wider text-primary'>{c.nextStep}</p>
           <p className='text-[16px] text-navy mt-1'>{nextStep}</p>
         </div>
       )}
 
+      {/* From and To cards */}
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-        <div className='bg-white border border-border rounded-xl p-6'>
+        <div className='print-card bg-white rounded-2xl border border-border shadow-deep p-6'>
           <p className='text-[12px] font-bold uppercase tracking-wider text-primary'>{c.from}</p>
           <p className='text-[20px] font-extrabold text-navy'>{[shipment.sender_city, shipment.sender_country].filter(Boolean).join(', ') || '—'}</p>
           <p className='text-[14px] mt-1'>{c.origin}: {shipment.route_origin || '—'}</p>
           <p className='text-[14px] mt-1'>{c.pickedUp}: {dateLabel(shipment.pickup_at, lang)}</p>
         </div>
-        <div className='bg-white border border-border rounded-xl p-6'>
+        <div className='print-card bg-white rounded-2xl border border-border shadow-deep p-6'>
           <p className='text-[12px] font-bold uppercase tracking-wider text-primary'>{c.to}</p>
           <p className='text-[20px] font-extrabold text-navy'>{[shipment.receiver_city, shipment.receiver_country].filter(Boolean).join(', ') || '—'}</p>
           <p className='text-[14px] mt-1'>{c.destination}: {shipment.route_destination || '—'}</p>
@@ -296,27 +321,40 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
         </div>
       </div>
 
-      <div>
+      {/* Delivery roadmap card */}
+      <div className={card + ' print-card'}>
+        <h2 className='text-[26px] md:text-[28px] font-extrabold text-navy mb-6'>{c.roadmap}</h2>
+        <Roadmap status={shipment.status} events={events} c={c} lang={lang} />
+      </div>
+
+      {/* Map card */}
+      <div className={card + ' print-card'}>
         <h2 className='text-[26px] md:text-[28px] font-extrabold text-navy mb-4'>{c.liveMap}</h2>
         <LiveMap events={events} origin={shipment.origin_place} destination={shipment.destination_place} emptyText={c.mapEmpty} title={c.liveMap} />
       </div>
 
-      <div className='bg-white border border-border rounded-xl p-6'>
+      {/* Details card */}
+      <div className={card + ' print-card'}>
         <h2 className='text-[22px] font-extrabold text-navy mb-4'>{c.details}</h2>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-[15px]'>
+          <p><span className='text-text-secondary'>{c.reference}: </span><span className='font-bold'>{reference}</span></p>
+          <p><span className='text-text-secondary'>{c.status}: </span><span className='font-bold'>{label(shipment.status)}</span></p>
           <p><span className='text-text-secondary'>{c.courier}: </span><span className='font-bold'>{shipment.carrier || 'OPS Logistics'}</span></p>
           <p><span className='text-text-secondary'>{c.transport}: </span><span className='font-bold'>{transportLabel(shipment.transport_mode)}</span></p>
           <p><span className='text-text-secondary'>{c.flight}: </span><span className='font-bold'>{shipment.flight_number || '—'}</span></p>
           <p><span className='text-text-secondary'>{c.service}: </span><span className='font-bold capitalize'>{shipment.service_type || '—'}</span></p>
           <p><span className='text-text-secondary'>{c.type}: </span><span className='font-bold capitalize'>{shipment.shipment_type ? shipment.shipment_type.replace(/_/g, ' ') : '—'}</span></p>
           <p><span className='text-text-secondary'>{c.weight}: </span><span className='font-bold'>{shipment.weight ? `${shipment.weight} kg` : '—'}</span></p>
+          <p><span className='text-text-secondary'>{c.pickedUp}: </span><span className='font-bold'>{dateLabel(shipment.pickup_at, lang)}</span></p>
           <p><span className='text-text-secondary'>{c.departs}: </span><span className='font-bold'>{dateLabel(shipment.departure_at, lang)}</span></p>
           <p><span className='text-text-secondary'>{c.arrives}: </span><span className='font-bold'>{dateLabel(shipment.arrival_at, lang)}</span></p>
+          <p><span className='text-text-secondary'>{c.origin}: </span><span className='font-bold'>{shipment.route_origin || '—'}</span></p>
+          <p><span className='text-text-secondary'>{c.destination}: </span><span className='font-bold'>{shipment.route_destination || '—'}</span></p>
         </div>
       </div>
 
       {pet && (
-        <div className='bg-white border border-border rounded-xl p-6'>
+        <div className={card + ' print-card'}>
           <h2 className='text-[22px] font-extrabold text-navy mb-4'>{c.petWelfare}</h2>
           <ul className='grid grid-cols-1 md:grid-cols-2 gap-3 text-[15px]'>
             {[
@@ -334,8 +372,9 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
         </div>
       )}
 
-      <div>
-        <h2 className='text-[26px] md:text-[28px] font-extrabold text-navy mb-4'>{c.history}</h2>
+      {/* History card: every update, newest first */}
+      <div className={card + ' print-card'}>
+        <h2 className='text-[26px] md:text-[28px] font-extrabold text-navy mb-6'>{c.history}</h2>
         {events.length === 0 && <p className='text-text-secondary'>{c.historyEmpty}</p>}
         <ol className='space-y-5 border-l-2 border-primary pl-6'>
           {events.map((e, i) => (
@@ -350,10 +389,11 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
         </ol>
       </div>
 
-      <div className='bg-light-blue border border-border rounded-xl p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 print:hidden'>
+      {/* Support card */}
+      <div className='print-card bg-light-blue border border-border rounded-2xl shadow-deep p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 print:hidden'>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src='/images/home/3d63aa55-573e-4d41-b574-81235d3ca999.webp' alt='' loading='lazy' className='w-full md:w-[180px] h-[120px] object-cover rounded-lg' />
-        <div>
+        <div className='flex-1'>
           <p className='text-[18px] font-extrabold text-navy'>{c.needHelp}</p>
           <p className='text-[15px]'>{c.needHelpText}</p>
         </div>

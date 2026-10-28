@@ -251,11 +251,23 @@ export async function PUT(request: Request, { params }: Ctx) {
       const keys = Object.keys(fields);
       if (keys.length === 0) return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
       const set = keys.map((k, i) => `${k} = $${i + 1}`).join(', ');
+      const before = await db.query('SELECT status FROM shipments WHERE id = $1', [shipmentEdit[1]]);
       const r = await db.query(
         `UPDATE shipments SET ${set}, updated_at = CURRENT_TIMESTAMP WHERE id = $${keys.length + 1} RETURNING *`,
         [...Object.values(fields), shipmentEdit[1]]
       );
       if (r.rows.length === 0) return NextResponse.json({ error: 'Shipment not found' }, { status: 404 });
+
+      // A status changed on the edit page is recorded as a tracking update, so the public page and emails match.
+      const newStatus = r.rows[0].status as string;
+      if (before.rows[0] && before.rows[0].status !== newStatus) {
+        await db.query(
+          'INSERT INTO shipment_tracking (shipment_id, status, notes) VALUES ($1, $2, $3)',
+          [shipmentEdit[1], newStatus, 'Status updated by the OPS team']
+        );
+        await queueMilestone(Number(shipmentEdit[1]), r.rows[0].reference_number || r.rows[0].tracking_number, newStatus, null);
+        await sendQueued();
+      }
       return NextResponse.json({ message: 'Shipment updated', shipment: r.rows[0] });
     }
 

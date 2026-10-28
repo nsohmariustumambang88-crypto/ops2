@@ -110,7 +110,7 @@ export default function TrackPage() {
             <p className='text-xs font-bold uppercase tracking-widest text-white/80 mb-3'>{t.kicker}</p>
             <h1 className='text-[40px] md:text-[50px] font-extrabold mb-4'>{t.title}</h1>
             <p className='text-white/90 mb-8'>{t.intro}</p>
-            <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-3'>
+            <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-3 bg-white rounded-2xl shadow-deep p-3 md:p-4 text-left'>
               <label htmlFor='tracking' className='sr-only'>{t.label}</label>
               <input
                 id='tracking'
