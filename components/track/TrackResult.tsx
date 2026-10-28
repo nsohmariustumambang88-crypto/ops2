@@ -255,9 +255,13 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
       </div>
 
       {customs && (
-        <div role='status' className='rounded-xl border border-amber-300 bg-amber-50 text-amber-900 px-5 py-4'>
-          <p className='font-bold'>{shipment.status === 'held_at_customs' ? c.customsHeld : c.customsCleared}</p>
-          <p className='text-[15px]'>{shipment.status === 'held_at_customs' ? c.customsHeldText : c.customsClearedText}</p>
+        <div role='status' className='flex flex-col md:flex-row gap-5 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 p-4 md:p-5'>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src='/images/customs/What%20clearance%20actually%20involves.webp' alt='' loading='lazy' className='w-full md:w-[200px] h-[140px] object-cover rounded-lg' />
+          <div className='flex-1 py-1'>
+            <p className='font-bold text-[17px]'>{shipment.status === 'held_at_customs' ? c.customsHeld : c.customsCleared}</p>
+            <p className='text-[15px]'>{shipment.status === 'held_at_customs' ? c.customsHeldText : c.customsClearedText}</p>
+          </div>
         </div>
       )}
 
@@ -346,7 +350,9 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
         </ol>
       </div>
 
-      <div className='bg-light-blue border border-border rounded-xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 print:hidden'>
+      <div className='bg-light-blue border border-border rounded-xl p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 print:hidden'>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src='/images/home/3d63aa55-573e-4d41-b574-81235d3ca999.webp' alt='' loading='lazy' className='w-full md:w-[180px] h-[120px] object-cover rounded-lg' />
         <div>
           <p className='text-[18px] font-extrabold text-navy'>{c.needHelp}</p>
           <p className='text-[15px]'>{c.needHelpText}</p>

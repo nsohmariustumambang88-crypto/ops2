@@ -97,7 +97,14 @@ export default function TrackPage() {
 
   return (
     <div className='bg-white text-black'>
-      <section className='py-16 md:py-20 bg-navy text-white'>
+      <section
+        className='py-16 md:py-24 text-white bg-navy'
+        style={{
+          backgroundImage: "linear-gradient(rgba(11,44,95,0.88), rgba(11,44,95,0.94)), url('/images/home/bulk%20maritime%20transport.webp')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
         <Container>
           <div className='mx-auto max-w-[720px] text-center'>
             <p className='text-xs font-bold uppercase tracking-widest text-white/80 mb-3'>{t.kicker}</p>
