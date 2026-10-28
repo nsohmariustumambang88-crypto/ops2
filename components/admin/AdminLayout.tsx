@@ -28,6 +28,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { label: 'Tariff Updates', icon: '📊', href: '/admin/tariff-updates' },
     { label: 'Subscribers', icon: '📧', href: '/admin/subscribers' },
     { label: 'Contact Forms', icon: '💬', href: '/admin/contact-submissions' },
+    { label: 'Customers', icon: '🏷️', href: '/admin/customers' },
+    { label: 'Orders', icon: '🧾', href: '/admin/orders' },
+    { label: 'Reports', icon: '📈', href: '/admin/reports' },
+    { label: 'Pricing', icon: '💲', href: '/admin/pricing' },
+    { label: 'Support', icon: '🛟', href: '/admin/support' },
     { label: 'Users', icon: '👥', href: '/admin/users' },
     { label: 'Settings', icon: '⚙️', href: '/admin/settings' },
   ];

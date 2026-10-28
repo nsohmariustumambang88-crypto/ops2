@@ -8,8 +8,12 @@ type Stats = {
   total_shipments: string;
   in_transit: string;
   delivered: string;
+  total_orders: string;
+  total_revenue: string;
+  total_customers: string;
   total_users: string;
 };
+type Support = { open_tickets: string; total_tickets: string };
 
 type RecentShipment = {
   id: number;
@@ -21,8 +25,12 @@ type RecentShipment = {
 const quickActions = [
   { label: 'New Shipment', href: '/admin/shipments/new', icon: '➕' },
   { label: 'All Shipments', href: '/admin/shipments', icon: '📦' },
-  { label: 'New Blog Post', href: '/admin/blogs', icon: '📝' },
   { label: 'Contact Forms', href: '/admin/contact-submissions', icon: '💬' },
+  { label: 'Support', href: '/admin/support', icon: '🛟' },
+  { label: 'Orders', href: '/admin/orders', icon: '🧾' },
+  { label: 'Reports', href: '/admin/reports', icon: '📈' },
+  { label: 'Pricing', href: '/admin/pricing', icon: '💲' },
+  { label: 'Blog Posts', href: '/admin/blogs', icon: '📝' },
 ];
 
 const statusClass = (status: string) => {
@@ -42,19 +50,26 @@ const statusClass = (status: string) => {
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
+  const [support, setSupport] = useState<Support | null>(null);
+  const [newEnquiries, setNewEnquiries] = useState<number | null>(null);
   const [recent, setRecent] = useState<RecentShipment[]>([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken') ?? '';
     const headers = { Authorization: `Bearer ${token}` };
+    const ok = (r: Response, name: string) => (r.ok ? r.json() : Promise.reject(new Error(name)));
     Promise.all([
-      fetch('/api/admin/dashboard', { headers }).then((r) => (r.ok ? r.json() : Promise.reject(new Error('stats')))),
-      fetch('/api/admin/shipments?limit=8', { headers }).then((r) => (r.ok ? r.json() : Promise.reject(new Error('shipments')))),
+      fetch('/api/admin/dashboard', { headers }).then((r) => ok(r, 'stats')),
+      fetch('/api/admin/shipments?limit=8', { headers }).then((r) => ok(r, 'shipments')),
+      fetch('/api/support/admin/stats', { headers }).then((r) => ok(r, 'support')).catch(() => null),
+      fetch('/api/admin/contact-submissions?status=new&limit=200', { headers }).then((r) => ok(r, 'enquiries')).catch(() => null),
     ])
-      .then(([s, list]) => {
+      .then(([s, list, sup, enq]) => {
         setStats(s);
         setRecent(list.data ?? []);
+        setSupport(sup);
+        setNewEnquiries(enq ? (enq.data ?? []).length : null);
       })
       .catch(() => setError('Could not load the dashboard numbers. Try refreshing the page.'));
   }, []);
@@ -64,7 +79,11 @@ export default function AdminDashboard() {
         { label: 'Total shipments', value: stats.total_shipments, icon: '📦' },
         { label: 'In transit', value: stats.in_transit, icon: '🚚' },
         { label: 'Delivered', value: stats.delivered, icon: '✅' },
-        { label: 'Users', value: stats.total_users, icon: '👥' },
+        { label: 'Paid revenue', value: `$${Number(stats.total_revenue || 0).toFixed(2)}`, icon: '💰' },
+        { label: 'Paid orders', value: stats.total_orders, icon: '🧾' },
+        { label: 'Customers', value: stats.total_customers, icon: '🏷️' },
+        { label: 'Open support tickets', value: support?.open_tickets ?? '—', icon: '🛟' },
+        { label: 'New enquiries', value: newEnquiries ?? '—', icon: '💬' },
       ]
     : [];
 
