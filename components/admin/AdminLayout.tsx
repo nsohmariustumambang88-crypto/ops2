@@ -9,13 +9,20 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Desktop: the sidebar can collapse to icons. Phones: it opens as a drawer over the page.
+  const [collapsed, setCollapsed] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
     if (!localStorage.getItem('adminToken')) router.replace('/admin/login');
   }, [router]);
+
+  // Close the drawer whenever the page changes, so a tapped link does not leave it open.
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [pathname]);
 
   const menuItems = [
     { label: 'Dashboard', icon: '📊', href: '/admin/dashboard' },
@@ -44,73 +51,89 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const isActive = (href: string) => pathname === href;
 
-  return (
-    <div className='flex h-screen bg-light-gray'>
-      {/* Sidebar */}
-      <aside
-        className={`${
-          sidebarOpen ? 'w-64' : 'w-20'
-        } bg-navy text-white transition-all duration-300 overflow-y-auto`}
-      >
-        {/* Logo */}
-        <div className='p-4 border-b border-navy-dark'>
-          <Link href='/admin/dashboard' className='flex items-center gap-3'>
-            <span className='text-2xl font-bold'>📊</span>
-            {sidebarOpen && <span className='font-bold text-sm'>OPS ADMIN</span>}
-          </Link>
-        </div>
+  const sidebar = (
+    <>
+      <div className='p-4 border-b border-navy-dark'>
+        <Link href='/admin/dashboard' className='flex items-center gap-3'>
+          <span className='text-2xl font-bold'>📊</span>
+          {!collapsed && <span className='font-bold text-sm'>OPS ADMIN</span>}
+        </Link>
+      </div>
 
-        {/* Menu Items */}
-        <nav className='p-4 space-y-2'>
-          {menuItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors group ${
-                isActive(item.href)
-                  ? 'bg-primary text-white'
-                  : 'text-white/80 hover:bg-navy-dark'
-              }`}
-            >
-              <span className='text-lg'>{item.icon}</span>
-              {sidebarOpen && (
-                <>
-                  <span className='text-sm font-medium flex-1'>{item.label}</span>
-                </>
-              )}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Logout */}
-        <div className='absolute bottom-0 left-0 right-0 p-4 border-t border-navy-dark'>
-          <button
-            onClick={handleLogout}
-            className='w-full flex items-center gap-3 px-4 py-2 rounded-lg text-white/80 hover:bg-navy-dark transition-colors'
+      <nav className='p-4 space-y-2 overflow-y-auto pb-24'>
+        {menuItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors group ${
+              isActive(item.href) ? 'bg-primary text-white' : 'text-white/80 hover:bg-navy-dark'
+            }`}
           >
-            <span className='text-lg'>🚪</span>
-            {sidebarOpen && <span className='text-sm font-medium'>Logout</span>}
-          </button>
-        </div>
+            <span className='text-lg'>{item.icon}</span>
+            {!collapsed && <span className='text-sm font-medium flex-1'>{item.label}</span>}
+          </Link>
+        ))}
+      </nav>
+
+      <div className='absolute bottom-0 left-0 right-0 p-4 border-t border-navy-dark bg-navy'>
+        <button
+          onClick={handleLogout}
+          className='w-full flex items-center gap-3 px-4 py-2 rounded-lg text-white/80 hover:bg-navy-dark transition-colors'
+        >
+          <span className='text-lg'>🚪</span>
+          {!collapsed && <span className='text-sm font-medium'>Logout</span>}
+        </button>
+      </div>
+    </>
+  );
+
+  return (
+    <div className='flex h-[100dvh] bg-light-gray overflow-hidden'>
+      {/* Phone backdrop, behind the open drawer */}
+      {drawerOpen && (
+        <button
+          type='button'
+          aria-label='Close menu'
+          onClick={() => setDrawerOpen(false)}
+          className='fixed inset-0 z-30 bg-black/40 md:hidden'
+        />
+      )}
+
+      {/* Sidebar: a drawer on phones, a fixed column from tablet width up */}
+      <aside
+        className={`relative bg-navy text-white overflow-y-auto transition-all duration-300 z-40
+          fixed inset-y-0 left-0 w-64 md:static md:shrink-0 ${drawerOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
+          ${collapsed ? 'md:w-20' : 'md:w-64'}`}
+      >
+        {sidebar}
       </aside>
 
-      {/* Main Content */}
-      <div className='flex-1 flex flex-col'>
-        {/* Top Bar */}
-        <header className='bg-white border-b border-border px-6 py-4 flex items-center justify-between'>
-          <div className='flex items-center gap-4'>
+      <div className='flex-1 min-w-0 flex flex-col'>
+        {/* Top bar */}
+        <header className='bg-white border-b border-border px-4 md:px-6 py-3 md:py-4 flex items-center justify-between gap-3'>
+          <div className='flex items-center gap-3 min-w-0'>
             <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className='p-2 hover:bg-light-gray rounded-lg transition-colors'
+              type='button'
+              aria-label='Open menu'
+              onClick={() => setDrawerOpen(true)}
+              className='md:hidden p-2 hover:bg-light-gray rounded-lg transition-colors'
             >
-              {sidebarOpen ? '☰' : '→'}
+              ☰
             </button>
-            <h1 className='text-xl font-bold text-text-primary'>Admin Dashboard</h1>
+            <button
+              type='button'
+              aria-label='Collapse menu'
+              onClick={() => setCollapsed(!collapsed)}
+              className='hidden md:inline-flex p-2 hover:bg-light-gray rounded-lg transition-colors'
+            >
+              {collapsed ? '→' : '☰'}
+            </button>
+            <h1 className='text-base md:text-xl font-bold text-text-primary truncate'>Admin</h1>
           </div>
 
           <div className='flex items-center gap-4'>
             <div className='relative group'>
-              <button className='w-10 h-10 rounded-full bg-primary text-white font-bold flex items-center justify-center'>
+              <button type='button' className='w-10 h-10 rounded-full bg-primary text-white font-bold flex items-center justify-center'>
                 A
               </button>
               <div className='hidden group-hover:block absolute right-0 mt-2 w-48 bg-white border border-border rounded-lg shadow-deep z-10'>
@@ -131,8 +154,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </div>
         </header>
 
-        {/* Page Content */}
-        <main className='flex-1 overflow-y-auto p-6'>{children}</main>
+        <main className='flex-1 overflow-y-auto p-4 md:p-6 min-w-0'>{children}</main>
       </div>
     </div>
   );

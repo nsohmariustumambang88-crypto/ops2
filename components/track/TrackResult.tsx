@@ -87,13 +87,13 @@ function StatusBadge({ status, label }: { status: string; label: string }) {
 function ProgressBar({ status, stageNames }: { status: string; stageNames: readonly string[] }) {
   const current = currentStage(status);
   return (
-    <ol className='grid grid-cols-5 gap-2'>
+    <ol className='grid grid-cols-5 gap-1 sm:gap-2'>
       {stageKeys.map((key, i) => {
         const done = current >= 0 && i <= current;
         return (
           <li key={key} className='flex flex-col items-center text-center'>
             <span className={`w-4 h-4 rounded-full border-2 ${done ? 'bg-primary border-primary' : 'bg-white border-border'}`} aria-hidden='true' />
-            <span className={`mt-2 text-[12px] md:text-[13px] font-bold ${done ? 'text-navy' : 'text-text-secondary'}`}>{stageNames[i]}</span>
+            <span className={`mt-2 text-[10px] leading-tight sm:text-[12px] md:text-[13px] font-bold ${done ? 'text-navy' : 'text-text-secondary'}`}>{stageNames[i]}</span>
           </li>
         );
       })}

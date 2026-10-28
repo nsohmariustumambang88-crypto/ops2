@@ -76,7 +76,7 @@ export default function ReportsPage() {
         </div>
 
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-          <div className='bg-white border border-border rounded-xl overflow-hidden'>
+          <div className='bg-white border border-border rounded-xl overflow-x-auto'>
             <h2 className='px-5 py-4 text-[18px] font-extrabold text-navy border-b border-border'>Revenue by day</h2>
             <table className='w-full text-left text-[14px]'>
               <thead className='bg-light-gray'>
@@ -95,7 +95,7 @@ export default function ReportsPage() {
             </table>
           </div>
 
-          <div className='bg-white border border-border rounded-xl overflow-hidden'>
+          <div className='bg-white border border-border rounded-xl overflow-x-auto'>
             <h2 className='px-5 py-4 text-[18px] font-extrabold text-navy border-b border-border'>Shipments by service</h2>
             <table className='w-full text-left text-[14px]'>
               <thead className='bg-light-gray'>

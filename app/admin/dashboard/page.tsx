@@ -127,7 +127,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className='bg-white border border-border rounded-lg overflow-hidden'>
+        <div className='bg-white border border-border rounded-lg overflow-x-auto'>
           <div className='p-6 border-b border-border flex items-center justify-between'>
             <h2 className='text-lg font-extrabold text-text-primary'>Recent shipments</h2>
             <Link href='/admin/shipments' className='text-primary font-bold text-sm hover:underline'>View all →</Link>

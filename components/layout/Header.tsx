@@ -309,7 +309,7 @@ export default function Header() {
             </nav>
 
             {/* Right side - Customer Portal */}
-            <button className='text-white px-6 py-2 rounded-lg font-medium text-sm transition-colors ml-auto' style={{ backgroundColor: '#1173D4' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0B5AA8'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1173D4'}>
+            <button className='text-white px-3 sm:px-6 py-2 rounded-lg font-medium text-xs sm:text-sm transition-colors ml-auto whitespace-nowrap' style={{ backgroundColor: '#1173D4' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0B5AA8'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1173D4'}>
               Customer portal logins
             </button>
 
@@ -327,6 +327,19 @@ export default function Header() {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <nav className='md:hidden py-4 border-t border-white/20'>
+              {/* Language and country are in the top bar on desktop, so phones get them here. */}
+              <div className='flex items-center gap-3 pb-4 mb-2 border-b border-white/20'>
+                <select
+                  aria-label={t('language')}
+                  value={lang}
+                  onChange={(e) => setLang(e.target.value as 'en' | 'fr')}
+                  className='h-[34px] px-2 border border-border rounded text-[13px] text-text-primary bg-white'
+                >
+                  <option value='en'>English</option>
+                  <option value='fr'>Français</option>
+                </select>
+                <CountrySelector />
+              </div>
               {navigationItems.map((item) => (
                 <div key={item.label}>
                   {item.hasDropdown ? (

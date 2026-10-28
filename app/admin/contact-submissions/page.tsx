@@ -93,7 +93,7 @@ export default function ContactSubmissionsPage() {
 
         {error && <div role='alert' className='rounded-xl border border-red-300 bg-red-50 text-red-800 px-5 py-4'>{error}</div>}
 
-        <div className='bg-white border border-border rounded-xl overflow-hidden'>
+        <div className='bg-white border border-border rounded-xl overflow-x-auto'>
           <table className='w-full text-left text-[14px]'>
             <thead className='bg-light-gray'>
               <tr>

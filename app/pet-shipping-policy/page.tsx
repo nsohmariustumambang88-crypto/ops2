@@ -36,7 +36,7 @@ export default function PetShippingPolicyPage() {
 
               <section>
                 <h2 className='text-[24px] font-extrabold text-navy mb-2'>3. Cancellations and refunds</h2>
-                <div className='overflow-hidden border border-border rounded-xl'>
+                <div className='overflow-x-auto border border-border rounded-xl'>
                   <table className='w-full text-left text-[15px]'>
                     <thead className='bg-light-gray'>
                       <tr>
