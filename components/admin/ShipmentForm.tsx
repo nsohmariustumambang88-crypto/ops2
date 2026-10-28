@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { COURIER_NAME } from '@/lib/shipments';
+import { worldCountries } from '@/lib/countries';
 
 export type ShipmentValues = Record<string, string>;
 
@@ -49,8 +50,12 @@ export default function ShipmentForm({
     if (!v.sender_name?.trim()) issues.push('Sender name is required.');
     if (!v.receiver_name?.trim()) issues.push('Receiver name is required.');
     if (!v.transport_mode) issues.push('Choose how the shipment is transported (land, air or sea).');
-    if (!v.route_origin?.trim()) issues.push('Route origin is required.');
-    if (!v.route_destination?.trim()) issues.push('Route destination is required.');
+    if (!v.sender_city?.trim()) issues.push('Sender city is required.');
+    if (!v.sender_country) issues.push('Choose the sender country.');
+    if (!v.receiver_city?.trim()) issues.push('Receiver city is required.');
+    if (!v.receiver_country) issues.push('Choose the receiver country.');
+    if (!v.route_origin?.trim()) issues.push('Origin is required (city, airport or port).');
+    if (!v.route_destination?.trim()) issues.push('Destination is required (city, airport or port).');
     if (v.pickup_at && v.departure_at && new Date(v.departure_at) < new Date(v.pickup_at)) {
       issues.push('Departure must be after pickup.');
     }
@@ -91,6 +96,16 @@ export default function ShipmentForm({
     </label>
   );
 
+  const countrySelect = (key: string, label: string) => (
+    <label key={key}>
+      <span className='text-[14px] font-bold'>{label}<span className='text-red-600'> *</span></span>
+      <select required value={v[key] ?? ''} onChange={set(key)} className={input}>
+        <option value=''>Select a country</option>
+        {worldCountries.map((c) => <option key={c} value={c}>{c}</option>)}
+      </select>
+    </label>
+  );
+
   return (
     <form onSubmit={submit} className='space-y-6'>
       {referenceNumber && (
@@ -107,8 +122,8 @@ export default function ShipmentForm({
           {field('sender_email', 'Email', 'email')}
           {field('sender_phone', 'Phone')}
           {field('sender_address', 'Street address')}
-          {field('sender_city', 'City')}
-          {field('sender_country', 'Country')}
+          {field('sender_city', 'City', 'text', true)}
+          {countrySelect('sender_country', 'Country')}
           {field('sender_postal_code', 'Postal code')}
         </div>
       </section>
@@ -120,8 +135,8 @@ export default function ShipmentForm({
           {field('receiver_email', 'Email', 'email')}
           {field('receiver_phone', 'Phone')}
           {field('receiver_address', 'Street address')}
-          {field('receiver_city', 'City')}
-          {field('receiver_country', 'Country')}
+          {field('receiver_city', 'City', 'text', true)}
+          {countrySelect('receiver_country', 'Country')}
           {field('receiver_postal_code', 'Postal code')}
         </div>
       </section>
@@ -142,8 +157,16 @@ export default function ShipmentForm({
             <input value={COURIER_NAME} readOnly className={`${input} bg-light-blue text-navy font-bold`} />
           </label>
           {field('flight_number', 'Flight, vessel or truck number')}
-          {field('route_origin', 'Route origin (airport, port or city)')}
-          {field('route_destination', 'Route destination (airport, port or city)')}
+          <label>
+            <span className='text-[14px] font-bold'>Origin (city, airport or port)</span>
+            <input required value={v.route_origin ?? ''} onChange={set('route_origin')} placeholder='e.g. Nairobi, Jomo Kenyatta Airport' className={input} />
+            <span className='text-[12px] text-text-secondary'>Used to place the map. Keep it to the city or airport name.</span>
+          </label>
+          <label>
+            <span className='text-[14px] font-bold'>Destination (city, airport or port)</span>
+            <input required value={v.route_destination ?? ''} onChange={set('route_destination')} placeholder='e.g. Dubai, Dubai International' className={input} />
+            <span className='text-[12px] text-text-secondary'>Used to place the map. Keep it to the city or airport name.</span>
+          </label>
           <label>
             <span className='text-[14px] font-bold'>Pickup date and time</span>
             <input type='datetime-local' value={v.pickup_at ?? ''} onChange={set('pickup_at')} className={input} />
