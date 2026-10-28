@@ -30,7 +30,11 @@ export type TrackShipment = {
   receiver_city: string | null;
   receiver_country: string | null;
   pet_checks: PetChecks | null;
+  origin_place: Place | null;
+  destination_place: Place | null;
 };
+
+export type Place = { lat: number; lng: number; label: string };
 
 // Map pin colour for each status, so the route reads at a glance.
 const pinColor: Record<string, string> = {
@@ -90,38 +94,61 @@ function ProgressBar({ status, stageNames }: { status: string; stageNames: reado
   );
 }
 
-function LiveMap({ events, emptyText, title }: { events: TrackEvent[]; emptyText: string; title: string }) {
+function LiveMap({ events, origin, destination, emptyText, title }: {
+  events: TrackEvent[];
+  origin: Place | null;
+  destination: Place | null;
+  emptyText: string;
+  title: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
+  const eventPoints = events.filter((e) => e.latitude != null && e.longitude != null).reverse();
+  const hasPoints = Boolean(origin || destination || eventPoints.length);
 
   useEffect(() => {
     let map: { remove: () => void } | null = null;
-    const ordered = events.filter((e) => e.latitude != null && e.longitude != null).reverse();
-    if (!ref.current || ordered.length === 0) return;
+    if (!ref.current || !hasPoints) return;
 
     import('leaflet').then((L) => {
       if (!ref.current) return;
-      const points = ordered.map((e) => [Number(e.latitude), Number(e.longitude)] as [number, number]);
-      const m = L.map(ref.current).setView(points[points.length - 1], 4);
+      // Route order: origin, then each tracking point in time order, then destination.
+      const track = eventPoints.map((e) => [Number(e.latitude), Number(e.longitude)] as [number, number]);
+      const route: [number, number][] = [
+        ...(origin ? [[origin.lat, origin.lng] as [number, number]] : []),
+        ...track,
+        ...(destination ? [[destination.lat, destination.lng] as [number, number]] : []),
+      ];
+      const m = L.map(ref.current).setView(route[0], 4);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
       }).addTo(m);
-      L.polyline(points, { color: '#1173D4', weight: 4, opacity: 0.8 }).addTo(m);
-      ordered.forEach((e, i) => {
+      if (route.length > 1) {
+        L.polyline(route, { color: '#1173D4', weight: 4, opacity: 0.6, dashArray: track.length ? undefined : '8 8' }).addTo(m);
+      }
+      if (origin) {
+        L.circleMarker([origin.lat, origin.lng], { radius: 9, color: '#FFFFFF', weight: 2, fillColor: '#059669', fillOpacity: 1 })
+          .addTo(m).bindTooltip(`Origin · ${origin.label}`, { permanent: false });
+      }
+      if (destination) {
+        L.circleMarker([destination.lat, destination.lng], { radius: 9, color: '#FFFFFF', weight: 2, fillColor: '#0B2C5F', fillOpacity: 1 })
+          .addTo(m).bindTooltip(`Destination · ${destination.label}`, { permanent: false });
+      }
+      eventPoints.forEach((e, i) => {
         const colour = pinColor[e.status] ?? '#1173D4';
-        L.circleMarker(points[i], { radius: 7, color: '#FFFFFF', weight: 2, fillColor: colour, fillOpacity: 1 })
+        L.circleMarker(track[i], { radius: 6, color: '#FFFFFF', weight: 2, fillColor: colour, fillOpacity: 1 })
           .addTo(m)
           .bindTooltip(`${e.status.replace(/_/g, ' ')}${e.location ? ` · ${e.location}` : ''}`);
       });
-      m.fitBounds(points, { padding: [30, 30] });
+      m.fitBounds(route, { padding: [30, 30] });
       map = m;
     });
 
     return () => {
       map?.remove();
     };
-  }, [events]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [events, origin, destination]);
 
-  const hasPoints = events.some((e) => e.latitude != null && e.longitude != null);
   return (
     <div className='rounded-xl border border-border overflow-hidden print:hidden' aria-label={title}>
       {hasPoints ? (
@@ -267,7 +294,7 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
 
       <div>
         <h2 className='text-[26px] md:text-[28px] font-extrabold text-navy mb-4'>{c.liveMap}</h2>
-        <LiveMap events={events} emptyText={c.mapEmpty} title={c.liveMap} />
+        <LiveMap events={events} origin={shipment.origin_place} destination={shipment.destination_place} emptyText={c.mapEmpty} title={c.liveMap} />
       </div>
 
       <div className='bg-white border border-border rounded-xl p-6'>

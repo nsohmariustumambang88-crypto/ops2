@@ -241,6 +241,13 @@ export async function PUT(request: Request, { params }: Ctx) {
     if (shipmentEdit) {
       const fields = pickShipmentFields(await request.json());
       delete fields.reference_number;
+      // A changed origin or destination must be looked up again on the next track view.
+      if ('route_origin' in fields || 'sender_city' in fields || 'sender_country' in fields) {
+        Object.assign(fields, { origin_lat: null, origin_lng: null, origin_label: null });
+      }
+      if ('route_destination' in fields || 'receiver_city' in fields || 'receiver_country' in fields) {
+        Object.assign(fields, { destination_lat: null, destination_lng: null, destination_label: null });
+      }
       const keys = Object.keys(fields);
       if (keys.length === 0) return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
       const set = keys.map((k, i) => `${k} = $${i + 1}`).join(', ');

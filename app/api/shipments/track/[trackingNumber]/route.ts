@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ensureShipmentPlaces } from '@/lib/geocode';
 
 // Public tracking lookup by reference or numeric ID. Contact details are never returned here.
 export async function GET(
@@ -41,9 +42,15 @@ export async function GET(
     const { pet_document_checks: _omit, ...shipment } = row;
     void _omit;
 
+    // Origin and destination points for the map. Each place is looked up once and then stored.
+    const places = await ensureShipmentPlaces(row.id).catch(() => null);
+
     // Cached at Vercel's edge for 2 minutes, so repeated lookups don't run the function or the database each time.
     return NextResponse.json(
-      { shipment: { ...shipment, pet_checks: petChecks }, tracking_history: ev.rows },
+      {
+        shipment: { ...shipment, pet_checks: petChecks, origin_place: places?.origin ?? null, destination_place: places?.destination ?? null },
+        tracking_history: ev.rows,
+      },
       { headers: { 'Cache-Control': 'public, max-age=30, s-maxage=120, stale-while-revalidate=300' } }
     );
   } catch {
