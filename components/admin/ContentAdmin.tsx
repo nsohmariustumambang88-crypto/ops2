@@ -172,7 +172,7 @@ export default function ContentAdmin({ kind, heading }: { kind: ContentKind; hea
           </form>
         )}
 
-        <div className='bg-white border border-border rounded-xl overflow-hidden'>
+        <div className='bg-white border border-border rounded-xl overflow-x-auto'>
           <table className='w-full text-left text-[14px]'>
             <thead className='bg-light-gray'>
               <tr>
