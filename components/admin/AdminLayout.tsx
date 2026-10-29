@@ -78,7 +78,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </Link>
       </div>
 
-      <nav className='p-4 space-y-2 overflow-y-auto pb-24'>
+      <nav className='flex-1 min-h-0 p-4 space-y-2 overflow-y-auto'>
         {visibleItems.map((item) => (
           <Link
             key={item.href}
@@ -93,7 +93,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         ))}
       </nav>
 
-      <div className='absolute bottom-0 left-0 right-0 p-4 border-t border-navy-dark bg-navy'>
+      <div className='shrink-0 p-4 border-t border-navy-dark bg-navy'>
         <button
           onClick={handleLogout}
           className='w-full flex items-center gap-3 px-4 py-2 rounded-lg text-white/80 hover:bg-navy-dark transition-colors'
@@ -119,7 +119,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
       {/* Sidebar: a drawer on phones, a fixed column from tablet width up */}
       <aside
-        className={`relative bg-navy text-white overflow-y-auto transition-all duration-300 z-40
+        className={`relative flex flex-col bg-navy text-white transition-all duration-300 z-40
           fixed inset-y-0 left-0 w-64 md:static md:shrink-0 ${drawerOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
           ${collapsed ? 'md:w-20' : 'md:w-64'}`}
       >

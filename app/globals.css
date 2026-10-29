@@ -2,6 +2,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --primary: #1173D4;
   --primary-dark: #0B5AA8;
   --navy: #0B2C5F;
@@ -17,16 +18,7 @@
   --foreground: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-primary: #eeeeee;
-    --text-secondary: #aaaaaa;
-    --text-tertiary: #777777;
-    --background: #0a0a0a;
-    --foreground: #eeeeee;
-    --light-gray: #1a1a1a;
-  }
-}
+/* The site is designed light. Colours are not switched by the operating system. */
 
 @layer base {
   * {
@@ -55,13 +47,15 @@ body {
   padding: 0;
 }
 
-a {
-  color: var(--primary);
-  text-decoration: none;
-}
+@layer base {
+  a {
+    color: var(--primary);
+    text-decoration: none;
+  }
 
-a:hover {
-  text-decoration: underline;
+  a:hover {
+    text-decoration: underline;
+  }
 }
 
 @layer base {
@@ -402,9 +396,11 @@ a {
   transition: color 0.3s ease;
 }
 
-a:hover {
-  text-decoration: none;
-  color: var(--primary-dark);
+@layer base {
+  a:hover {
+    text-decoration: none;
+    color: var(--primary-dark);
+  }
 }
 
 /* Better Line Height for Body Text */
