@@ -77,8 +77,18 @@ export default function UsersPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // The result shows at the top of the page, so bring it into view after every attempt.
+  const showResult = (text: string, kind: 'ok' | 'error') => {
+    if (kind === 'ok') { setMessage(text); setError(''); } else { setError(text); setMessage(''); }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const create = async (e: FormEvent) => {
     e.preventDefault();
+    if (form.role !== 'admin' && newPermissions.length === 0) {
+      showResult('Tick at least one permission for this team member, or choose the Admin role.', 'error');
+      return;
+    }
     setError('');
     setMessage('');
     const res = await fetch('/api/admin/users', {
@@ -88,10 +98,10 @@ export default function UsersPage() {
     });
     const j = await res.json().catch(() => ({}));
     if (!res.ok) {
-      setError(j.error || 'Could not create the user.');
+      showResult(j.error || 'Could not create the user.', 'error');
       return;
     }
-    setMessage(`Team member created. Share the password with them securely; they can change it later.`);
+    showResult(`Team member ${j.user?.email ?? ''} created. Share the password with them securely; they can change it later.`, 'ok');
     setForm({ email: '', password: '', first_name: '', last_name: '', role: 'support' });
     setNewPermissions([...PRESETS.support.keys]);
     load();
