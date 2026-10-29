@@ -124,11 +124,11 @@ export default function InboxPage() {
 
                 {canReply && (
                   <div className='space-y-3'>
-                    <label className='block'>
-                      <span className='text-[14px] font-bold'>Reply</span>
-                      <textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={6} className='mt-1 w-full px-3 py-2 border border-border rounded' />
-                    </label>
-                    <button type='button' onClick={send} disabled={!reply.trim()} className='h-[42px] px-6 rounded bg-primary text-white font-bold disabled:opacity-50'>Send reply</button>
+                    <div className='flex items-center justify-between gap-3'>
+                      <span className='text-[14px] font-bold'>Reply to {open.from.match(/<([^>]+)>/)?.[1] ?? open.from}</span>
+                      <button type='button' onClick={send} disabled={!reply.trim()} className='h-[42px] px-6 rounded bg-primary text-white font-bold disabled:opacity-50'>Send reply</button>
+                    </div>
+                    <textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={6} placeholder='Type your reply' className='w-full px-3 py-2 border border-border rounded' />
                   </div>
                 )}
               </div>
