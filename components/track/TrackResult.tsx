@@ -5,7 +5,7 @@ import Link from 'next/link';
 import 'leaflet/dist/leaflet.css';
 import { useLanguage } from '@/lib/i18n';
 import { copyFor } from '@/components/track/copy';
-import { normalizeStatus, stageFor } from '@/lib/status';
+import { SHIPMENT_STATUSES, normalizeStatus, stageFor } from '@/lib/status';
 import PrintArea from '@/components/PrintArea';
 import TrackReceipt from '@/components/track/TrackReceipt';
 
@@ -120,35 +120,34 @@ function ProgressBar({ status, events, stageNames }: { status: string; events: T
   );
 }
 
-// The roadmap: each stage with the time it was reached, the current stage highlighted, and the
-// stages still to come shown in grey. Off-route statuses keep the last stage reached ticked.
+// The roadmap: every status from registered to returned, in order. A status is ticked once the team
+// has recorded it, the current status is highlighted, and the rest are shown in grey.
 function Roadmap({ status, events, c, lang }: { status: string; events: TrackEvent[]; c: Copy; lang: string }) {
-  const current = currentStage(status, events);
-  const offRoute = stageFor(status) === null;
-  const delivered = normalizeStatus(status) === 'delivered';
-  const reached = (stage: number) => events.find((e) => stageFor(e.status) === stage);
+  const current = normalizeStatus(status);
+  const statusNames = c.statuses as Record<string, string>;
   return (
     <ol className='relative space-y-6 pl-10'>
       <span className='absolute left-[15px] top-2 bottom-2 w-0.5 bg-border' aria-hidden='true' />
-      {c.stageNames.map((name, i) => {
-        const done = offRoute || delivered ? i <= current : i < current;
-        const now = !offRoute && !delivered && i === current;
-        const event = reached(i);
+      {SHIPMENT_STATUSES.map((s, i) => {
+        const isCurrent = s.key === current;
+        const event = events.find((e) => normalizeStatus(e.status) === s.key);
+        const ticked = Boolean(event) && !isCurrent;
+        const isDelivered = isCurrent && s.key === 'delivered';
         return (
-          <li key={name} className='relative'>
+          <li key={s.key} className='relative'>
             <span
               className={`absolute -left-10 top-0 flex h-8 w-8 items-center justify-center rounded-full border-2 text-[13px] font-bold ${
-                done ? 'bg-primary border-primary text-white'
-                  : now ? 'bg-white border-primary text-primary ring-4 ring-primary/20'
+                ticked || isDelivered ? 'bg-primary border-primary text-white'
+                  : isCurrent ? 'bg-white border-primary text-primary ring-4 ring-primary/20'
                   : 'bg-white border-border text-text-secondary'
               }`}
               aria-hidden='true'
             >
-              {done ? '✓' : i + 1}
+              {ticked || isDelivered ? '✓' : i + 1}
             </span>
-            <p className={`text-[17px] font-bold ${now || done ? 'text-navy' : 'text-text-secondary'}`}>{name}</p>
+            <p className={`text-[17px] font-bold ${isCurrent || ticked ? 'text-navy' : 'text-text-secondary'}`}>{statusNames[s.key] ?? s.label}</p>
             <p className='text-[14px] text-text-secondary'>
-              {event ? [event.location, dateLabel(event.timestamp, lang)].filter(Boolean).join(' · ') : now ? c.statusNow : done ? '' : c.upcoming}
+              {event ? [event.location, dateLabel(event.timestamp, lang)].filter(Boolean).join(' · ') : isCurrent ? c.statusNow : c.upcoming}
             </p>
           </li>
         );

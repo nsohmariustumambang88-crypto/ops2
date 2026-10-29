@@ -50,6 +50,7 @@ export function permissionFor(method: string, path: string): Permission | 'users
   if (path.startsWith('reports')) return 'reports_view';
   if (path.startsWith('content')) return 'content_manage';
   if (path === 'subscribers' || path.startsWith('subscribers/')) return 'subscribers_manage';
+  if (path === 'email' || path.startsWith('email/')) return 'subscribers_manage';
   if (path === 'settings' || path.startsWith('settings/')) return 'settings_manage';
   if (path.startsWith('inbox')) return path === 'inbox/reply' ? 'inbox_reply' : 'inbox_view';
   if (path === 'users' || path.startsWith('users/')) return 'users_manage';

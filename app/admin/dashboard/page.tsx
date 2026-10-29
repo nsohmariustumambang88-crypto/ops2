@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import Link from 'next/link';
+import { SHIPMENT_STATUSES, normalizeStatus, statusLabel } from '@/lib/status';
 
 type Stats = {
   total_shipments: string;
@@ -12,6 +13,8 @@ type Stats = {
   total_revenue: string;
   total_customers: string;
   total_users: string;
+  status_counts: Record<string, number>;
+  recent_updates: { status: string; location: string | null; timestamp: string; shipment_id: number; reference: string }[];
 };
 type Support = { open_tickets: string; total_tickets: string };
 
@@ -25,24 +28,29 @@ type RecentShipment = {
 const quickActions = [
   { label: 'New Shipment', href: '/admin/shipments/new', icon: '➕' },
   { label: 'All Shipments', href: '/admin/shipments', icon: '📦' },
+  { label: 'Send Email', href: '/admin/email', icon: '✉️' },
   { label: 'Contact Forms', href: '/admin/contact-submissions', icon: '💬' },
   { label: 'Support', href: '/admin/support', icon: '🛟' },
   { label: 'Orders', href: '/admin/orders', icon: '🧾' },
   { label: 'Reports', href: '/admin/reports', icon: '📈' },
-  { label: 'Pricing', href: '/admin/pricing', icon: '💲' },
   { label: 'Blog Posts', href: '/admin/blogs', icon: '📝' },
 ];
 
 const statusClass = (status: string) => {
-  switch (status) {
+  switch (normalizeStatus(status)) {
     case 'delivered':
       return 'bg-green-100 text-green-800';
     case 'in_transit':
+    case 'en_route':
       return 'bg-blue-100 text-blue-800';
     case 'registered':
       return 'bg-orange-100 text-orange-800';
     case 'picked_up':
       return 'bg-purple-100 text-purple-800';
+    case 'on_hold':
+      return 'bg-amber-100 text-amber-900';
+    case 'cancelled':
+      return 'bg-red-100 text-red-800';
     default:
       return 'bg-gray-100 text-gray-800';
   }
@@ -55,7 +63,9 @@ export default function AdminDashboard() {
   const [recent, setRecent] = useState<RecentShipment[]>([]);
   const [error, setError] = useState('');
 
-  useEffect(() => {
+  // Reloads the numbers when the page loads and whenever the tab comes back into view,
+  // so a status change made elsewhere shows up without a manual refresh.
+  const load = useCallback(() => {
     const token = localStorage.getItem('adminToken') ?? '';
     const headers = { Authorization: `Bearer ${token}` };
     const ok = (r: Response, name: string) => (r.ok ? r.json() : Promise.reject(new Error(name)));
@@ -70,9 +80,21 @@ export default function AdminDashboard() {
         setRecent(list.data ?? []);
         setSupport(sup);
         setNewEnquiries(enq ? (enq.data ?? []).length : null);
+        setError('');
       })
       .catch(() => setError('Could not load the dashboard numbers. Try refreshing the page.'));
   }, []);
+
+  useEffect(() => {
+    load();
+    const onVisible = () => { if (document.visibilityState === 'visible') load(); };
+    window.addEventListener('focus', load);
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      window.removeEventListener('focus', load);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [load]);
 
   const cards = stats
     ? [
@@ -92,7 +114,7 @@ export default function AdminDashboard() {
       <div className='space-y-6'>
         <div>
           <h1 className='text-3xl font-bold text-text-primary mb-2'>Dashboard</h1>
-          <p className='text-text-secondary'>Live numbers from the shipment database.</p>
+          <p className='text-text-secondary'>Live numbers from the shipment database. Updates when you come back to this page.</p>
         </div>
 
         {error && <div role='alert' className='rounded-xl border border-red-300 bg-red-50 text-red-800 px-5 py-4'>{error}</div>}
@@ -111,6 +133,20 @@ export default function AdminDashboard() {
           ))}
         </div>
 
+        {stats && (
+          <div className='bg-white border border-border rounded-lg p-6'>
+            <h2 className='text-lg font-extrabold text-text-primary mb-4'>Shipments by status</h2>
+            <div className='grid grid-cols-2 md:grid-cols-5 gap-3'>
+              {SHIPMENT_STATUSES.map((s) => (
+                <Link key={s.key} href='/admin/shipments' className='rounded-lg border border-border p-3 hover:bg-light-blue'>
+                  <p className={`inline-block px-2 py-0.5 rounded-full text-xs font-bold ${statusClass(s.key)}`}>{statusLabel(s.key)}</p>
+                  <p className='text-2xl font-bold text-text-primary mt-2'>{stats.status_counts[s.key] ?? 0}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className='bg-white border border-border rounded-lg p-6'>
           <h2 className='text-lg font-extrabold text-text-primary mb-4'>Quick actions</h2>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
@@ -126,6 +162,27 @@ export default function AdminDashboard() {
             ))}
           </div>
         </div>
+
+        {stats && (
+          <div className='bg-white border border-border rounded-lg p-6'>
+            <h2 className='text-lg font-extrabold text-text-primary mb-4'>Latest updates</h2>
+            {stats.recent_updates.length === 0 && <p className='text-text-secondary'>No updates yet.</p>}
+            <ul className='divide-y divide-border'>
+              {stats.recent_updates.map((u, i) => (
+                <li key={`${u.shipment_id}-${i}`} className='py-3 flex flex-wrap items-center justify-between gap-3'>
+                  <div>
+                    <Link href={`/admin/shipments/${u.shipment_id}`} className='font-bold text-primary hover:underline'>{u.reference}</Link>
+                    <span className='text-sm text-text-secondary'> · {u.location || 'No location'}</span>
+                  </div>
+                  <div className='flex items-center gap-3'>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${statusClass(u.status)}`}>{statusLabel(u.status)}</span>
+                    <span className='text-xs text-text-secondary'>{new Date(u.timestamp).toLocaleString()}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className='bg-white border border-border rounded-lg overflow-x-auto'>
           <div className='p-6 border-b border-border flex items-center justify-between'>
@@ -152,7 +209,7 @@ export default function AdminDashboard() {
                     <td className='px-6 py-4 text-sm font-bold text-text-primary'>{s.tracking_number}</td>
                     <td className='px-6 py-4 text-sm'>
                       <span className={`px-3 py-1 rounded-full text-xs font-bold ${statusClass(s.status)}`}>
-                        {s.status.replace(/_/g, ' ')}
+                        {statusLabel(s.status)}
                       </span>
                     </td>
                     <td className='px-6 py-4 text-sm text-text-secondary'>{new Date(s.created_at).toLocaleDateString()}</td>

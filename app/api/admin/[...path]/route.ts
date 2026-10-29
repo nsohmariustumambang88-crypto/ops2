@@ -6,8 +6,10 @@ import { GRANTABLE } from '@/lib/permissions';
 import { listInbox, readInboxMessage, sendReply } from '@/lib/mail';
 import { pickShipmentFields, newReferenceNumber } from '@/lib/shipments';
 import { isContentKind, pickContentFields } from '@/lib/content';
-import { queueMilestone, sendQueued } from '@/lib/notify';
+import { queueMilestone, sendQueued, transporter } from '@/lib/notify';
 import { isShipmentStatus } from '@/lib/status';
+import { renderEmail } from '@/lib/email-template';
+import { SERVICE_EMAIL } from '@/lib/site';
 
 const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
 
@@ -70,7 +72,15 @@ export async function GET(request: Request, { params }: Ctx) {
         (SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE payment_status = 'paid') AS total_revenue,
         (SELECT COUNT(*) FROM customers) AS total_customers,
         (SELECT COUNT(*) FROM users) AS total_users`);
-      return NextResponse.json(r.rows[0]);
+      const counts = await db.query('SELECT status, COUNT(*)::int AS total FROM shipments GROUP BY status');
+      const updates = await db.query(
+        `SELECT t.status, t.location, t.timestamp, s.id AS shipment_id, COALESCE(s.reference_number, s.tracking_number) AS reference
+         FROM shipment_tracking t JOIN shipments s ON s.id = t.shipment_id
+         ORDER BY t.timestamp DESC LIMIT 10`
+      );
+      const statusCounts: Record<string, number> = {};
+      for (const row of counts.rows) statusCounts[String(row.status)] = Number(row.total);
+      return NextResponse.json({ ...r.rows[0], status_counts: statusCounts, recent_updates: updates.rows });
     }
 
     if (path === 'shipments') {
@@ -206,6 +216,11 @@ export async function POST(request: Request, { params }: Ctx) {
       const keys = Object.keys(fields);
       const sql = `INSERT INTO shipments (${keys.join(', ')}) VALUES (${keys.map((_, i) => `$${i + 1}`).join(', ')}) RETURNING id, reference_number, tracking_number, status`;
       const r = await db.query(sql, Object.values(fields));
+      // Registration is the first roadmap stage, so it is recorded and emailed like any other update.
+      const newId = Number(r.rows[0].id);
+      await db.query('INSERT INTO shipment_tracking (shipment_id, status, notes) VALUES ($1, $2, $3)', [newId, fields.status, 'Shipment registered']);
+      await queueMilestone(newId, String(fields.status), { notes: 'Shipment registered' });
+      await sendQueued();
       return NextResponse.json({ message: 'Shipment registered', shipment: r.rows[0] }, { status: 201 });
     }
 
@@ -221,8 +236,7 @@ export async function POST(request: Request, { params }: Ctx) {
         [status, evMatch[1], status === 'delivered' && delivered_to ? String(delivered_to).trim() : null]
       );
       const r = await db.query('INSERT INTO shipment_tracking (shipment_id, status, location, notes, latitude, longitude, next_step) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, status, location, notes, timestamp, latitude, longitude, next_step', [evMatch[1], status, location || null, notes || null, lat, lng, nextStep]);
-      const ref = await db.query('SELECT reference_number, tracking_number FROM shipments WHERE id = $1', [evMatch[1]]);
-      await queueMilestone(Number(evMatch[1]), ref.rows[0]?.reference_number || ref.rows[0]?.tracking_number, status, nextStep);
+      await queueMilestone(Number(evMatch[1]), status, { location: location || null, notes: notes || null, nextStep });
       await sendQueued();
       return NextResponse.json({ message: 'Event added', event: r.rows[0] }, { status: 201 });
     }
@@ -238,6 +252,51 @@ export async function POST(request: Request, { params }: Ctx) {
         [contentCreate[1], fields.title, fields.summary, fields.body, fields.image_url, fields.link_url, fields.published, fields.sort_order]
       );
       return NextResponse.json({ message: 'Saved', item: r.rows[0] }, { status: 201 });
+    }
+
+    if (path === 'email/send') {
+      const body = await request.json();
+      const subject = String(body.subject ?? '').trim();
+      const heading = String(body.heading ?? '').trim();
+      if (!subject) return NextResponse.json({ error: 'Add a subject' }, { status: 400 });
+      if (!heading) return NextResponse.json({ error: 'Add a heading' }, { status: 400 });
+      const mail = transporter();
+      if (!mail) return NextResponse.json({ error: 'Email is not configured yet. Add the SMTP settings in Vercel first.' }, { status: 503 });
+
+      let addresses: string[] = [];
+      if (body.test) {
+        const me = await db.query('SELECT email FROM users WHERE id = $1', [auth.user.id]);
+        addresses = me.rows.map((r) => String(r.email));
+      } else {
+        addresses = String(body.addresses ?? '').split(/[\s,;]+/);
+        if (body.subscribers) {
+          const subs = await db.query('SELECT email FROM subscribers');
+          addresses.push(...subs.rows.map((r) => String(r.email)));
+        }
+        if (body.admins) {
+          const admins = await db.query("SELECT email FROM users WHERE role = 'admin' AND status = 'active'");
+          addresses.push(...admins.rows.map((r) => String(r.email)));
+        }
+      }
+      const recipients = [...new Set(addresses.map((a) => a.trim().toLowerCase()).filter((a) => a.includes('@')))];
+      if (recipients.length === 0) return NextResponse.json({ error: 'Add at least one address or choose an audience' }, { status: 400 });
+      if (recipients.length > 300) return NextResponse.json({ error: 'Send to 300 addresses or fewer at a time' }, { status: 400 });
+
+      const paragraphs = String(body.message ?? '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+      const button = body.button_label && body.button_url ? { label: String(body.button_label), url: String(body.button_url) } : undefined;
+      const { html, text } = renderEmail({ heading, intro: paragraphs, button, footer: `OPS Logistics · ${SERVICE_EMAIL}` });
+
+      const failed: string[] = [];
+      let sent = 0;
+      for (const to of recipients) {
+        try {
+          await mail.sendMail({ from: process.env.SMTP_FROM ?? `OPS Logistics <${SERVICE_EMAIL}>`, to, subject, text, html });
+          sent += 1;
+        } catch {
+          failed.push(to);
+        }
+      }
+      return NextResponse.json({ message: 'Email sent', sent, failed });
     }
 
     if (path === 'inbox/reply') {
@@ -314,7 +373,7 @@ export async function PUT(request: Request, { params }: Ctx) {
           'INSERT INTO shipment_tracking (shipment_id, status, notes) VALUES ($1, $2, $3)',
           [shipmentEdit[1], newStatus, 'Status updated by the OPS team']
         );
-        await queueMilestone(Number(shipmentEdit[1]), r.rows[0].reference_number || r.rows[0].tracking_number, newStatus, null);
+        await queueMilestone(Number(shipmentEdit[1]), newStatus, { notes: 'Status updated by the OPS team' });
         await sendQueued();
       }
       return NextResponse.json({ message: 'Shipment updated', shipment: r.rows[0] });

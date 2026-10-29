@@ -44,6 +44,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { label: 'White Papers', icon: '📄', href: '/admin/white-papers', perm: 'content_manage' },
     { label: 'Tariff Updates', icon: '📊', href: '/admin/tariff-updates', perm: 'content_manage' },
     { label: 'Subscribers', icon: '📧', href: '/admin/subscribers', perm: 'subscribers_manage' },
+    { label: 'Send Email', icon: '✉️', href: '/admin/email', perm: 'subscribers_manage' },
     { label: 'Inbox', icon: '📥', href: '/admin/inbox', perm: 'inbox_view' },
     { label: 'Contact Forms', icon: '💬', href: '/admin/contact-submissions', perm: 'enquiries_manage' },
     { label: 'Customers', icon: '🏷️', href: '/admin/customers', perm: 'customers_manage' },
