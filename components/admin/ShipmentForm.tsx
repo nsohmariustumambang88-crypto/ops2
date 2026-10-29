@@ -3,10 +3,9 @@
 import { useState, type FormEvent } from 'react';
 import { COURIER_NAME } from '@/lib/shipments';
 import { worldCountries } from '@/lib/countries';
+import { SHIPMENT_STATUSES } from '@/lib/status';
 
 export type ShipmentValues = Record<string, string>;
-
-const statuses = ['registered', 'picked_up', 'in_transit', 'held_at_customs', 'cleared_for_customs', 'out_for_delivery', 'delivered', 'delayed', 'exception'];
 
 const input = 'mt-1 w-full h-[42px] px-3 border border-border rounded text-[15px]';
 
@@ -188,7 +187,7 @@ export default function ShipmentForm({
           <label>
             <span className='text-[14px] font-bold'>Status</span>
             <select value={v.status ?? 'registered'} onChange={set('status')} className={input}>
-              {statuses.map((s) => <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>)}
+              {SHIPMENT_STATUSES.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}
             </select>
           </label>
           {select('shipment_type', 'Type', [

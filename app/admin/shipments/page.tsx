@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
+import { SHIPMENT_STATUSES, normalizeStatus, statusLabel } from '@/lib/status';
 
 type Shipment = {
   id: string;
@@ -13,17 +14,17 @@ type Shipment = {
   created_at: string;
 };
 
-const statuses = ['registered', 'picked_up', 'in_transit', 'held_at_customs', 'cleared_for_customs', 'out_for_delivery', 'delivered', 'exception'];
-
 const statusStyle: Record<string, string> = {
   registered: 'bg-yellow-100 text-yellow-800',
+  pending: 'bg-gray-100 text-gray-800',
   picked_up: 'bg-purple-100 text-purple-800',
+  en_route: 'bg-sky-100 text-sky-800',
   in_transit: 'bg-cyan-100 text-cyan-800',
-  held_at_customs: 'bg-red-100 text-red-800',
-  cleared_for_customs: 'bg-green-100 text-green-800',
+  on_hold: 'bg-amber-100 text-amber-900',
   out_for_delivery: 'bg-blue-100 text-blue-800',
   delivered: 'bg-green-100 text-green-800',
-  exception: 'bg-red-100 text-red-800',
+  cancelled: 'bg-red-100 text-red-800',
+  returned: 'bg-orange-100 text-orange-800',
 };
 
 export default function ShipmentsPage() {
@@ -75,8 +76,8 @@ export default function ShipmentsPage() {
             className='h-[42px] px-3 border border-border rounded text-[15px]'
           >
             <option value='all'>All statuses</option>
-            {statuses.map((s) => (
-              <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>
+            {SHIPMENT_STATUSES.map((s) => (
+              <option key={s.key} value={s.key}>{s.label}</option>
             ))}
           </select>
         </div>
@@ -104,8 +105,8 @@ export default function ShipmentsPage() {
                 <tr key={s.id} className='border-t border-border'>
                   <td className='px-5 py-3 font-bold text-navy'><Link href={`/admin/shipments/${s.id}`} className='hover:underline'>{s.tracking_number}</Link></td>
                   <td className='px-5 py-3'>
-                    <span className={`px-3 py-1 rounded-full text-[12px] font-bold ${statusStyle[s.status] ?? 'bg-gray-100 text-gray-800'}`}>
-                      {s.status.replace(/_/g, ' ')}
+                    <span className={`px-3 py-1 rounded-full text-[12px] font-bold ${statusStyle[normalizeStatus(s.status)] ?? 'bg-gray-100 text-gray-800'}`}>
+                      {statusLabel(s.status)}
                     </span>
                   </td>
                   <td className='px-5 py-3'>{s.weight ?? '-'}</td>

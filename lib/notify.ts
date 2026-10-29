@@ -5,13 +5,13 @@ import { SERVICE_EMAIL } from '@/lib/site';
 // Statuses that send an email to the sender and receiver.
 const MILESTONES: Record<string, string> = {
   picked_up: 'has been picked up',
+  en_route: 'is on its way',
   in_transit: 'is in transit',
-  held_at_customs: 'is being checked by customs',
-  cleared_for_customs: 'has been cleared by customs',
+  on_hold: 'is on hold',
   out_for_delivery: 'is out for delivery',
   delivered: 'has been delivered',
-  delayed: 'is delayed',
-  exception: 'needs attention',
+  cancelled: 'has been canceled',
+  returned: 'is being returned to the sender',
 };
 
 export function isMilestone(status: string) {

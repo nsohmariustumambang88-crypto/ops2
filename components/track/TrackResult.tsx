@@ -5,6 +5,7 @@ import Link from 'next/link';
 import 'leaflet/dist/leaflet.css';
 import { useLanguage } from '@/lib/i18n';
 import { copyFor } from '@/components/track/copy';
+import { normalizeStatus, stageFor } from '@/lib/status';
 
 export type TrackEvent = { status: string; location: string | null; timestamp: string; notes: string | null; next_step: string | null; latitude: number | null; longitude: number | null };
 export type PetChecks = { crate_inspected: boolean; documents_verified: boolean; airline_accepted: boolean; handover_confirmed: boolean };
@@ -39,30 +40,36 @@ type Copy = ReturnType<typeof copyFor>;
 // Map pin colour for each status, so the route reads at a glance.
 const pinColor: Record<string, string> = {
   registered: '#64748B',
+  pending: '#64748B',
   picked_up: '#7C3AED',
+  en_route: '#1173D4',
   in_transit: '#1173D4',
-  held_at_customs: '#D97706',
-  cleared_for_customs: '#059669',
+  on_hold: '#D97706',
   out_for_delivery: '#1173D4',
   delivered: '#059669',
-  delayed: '#DC2626',
-  exception: '#DC2626',
+  cancelled: '#DC2626',
+  returned: '#EA580C',
 };
 
 const statusStyle: Record<string, string> = {
   registered: 'bg-light-blue text-navy',
+  pending: 'bg-light-gray text-navy',
   picked_up: 'bg-light-blue text-navy',
+  en_route: 'bg-primary text-white',
   in_transit: 'bg-primary text-white',
-  held_at_customs: 'bg-amber-100 text-amber-900',
-  cleared_for_customs: 'bg-green-100 text-green-800',
+  on_hold: 'bg-amber-100 text-amber-900',
   out_for_delivery: 'bg-primary text-white',
   delivered: 'bg-green-600 text-white',
-  delayed: 'bg-red-100 text-red-800',
-  exception: 'bg-red-600 text-white',
+  cancelled: 'bg-red-600 text-white',
+  returned: 'bg-orange-100 text-orange-900',
 };
 
-// The delivery stages shown on the roadmap, in order.
-const stageKeys = ['registered', 'picked_up', 'in_transit', 'out_for_delivery', 'delivered'];
+// Notice shown under the progress card for statuses that are off the main route.
+const noticeStyle: Record<string, string> = {
+  on_hold: 'border-amber-300 bg-amber-50 text-amber-900',
+  cancelled: 'border-red-300 bg-red-50 text-red-900',
+  returned: 'border-orange-300 bg-orange-50 text-orange-900',
+};
 
 const card = 'bg-white rounded-2xl border border-border shadow-deep p-6 md:p-8';
 
@@ -70,10 +77,20 @@ function dateLabel(v: string | null, lang: string) {
   return v ? new Date(v).toLocaleString(lang === 'fr' ? 'fr-FR' : undefined) : '—';
 }
 
-// Where the shipment sits on the roadmap. Customs and delays happen while in transit.
-function currentStage(status: string) {
-  if (['held_at_customs', 'cleared_for_customs', 'delayed'].includes(status)) return stageKeys.indexOf('in_transit');
-  return stageKeys.indexOf(status);
+// Where the shipment sits on the roadmap. Statuses off the main route (on hold, cancelled, returned)
+// keep the stage the shipment last reached, so the roadmap still shows how far it got.
+function currentStage(status: string, events: TrackEvent[]) {
+  const own = stageFor(status);
+  if (own !== null) return own;
+  const last = events.find((e) => stageFor(e.status) !== null);
+  return last ? stageFor(last.status) ?? 0 : 0;
+}
+
+function noticeFor(status: string, c: Copy) {
+  if (status === 'on_hold') return { title: c.onHold, text: c.onHoldText, style: noticeStyle.on_hold };
+  if (status === 'cancelled') return { title: c.cancelled, text: c.cancelledText, style: noticeStyle.cancelled };
+  if (status === 'returned') return { title: c.returned, text: c.returnedText, style: noticeStyle.returned };
+  return null;
 }
 
 function StatusBadge({ status, label }: { status: string; label: string }) {
@@ -84,16 +101,16 @@ function StatusBadge({ status, label }: { status: string; label: string }) {
   );
 }
 
-function ProgressBar({ status, stageNames }: { status: string; stageNames: readonly string[] }) {
-  const current = currentStage(status);
+function ProgressBar({ status, events, stageNames }: { status: string; events: TrackEvent[]; stageNames: readonly string[] }) {
+  const current = currentStage(status, events);
   return (
     <ol className='grid grid-cols-5 gap-1 sm:gap-2'>
-      {stageKeys.map((key, i) => {
-        const done = current >= 0 && i <= current;
+      {stageNames.map((name, i) => {
+        const done = i <= current;
         return (
-          <li key={key} className='flex flex-col items-center text-center'>
+          <li key={name} className='flex flex-col items-center text-center'>
             <span className={`w-4 h-4 rounded-full border-2 ${done ? 'bg-primary border-primary' : 'bg-white border-border'}`} aria-hidden='true' />
-            <span className={`mt-2 text-[10px] leading-tight sm:text-[12px] md:text-[13px] font-bold ${done ? 'text-navy' : 'text-text-secondary'}`}>{stageNames[i]}</span>
+            <span className={`mt-2 text-[10px] leading-tight sm:text-[12px] md:text-[13px] font-bold ${done ? 'text-navy' : 'text-text-secondary'}`}>{name}</span>
           </li>
         );
       })}
@@ -102,32 +119,34 @@ function ProgressBar({ status, stageNames }: { status: string; stageNames: reado
 }
 
 // The roadmap: each stage with the time it was reached, the current stage highlighted, and the
-// stages still to come shown in grey.
+// stages still to come shown in grey. Off-route statuses keep the last stage reached ticked.
 function Roadmap({ status, events, c, lang }: { status: string; events: TrackEvent[]; c: Copy; lang: string }) {
-  const current = currentStage(status);
-  const reached = (key: string) => events.find((e) => e.status === key);
+  const current = currentStage(status, events);
+  const offRoute = stageFor(status) === null;
+  const delivered = normalizeStatus(status) === 'delivered';
+  const reached = (stage: number) => events.find((e) => stageFor(e.status) === stage);
   return (
     <ol className='relative space-y-6 pl-10'>
       <span className='absolute left-[15px] top-2 bottom-2 w-0.5 bg-border' aria-hidden='true' />
-      {stageKeys.map((key, i) => {
-        const done = current >= 0 && i < current;
-        const now = current >= 0 && i === current;
-        const event = reached(key);
+      {c.stageNames.map((name, i) => {
+        const done = offRoute || delivered ? i <= current : i < current;
+        const now = !offRoute && !delivered && i === current;
+        const event = reached(i);
         return (
-          <li key={key} className='relative'>
+          <li key={name} className='relative'>
             <span
               className={`absolute -left-10 top-0 flex h-8 w-8 items-center justify-center rounded-full border-2 text-[13px] font-bold ${
-                done || (now && status === 'delivered') ? 'bg-primary border-primary text-white'
+                done ? 'bg-primary border-primary text-white'
                   : now ? 'bg-white border-primary text-primary ring-4 ring-primary/20'
                   : 'bg-white border-border text-text-secondary'
               }`}
               aria-hidden='true'
             >
-              {done || (now && status === 'delivered') ? '✓' : i + 1}
+              {done ? '✓' : i + 1}
             </span>
-            <p className={`text-[17px] font-bold ${now || done ? 'text-navy' : 'text-text-secondary'}`}>{c.stageNames[i]}</p>
+            <p className={`text-[17px] font-bold ${now || done ? 'text-navy' : 'text-text-secondary'}`}>{name}</p>
             <p className='text-[14px] text-text-secondary'>
-              {event ? [event.location, dateLabel(event.timestamp, lang)].filter(Boolean).join(' · ') : now ? c.statusNow : c.upcoming}
+              {event ? [event.location, dateLabel(event.timestamp, lang)].filter(Boolean).join(' · ') : now ? c.statusNow : done ? '' : c.upcoming}
             </p>
           </li>
         );
@@ -176,7 +195,7 @@ function LiveMap({ events, origin, destination, emptyText, title }: {
           .addTo(m).bindTooltip(`Destination · ${destination.label}`);
       }
       eventPoints.forEach((e, i) => {
-        const colour = pinColor[e.status] ?? '#1173D4';
+        const colour = pinColor[normalizeStatus(e.status)] ?? '#1173D4';
         L.circleMarker(track[i], { radius: 6, color: '#FFFFFF', weight: 2, fillColor: colour, fillOpacity: 1 })
           .addTo(m)
           .bindTooltip(`${e.status.replace(/_/g, ' ')}${e.location ? ` · ${e.location}` : ''}`);
@@ -204,6 +223,7 @@ function LiveMap({ events, origin, destination, emptyText, title }: {
 
 function Eta({ arrival, status, c, lang }: { arrival: string | null; status: string; c: Copy; lang: string }) {
   if (status === 'delivered') return <p className='text-[15px] font-bold text-green-700'>{c.delivered}</p>;
+  if (status === 'cancelled' || status === 'returned') return null;
   if (!arrival) return <p className='text-[15px] text-text-secondary'>{c.estimatePending}</p>;
   const days = Math.ceil((new Date(arrival).getTime() - Date.now()) / 86400000);
   const when = new Date(arrival).toLocaleDateString(lang === 'fr' ? 'fr-FR' : undefined, { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
@@ -222,11 +242,10 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
   const [copied, setCopied] = useState(false);
   const lastUpdate = events[0]?.timestamp ?? null;
   const reference = shipment.reference_number || shipment.tracking_number;
-  const label = (s: string) => (c.statuses as Record<string, string>)[s] ?? s.replace(/_/g, ' ');
+  const label = (s: string) => (c.statuses as Record<string, string>)[normalizeStatus(s)] ?? s.replace(/_/g, ' ');
   const transportLabel = (m: string | null) => (m && (c.transportLabels as Record<string, string>)[m]) || '—';
 
-  const customs = shipment.status === 'held_at_customs' || shipment.status === 'cleared_for_customs';
-  const delayed = shipment.status === 'delayed';
+  const notice = noticeFor(normalizeStatus(shipment.status), c);
   const latest = events[0];
   const nextStep = latest?.next_step ?? null;
   const pet = shipment.pet_checks;
@@ -258,7 +277,7 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
             </p>
           </div>
           <div className='flex flex-col items-start md:items-end gap-3 print:hidden'>
-            <StatusBadge status={shipment.status} label={label(shipment.status)} />
+            <StatusBadge status={normalizeStatus(shipment.status)} label={label(shipment.status)} />
             <div className='flex gap-3'>
               <button type='button' onClick={copyLink} className='h-[40px] px-5 rounded border border-white/60 text-white font-bold text-[14px] hover:bg-white/10'>
                 {copied ? c.copied : c.copyLink}
@@ -274,25 +293,14 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
       {/* Progress card */}
       <div className='print-card bg-white rounded-2xl border border-border shadow-deep p-6 md:p-8'>
         <p className='text-[12px] font-bold uppercase tracking-wider text-primary mb-4'>{c.progress}</p>
-        <ProgressBar status={shipment.status} stageNames={c.stageNames} />
+        <ProgressBar status={shipment.status} events={events} stageNames={c.stageNames} />
         <div className='mt-6'><Eta arrival={shipment.arrival_at} status={shipment.status} c={c} lang={lang} /></div>
       </div>
 
-      {customs && (
-        <div role='status' className='print-card flex flex-col md:flex-row gap-5 rounded-2xl border border-amber-300 bg-amber-50 text-amber-900 p-4 md:p-5 shadow-deep'>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src='/images/customs/What%20clearance%20actually%20involves.webp' alt='' loading='lazy' className='w-full md:w-[200px] h-[140px] object-cover rounded-lg print:hidden' />
-          <div className='flex-1 py-1'>
-            <p className='font-bold text-[17px]'>{shipment.status === 'held_at_customs' ? c.customsHeld : c.customsCleared}</p>
-            <p className='text-[15px]'>{shipment.status === 'held_at_customs' ? c.customsHeldText : c.customsClearedText}</p>
-          </div>
-        </div>
-      )}
-
-      {delayed && (
-        <div role='status' className='print-card rounded-2xl border border-red-300 bg-red-50 text-red-900 px-5 py-4 shadow-deep'>
-          <p className='font-bold'>{c.delayed}</p>
-          <p className='text-[15px]'>{c.delayedText}</p>
+      {notice && (
+        <div role='status' className={`print-card rounded-2xl border px-5 py-4 shadow-deep ${notice.style}`}>
+          <p className='font-bold'>{notice.title}</p>
+          <p className='text-[15px]'>{notice.text}</p>
           {latest?.notes && <p className='text-[15px] mt-2'>{latest.notes}</p>}
         </div>
       )}
@@ -379,7 +387,7 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
         <ol className='space-y-5 border-l-2 border-primary pl-6'>
           {events.map((e, i) => (
             <li key={i} className='relative'>
-              <span className='absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 border-white' style={{ backgroundColor: pinColor[e.status] ?? '#0B2C5F' }} aria-hidden='true' />
+              <span className='absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 border-white' style={{ backgroundColor: pinColor[normalizeStatus(e.status)] ?? '#0B2C5F' }} aria-hidden='true' />
               <p className='text-[17px] font-bold text-navy'>{label(e.status)}</p>
               <p className='text-[14px] text-text-secondary'>{[e.location, dateLabel(e.timestamp, lang)].filter(Boolean).join(' · ')}</p>
               {e.notes && <p className='text-[14px] mt-1'>{e.notes}</p>}

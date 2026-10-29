@@ -6,13 +6,12 @@ import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
 import type { ShipmentValues } from '@/components/admin/ShipmentForm';
 import { PET_DOCUMENT_CHECKS, toFormValues } from '@/lib/shipments';
+import { SHIPMENT_STATUSES, normalizeStatus, statusLabel } from '@/lib/status';
 import ShipmentReceipt from '@/components/admin/ShipmentReceipt';
 
 type Event = { id: string; status: string; location: string | null; notes: string | null; timestamp: string };
 type Detail = { shipment: Record<string, unknown> & { id: string; tracking_number: string; status: string; created_at: string }; events: Event[] };
 type Receipt = { values: ShipmentValues; reference: string };
-
-const statuses = ['registered', 'picked_up', 'in_transit', 'held_at_customs', 'cleared_for_customs', 'out_for_delivery', 'delivered', 'delayed', 'exception'];
 
 export default function ShipmentDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -65,7 +64,7 @@ export default function ShipmentDetailPage() {
     }
     const j = await res.json();
     setReceipt({ values: toFormValues(detail.shipment), reference: ref });
-    setTrackMsg(`Registration ${ref} is valid. Current status: ${String(j.shipment.status).replace(/_/g, ' ')}.`);
+    setTrackMsg(`Registration ${ref} is valid. Current status: ${statusLabel(String(j.shipment.status))}.`);
   };
 
   const load = async () => {
@@ -74,7 +73,9 @@ export default function ShipmentDetailPage() {
       setError(res.status === 404 ? 'Shipment not found.' : 'Could not load this shipment.');
       return;
     }
-    setDetail(await res.json());
+    const data: Detail = await res.json();
+    setDetail(data);
+    setStatus(normalizeStatus(data.shipment.status));
   };
 
   useEffect(() => {
@@ -118,7 +119,7 @@ export default function ShipmentDetailPage() {
                   <Link href={`/admin/shipments/${id}/edit`} className='h-[42px] px-5 inline-flex items-center rounded border border-border font-bold'>Edit shipment</Link>
                 </div>
               </div>
-              <p className='text-text-primary'>Current status: <span className='font-bold capitalize'>{detail.shipment.status.replace(/_/g, ' ')}</span></p>
+              <p className='text-text-primary'>Current status: <span className='font-bold'>{statusLabel(detail.shipment.status)}</span></p>
               {trackMsg && <p role='status' className='mt-2 text-primary font-bold'>{trackMsg}</p>}
             </div>
 
@@ -156,7 +157,7 @@ export default function ShipmentDetailPage() {
                 <ol className='space-y-4 border-l-2 border-primary pl-6'>
                   {detail.events.map((ev) => (
                     <li key={ev.id}>
-                      <p className='font-bold capitalize'>{ev.status.replace(/_/g, ' ')}</p>
+                      <p className='font-bold'>{statusLabel(ev.status)}</p>
                       <p className='text-[14px]'>{ev.location ? `${ev.location} · ` : ''}{new Date(ev.timestamp).toLocaleString()}</p>
                       {ev.notes && <p className='text-[14px] mt-1'>{ev.notes}</p>}
                     </li>
@@ -170,7 +171,7 @@ export default function ShipmentDetailPage() {
                   <label className='block'>
                     <span className='text-[14px] font-bold'>Status</span>
                     <select value={status} onChange={(e) => setStatus(e.target.value)} className='mt-1 w-full h-[42px] px-3 border border-border rounded'>
-                      {statuses.map((s) => <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>)}
+                      {SHIPMENT_STATUSES.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}
                     </select>
                   </label>
                   <label className='block'>

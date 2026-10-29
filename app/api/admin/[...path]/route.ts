@@ -7,6 +7,7 @@ import { listInbox, readInboxMessage, sendReply } from '@/lib/mail';
 import { pickShipmentFields, newReferenceNumber } from '@/lib/shipments';
 import { isContentKind, pickContentFields } from '@/lib/content';
 import { queueMilestone, sendQueued } from '@/lib/notify';
+import { isShipmentStatus } from '@/lib/status';
 
 const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
 
@@ -196,6 +197,9 @@ export async function POST(request: Request, { params }: Ctx) {
         if (taken.rows.length === 0) break;
         reference = newReferenceNumber();
       }
+      if (fields.status != null && !isShipmentStatus(fields.status)) {
+        return NextResponse.json({ error: 'Unknown status' }, { status: 400 });
+      }
       fields.reference_number = reference;
       fields.tracking_number = reference;
       fields.status = fields.status ?? 'registered';
@@ -208,7 +212,7 @@ export async function POST(request: Request, { params }: Ctx) {
     const evMatch = path.match(new RegExp('^shipments\\/([^/]+)\\/events$'));
     if (evMatch && /^\d+$/.test(evMatch[1])) {
       const { status, location, notes, latitude, longitude, next_step, delivered_to } = await request.json();
-      if (!status) return NextResponse.json({ error: 'Status is required' }, { status: 400 });
+      if (!isShipmentStatus(status)) return NextResponse.json({ error: 'Choose a valid status' }, { status: 400 });
       const lat = latitude === '' || latitude == null ? null : Number(latitude);
       const lng = longitude === '' || longitude == null ? null : Number(longitude);
       const nextStep = next_step ? String(next_step).trim() : null;
@@ -282,6 +286,9 @@ export async function PUT(request: Request, { params }: Ctx) {
     const shipmentEdit = path.match(new RegExp('^shipments\\/([0-9]+)$'));
     if (shipmentEdit) {
       const fields = pickShipmentFields(await request.json());
+      if ('status' in fields && !isShipmentStatus(fields.status)) {
+        return NextResponse.json({ error: 'Choose a valid status' }, { status: 400 });
+      }
       delete fields.reference_number;
       // A changed origin or destination must be looked up again on the next track view.
       if ('route_origin' in fields || 'sender_city' in fields || 'sender_country' in fields) {
