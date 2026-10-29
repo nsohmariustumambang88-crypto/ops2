@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     }
 
     const result = await db.query(
-      'SELECT id, email, password_hash, first_name, last_name, role FROM users WHERE email = $1',
+      'SELECT id, email, password_hash, first_name, last_name, role, status, permissions FROM users WHERE email = $1',
       [email]
     );
     if (result.rows.length === 0) {
@@ -24,6 +24,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
+    if (user.status !== 'active') {
+      return NextResponse.json({ error: 'This account is disabled. Contact an administrator.' }, { status: 403 });
+    }
+
     const token = signToken({ id: user.id, email: user.email, role: user.role });
     return NextResponse.json({
       message: 'Login successful',
@@ -34,6 +38,7 @@ export async function POST(request: Request) {
         first_name: user.first_name,
         last_name: user.last_name,
         role: user.role,
+      permissions: user.permissions ?? [],
       },
     });
   } catch (err) {

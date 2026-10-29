@@ -12,6 +12,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   // Desktop: the sidebar can collapse to icons. Phones: it opens as a drawer over the page.
   const [collapsed, setCollapsed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [access, setAccess] = useState<{ role: string; permissions: string[] } | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -19,30 +20,47 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     if (!localStorage.getItem('adminToken')) router.replace('/admin/login');
   }, [router]);
 
+  // Who is signed in decides which sections appear. The server still checks every request.
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken') ?? '';
+    fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((me) => { if (me) setAccess({ role: me.role, permissions: me.permissions ?? [] }); });
+  }, []);
+
   // Close the drawer whenever the page changes, so a tapped link does not leave it open.
   useEffect(() => {
     setDrawerOpen(false);
   }, [pathname]);
 
-  const menuItems = [
+  type Item = { label: string; icon: string; href: string; perm?: string; adminOnly?: boolean };
+  const menuItems: Item[] = [
     { label: 'Dashboard', icon: '📊', href: '/admin/dashboard' },
-    { label: 'Shipments', icon: '📦', href: '/admin/shipments' },
-    { label: 'Blog Posts', icon: '📝', href: '/admin/blogs' },
-    { label: 'Case Studies', icon: '🏆', href: '/admin/case-studies' },
-    { label: 'Industries', icon: '🏢', href: '/admin/industries' },
-    { label: 'Solutions', icon: '⚙️', href: '/admin/solutions' },
-    { label: 'White Papers', icon: '📄', href: '/admin/white-papers' },
-    { label: 'Tariff Updates', icon: '📊', href: '/admin/tariff-updates' },
-    { label: 'Subscribers', icon: '📧', href: '/admin/subscribers' },
-    { label: 'Contact Forms', icon: '💬', href: '/admin/contact-submissions' },
-    { label: 'Customers', icon: '🏷️', href: '/admin/customers' },
-    { label: 'Orders', icon: '🧾', href: '/admin/orders' },
-    { label: 'Reports', icon: '📈', href: '/admin/reports' },
-    { label: 'Pricing', icon: '💲', href: '/admin/pricing' },
-    { label: 'Support', icon: '🛟', href: '/admin/support' },
-    { label: 'Users', icon: '👥', href: '/admin/users' },
-    { label: 'Settings', icon: '⚙️', href: '/admin/settings' },
+    { label: 'Shipments', icon: '📦', href: '/admin/shipments', perm: 'shipments_view' },
+    { label: 'Blog Posts', icon: '📝', href: '/admin/blogs', perm: 'content_manage' },
+    { label: 'Case Studies', icon: '🏆', href: '/admin/case-studies', perm: 'content_manage' },
+    { label: 'Industries', icon: '🏢', href: '/admin/industries', perm: 'content_manage' },
+    { label: 'Solutions', icon: '⚙️', href: '/admin/solutions', perm: 'content_manage' },
+    { label: 'White Papers', icon: '📄', href: '/admin/white-papers', perm: 'content_manage' },
+    { label: 'Tariff Updates', icon: '📊', href: '/admin/tariff-updates', perm: 'content_manage' },
+    { label: 'Subscribers', icon: '📧', href: '/admin/subscribers', perm: 'subscribers_manage' },
+    { label: 'Inbox', icon: '📥', href: '/admin/inbox', perm: 'inbox_view' },
+    { label: 'Contact Forms', icon: '💬', href: '/admin/contact-submissions', perm: 'enquiries_manage' },
+    { label: 'Customers', icon: '🏷️', href: '/admin/customers', perm: 'customers_manage' },
+    { label: 'Orders', icon: '🧾', href: '/admin/orders', perm: 'orders_view' },
+    { label: 'Reports', icon: '📈', href: '/admin/reports', perm: 'reports_view' },
+    { label: 'Pricing', icon: '💲', href: '/admin/pricing', perm: 'pricing_manage' },
+    { label: 'Support', icon: '🛟', href: '/admin/support', perm: 'support_manage' },
+    { label: 'Users', icon: '👥', href: '/admin/users', adminOnly: true },
+    { label: 'Settings', icon: '⚙️', href: '/admin/settings', perm: 'settings_manage' },
   ];
+
+  const visibleItems = menuItems.filter((item) => {
+    if (!access) return !item.perm && !item.adminOnly;
+    if (access.role === 'admin') return true;
+    if (item.adminOnly) return false;
+    return !item.perm || access.permissions.includes(item.perm);
+  });
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
@@ -61,7 +79,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       </div>
 
       <nav className='p-4 space-y-2 overflow-y-auto pb-24'>
-        {menuItems.map((item) => (
+        {visibleItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}

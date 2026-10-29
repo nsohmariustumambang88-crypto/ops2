@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { db } from '@/lib/db';
-import { requireUser } from '@/lib/auth';
+import { authorize } from '@/lib/access';
+import { GRANTABLE } from '@/lib/permissions';
+import { listInbox, readInboxMessage, sendReply } from '@/lib/mail';
 import { pickShipmentFields, newReferenceNumber } from '@/lib/shipments';
 import { isContentKind, pickContentFields } from '@/lib/content';
 import { queueMilestone, sendQueued } from '@/lib/notify';
@@ -24,10 +26,18 @@ async function listQuery(base: string, where: string | null, whereParams: unknow
   return NextResponse.json({ data: result.rows, pagination: { page: p, limit } });
 }
 
+const USER_ROLES = ['admin', 'support', 'customer'];
+
+// Only permissions the app knows about can be saved on a user.
+function cleanPermissions(value: unknown): string[] {
+  const allowed = new Set<string>(GRANTABLE);
+  return Array.isArray(value) ? [...new Set(value.map(String))].filter((p) => allowed.has(p)) : [];
+}
+
 export async function GET(request: Request, { params }: Ctx) {
-  const auth = requireUser(request, ['admin', 'support']);
-  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   const path = (await params).path.join('/');
+  const auth = await authorize(request, 'GET', path);
+  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   const url = new URL(request.url);
 
   try {
@@ -119,6 +129,17 @@ export async function GET(request: Request, { params }: Ctx) {
       return NextResponse.json(r.rows);
     }
 
+    if (path === 'inbox') {
+      return NextResponse.json({ data: await listInbox(30) });
+    }
+
+    const inboxMessage = path.match(new RegExp('^inbox\/([0-9]+)$'));
+    if (inboxMessage) {
+      const message = await readInboxMessage(Number(inboxMessage[1]));
+      if (!message) return NextResponse.json({ error: 'Message not found' }, { status: 404 });
+      return NextResponse.json(message);
+    }
+
     const contentList = path.match(new RegExp('^content\\/([^/]+)$'));
     if (contentList) {
       if (!isContentKind(contentList[1])) return NextResponse.json({ error: 'Unknown content type' }, { status: 404 });
@@ -136,7 +157,7 @@ export async function GET(request: Request, { params }: Ctx) {
 
     if (path === 'users') {
       const r = await db.query(
-        'SELECT id, email, first_name, last_name, role, status, created_at FROM users ORDER BY created_at DESC'
+        'SELECT id, email, first_name, last_name, role, status, permissions, created_at FROM users ORDER BY created_at DESC'
       );
       return NextResponse.json(r.rows);
     }
@@ -148,9 +169,9 @@ export async function GET(request: Request, { params }: Ctx) {
 }
 
 export async function POST(request: Request, { params }: Ctx) {
-  const auth = requireUser(request, ['admin']);
-  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   const path = (await params).path.join('/');
+  const auth = await authorize(request, 'POST', path);
+  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
 
   try {
     if (path === 'subscribers') {
@@ -215,13 +236,34 @@ export async function POST(request: Request, { params }: Ctx) {
       return NextResponse.json({ message: 'Saved', item: r.rows[0] }, { status: 201 });
     }
 
+    if (path === 'inbox/reply') {
+      const { to, subject, text } = await request.json();
+      const recipient = String(to ?? '').trim();
+      if (!recipient.includes('@')) return NextResponse.json({ error: 'A valid recipient is required' }, { status: 400 });
+      if (!String(text ?? '').trim()) return NextResponse.json({ error: 'Write a reply first' }, { status: 400 });
+      try {
+        await sendReply(recipient, String(subject ?? '(no subject)'), String(text));
+      } catch (err) {
+        return NextResponse.json({ error: err instanceof Error ? err.message : 'Could not send the reply' }, { status: 500 });
+      }
+      return NextResponse.json({ message: 'Reply sent' }, { status: 201 });
+    }
+
     if (path === 'users') {
-      const { email, password, first_name, last_name, role } = await request.json();
+      const body = await request.json();
+      const email = String(body.email ?? '').trim().toLowerCase();
+      const password = String(body.password ?? '');
+      const role = String(body.role ?? 'support');
+      if (!email.includes('@')) return NextResponse.json({ error: 'A valid email is required' }, { status: 400 });
+      if (password.length < 8) return NextResponse.json({ error: 'The password must be at least 8 characters' }, { status: 400 });
+      if (!USER_ROLES.includes(role)) return NextResponse.json({ error: 'Unknown role' }, { status: 400 });
+      const taken = await db.query('SELECT 1 FROM users WHERE email = $1', [email]);
+      if (taken.rows.length) return NextResponse.json({ error: 'That email already has an account' }, { status: 409 });
       const passwordHash = await bcrypt.hash(password, 10);
       const r = await db.query(
-        `INSERT INTO users (email, password_hash, first_name, last_name, role)
-         VALUES ($1, $2, $3, $4, $5) RETURNING id, email, role`,
-        [email, passwordHash, first_name, last_name, role]
+        `INSERT INTO users (email, password_hash, first_name, last_name, role, status, permissions)
+         VALUES ($1, $2, $3, $4, $5, 'active', $6) RETURNING id, email, role, permissions`,
+        [email, passwordHash, body.first_name || null, body.last_name || null, role, JSON.stringify(cleanPermissions(body.permissions))]
       );
       return NextResponse.json({ message: 'User created successfully', user: r.rows[0] }, { status: 201 });
     }
@@ -232,9 +274,9 @@ export async function POST(request: Request, { params }: Ctx) {
 }
 
 export async function PUT(request: Request, { params }: Ctx) {
-  const auth = requireUser(request, ['admin']);
-  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   const path = (await params).path.join('/');
+  const auth = await authorize(request, 'PUT', path);
+  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
 
   try {
     const shipmentEdit = path.match(new RegExp('^shipments\\/([0-9]+)$'));
@@ -304,6 +346,43 @@ export async function PUT(request: Request, { params }: Ctx) {
       return NextResponse.json({ message: 'Status saved', submission: r.rows[0] });
     }
 
+    const userEdit = path.match(new RegExp('^users\/([0-9]+)$'));
+    if (userEdit) {
+      const id = Number(userEdit[1]);
+      const body = await request.json();
+      const isSelf = id === Number(auth.user.id);
+      if (isSelf && ((body.role !== undefined && body.role !== 'admin') || body.status === 'disabled')) {
+        return NextResponse.json({ error: 'You cannot demote or disable your own account' }, { status: 400 });
+      }
+      if (body.role !== undefined && !USER_ROLES.includes(String(body.role))) {
+        return NextResponse.json({ error: 'Unknown role' }, { status: 400 });
+      }
+      if (body.status !== undefined && !['active', 'disabled'].includes(String(body.status))) {
+        return NextResponse.json({ error: 'Unknown status' }, { status: 400 });
+      }
+      const sets: string[] = [];
+      const values: unknown[] = [];
+      const add = (col: string, val: unknown) => { values.push(val); sets.push(`${col} = $${values.length}`); };
+      if (body.first_name !== undefined) add('first_name', body.first_name || null);
+      if (body.last_name !== undefined) add('last_name', body.last_name || null);
+      if (body.role !== undefined) add('role', body.role);
+      if (body.status !== undefined) add('status', body.status);
+      if (body.permissions !== undefined) add('permissions', JSON.stringify(cleanPermissions(body.permissions)));
+      if (body.password) {
+        if (String(body.password).length < 8) return NextResponse.json({ error: 'The password must be at least 8 characters' }, { status: 400 });
+        add('password_hash', await bcrypt.hash(String(body.password), 10));
+      }
+      if (sets.length === 0) return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
+      values.push(id);
+      const r = await db.query(
+        `UPDATE users SET ${sets.join(', ')} WHERE id = $${values.length}
+         RETURNING id, email, first_name, last_name, role, status, permissions`,
+        values
+      );
+      if (r.rows.length === 0) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      return NextResponse.json({ message: 'User updated', user: r.rows[0] });
+    }
+
     const tierMatch = path.match(/^customers\/([^/]+)\/tier$/);
     if (tierMatch) {
       const { volume_tier } = await request.json();
@@ -321,9 +400,9 @@ export async function PUT(request: Request, { params }: Ctx) {
 }
 
 export async function DELETE(request: Request, { params }: Ctx) {
-  const auth = requireUser(request, ['admin']);
-  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   const path = (await params).path.join('/');
+  const auth = await authorize(request, 'DELETE', path);
+  if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
 
   try {
     const contentDelete = path.match(new RegExp('^content\\/item\\/([0-9]+)$'));

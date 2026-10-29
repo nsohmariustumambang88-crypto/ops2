@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { requireUser } from '@/lib/auth';
+import { authorize } from '@/lib/access';
 
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const auth = requireUser(request, ['admin', 'support']);
+  const auth = await authorize(request, 'PUT', 'pricing/tariffs');
   if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   const { id } = await params;
 

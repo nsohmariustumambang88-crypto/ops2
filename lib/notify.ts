@@ -46,7 +46,7 @@ export async function queueMilestone(shipmentId: number, reference: string, stat
   }
 }
 
-function transporter() {
+export function transporter() {
   const host = process.env.SMTP_HOST;
   if (!host) return null;
   return nodemailer.createTransport({

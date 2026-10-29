@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { requireUser } from '@/lib/auth';
+import { authorize } from '@/lib/access';
 
 type Ctx = { params: Promise<{ path: string[] }> };
 
 const fail = (msg: string, status = 500) => NextResponse.json({ error: msg }, { status });
 
 async function adminGet(request: Request, path: string) {
-  const auth = requireUser(request, ['admin', 'support']);
+  const auth = await authorize(request, 'GET', path);
   if ('error' in auth) return fail(auth.error, auth.status);
   const url = new URL(request.url);
 
@@ -63,7 +63,7 @@ async function adminGet(request: Request, path: string) {
 }
 
 async function adminPost(request: Request, path: string) {
-  const auth = requireUser(request, ['admin', 'support']);
+  const auth = await authorize(request, 'POST', path);
   if ('error' in auth) return fail(auth.error, auth.status);
 
   try {
@@ -258,7 +258,7 @@ export async function POST(request: Request, { params }: Ctx) {
 }
 
 export async function PUT(request: Request, { params }: Ctx) {
-  const auth = requireUser(request, ['admin', 'support']);
+  const auth = await authorize(request, 'PUT', (await params).path.join('/'));
   if ('error' in auth) return fail(auth.error, auth.status);
   const path = (await params).path.join('/');
 
