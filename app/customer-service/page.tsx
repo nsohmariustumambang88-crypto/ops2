@@ -10,7 +10,7 @@ export default function CustomerServicePage() {
         {
           title: 'How to reach us',
           body: ['Use the contact details below for the fastest answer. Messages sent outside support hours are answered the next business day.'],
-          bullets: ['Email: support@opslogistics.com', 'Phone: listed in your booking confirmation', 'Track any shipment on our tracking page'],
+          bullets: ['Email: support@opslogistice.com', 'Phone: listed in your booking confirmation', 'Track any shipment on our tracking page'],
         },
         {
           title: 'Common requests',

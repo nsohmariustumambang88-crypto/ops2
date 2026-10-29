@@ -139,7 +139,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               <div className='hidden group-hover:block absolute right-0 mt-2 w-48 bg-white border border-border rounded-lg shadow-deep z-10'>
                 <div className='p-4'>
                   <p className='text-sm font-bold text-text-primary'>Admin User</p>
-                  <p className='text-xs text-text-secondary'>admin@opslogistics.com</p>
+                  <p className='text-xs text-text-secondary'>support@opslogistice.com</p>
                 </div>
                 <div className='border-t border-border p-2'>
                   <button

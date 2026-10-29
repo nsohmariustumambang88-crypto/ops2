@@ -1,5 +1,5 @@
 // One mailbox for every service. Change it here when the address is confirmed.
-export const SERVICE_EMAIL = 'admin@opslogistics.com';
+export const SERVICE_EMAIL = 'support@opslogistice.com';
 
 export const PET_CANCELLATION = {
   fullRefundDays: 14, // more than this many days before pickup: full refund less the fee

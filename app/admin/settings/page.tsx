@@ -5,7 +5,7 @@ import AdminLayout from '@/components/admin/AdminLayout';
 
 const fields = [
   { key: 'site_name', label: 'Site name', placeholder: 'OPS Logistics' },
-  { key: 'support_email', label: 'Support email', placeholder: 'support@opslogistics.com' },
+  { key: 'support_email', label: 'Support email', placeholder: 'support@opslogistice.com' },
   { key: 'support_phone', label: 'Support phone', placeholder: '+1 000 000 0000' },
   { key: 'default_language', label: 'Default language (en or fr)', placeholder: 'en' },
   { key: 'default_country', label: 'Default country', placeholder: 'United States' },

@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className='w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors'
-                placeholder='admin@opslogistics.com'
+                placeholder='admin@opslogistice.com'
                 required
               />
             </div>
@@ -114,7 +114,7 @@ export default function AdminLoginPage() {
           <div className='mt-6 pt-6 border-t border-border text-center'>
             <p className='text-sm text-text-secondary'>
               Need help?{' '}
-              <a href='mailto:support@opslogistics.com' className='text-primary font-bold hover:underline'>
+              <a href='mailto:support@opslogistice.com' className='text-primary font-bold hover:underline'>
                 Contact Support
               </a>
             </p>

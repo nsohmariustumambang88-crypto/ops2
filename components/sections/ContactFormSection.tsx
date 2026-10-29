@@ -57,7 +57,7 @@ export default function ContactFormSection() {
                 </svg>
               </div>
               <h3 className='font-bold text-text-primary mb-1 sm:mb-2 text-sm sm:text-base'>Email</h3>
-              <p className='text-text-secondary text-xs sm:text-sm'>contact@opslogistics.com</p>
+              <p className='text-text-secondary text-xs sm:text-sm'>support@opslogistice.com</p>
             </div>
 
             <div className='text-center'>

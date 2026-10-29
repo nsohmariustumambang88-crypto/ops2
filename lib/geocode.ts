@@ -2,7 +2,7 @@ import { db } from '@/lib/db';
 
 export type Place = { lat: number; lng: number; label: string };
 
-const USER_AGENT = 'OPS-Logistics-Tracking/1.0 (admin@opslogistics.com)';
+const USER_AGENT = 'OPS-Logistics-Tracking/1.0 (support@opslogistice.com)';
 
 // One lookup against OpenStreetMap's Nominatim search. Returns null when nothing matches.
 async function search(query: string): Promise<Place | null> {
