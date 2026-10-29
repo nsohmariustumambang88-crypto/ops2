@@ -7,7 +7,8 @@ export const SHIPMENT_FIELDS = [
   'pet_name', 'pet_species', 'pet_breed', 'pet_sex', 'pet_date_of_birth', 'pet_weight', 'pet_microchip',
   'pet_travel_purpose', 'pet_cabin_or_cargo', 'pet_crate_type', 'pet_crate_size', 'pet_health_certificate',
   'pet_rabies_vaccination_date', 'pet_import_permit', 'pet_vet_name', 'pet_vet_phone', 'pet_handling_notes',
-  'pet_document_checks',
+  'pet_document_checks', 'pet_colour', 'pet_owner_id', 'pet_emergency_contact', 'pet_airline_booking',
+  'pet_medication', 'pet_other_vaccinations', 'pet_insurance', 'pet_quarantine_required',
 ] as const;
 
 export const PET_DOCUMENT_CHECKS = [

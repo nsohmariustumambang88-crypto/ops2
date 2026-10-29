@@ -1,6 +1,7 @@
 'use client';
 
 import type { ShipmentValues } from '@/components/admin/ShipmentForm';
+import PrintArea from '@/components/PrintArea';
 
 const val = (v: ShipmentValues, k: string) => (v[k] && String(v[k]).trim() ? String(v[k]) : '—');
 
@@ -25,11 +26,11 @@ export default function ShipmentReceipt({ values, reference }: { values: Shipmen
     </div>
   );
 
-  return (
+  const receipt = (
     <div className='bg-white border border-border rounded-xl shadow-medium overflow-hidden font-mono'>
       <div className='bg-navy text-white text-center py-4'>
-        <p className='text-[16px] font-extrabold tracking-widest'>OPS LOGISTICS</p>
-        <p className='text-[11px] tracking-wider opacity-80'>SHIPPING RECEIPT</p>
+        <p className='text-[16px] font-extrabold tracking-widest text-white'>OPS LOGISTICS</p>
+        <p className='text-[11px] tracking-wider text-white opacity-80'>SHIPPING RECEIPT</p>
       </div>
 
       <div className='px-5 py-4 border-b border-dashed border-border'>
@@ -88,7 +89,11 @@ export default function ShipmentReceipt({ values, reference }: { values: Shipmen
           {row('Microchip', val(values, 'pet_microchip'))}
           {row('Travel in', val(values, 'pet_cabin_or_cargo'))}
           {row('Crate', val(values, 'pet_crate_type'))}
+          {row('Colour', val(values, 'pet_colour'))}
           {row('Health certificate', val(values, 'pet_health_certificate'))}
+          {row('Quarantine', val(values, 'pet_quarantine_required'))}
+          {row('Insurance', val(values, 'pet_insurance'))}
+          {row('Airline booking', val(values, 'pet_airline_booking'))}
         </div>
       )}
 
@@ -107,5 +112,15 @@ export default function ShipmentReceipt({ values, reference }: { values: Shipmen
         </button>
       </div>
     </div>
+  );
+
+  // Printing uses the copy in PrintArea, so the page around the receipt is not printed.
+  return (
+    <>
+      {receipt}
+      <PrintArea>
+        <div className='max-w-[420px] mx-auto p-4'>{receipt}</div>
+      </PrintArea>
+    </>
   );
 }

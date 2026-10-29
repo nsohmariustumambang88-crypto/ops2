@@ -424,3 +424,19 @@ select {
   min-height: 42px;
   font-size: 15.5px;
 }
+
+/* Printing shows only the receipt in #print-area. Everything else on the page is hidden. */
+#print-area {
+  display: none;
+}
+
+@media print {
+  body > :not(#print-area) {
+    display: none !important;
+  }
+
+  #print-area {
+    display: block !important;
+    background: #ffffff;
+  }
+}

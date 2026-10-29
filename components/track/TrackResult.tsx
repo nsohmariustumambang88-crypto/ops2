@@ -6,6 +6,8 @@ import 'leaflet/dist/leaflet.css';
 import { useLanguage } from '@/lib/i18n';
 import { copyFor } from '@/components/track/copy';
 import { normalizeStatus, stageFor } from '@/lib/status';
+import PrintArea from '@/components/PrintArea';
+import TrackReceipt from '@/components/track/TrackReceipt';
 
 export type TrackEvent = { status: string; location: string | null; timestamp: string; notes: string | null; next_step: string | null; latitude: number | null; longitude: number | null };
 export type PetChecks = { crate_inspected: boolean; documents_verified: boolean; airline_accepted: boolean; handover_confirmed: boolean };
@@ -264,6 +266,11 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
     <div className='space-y-6'>
       {/* Printed receipts show every section, so the page is not cut down for paper. */}
       <style>{'@media print { header, footer, nav { display: none !important; } .print-card { box-shadow: none !important; break-inside: avoid; } }'}</style>
+
+      {/* Printing shows only this receipt; the page itself is hidden on paper. */}
+      <PrintArea>
+        <TrackReceipt shipment={shipment} events={events} reference={reference} lang={lang} />
+      </PrintArea>
 
       {/* Header card: reference, status and actions */}
       <div className='print-card bg-navy text-white rounded-2xl shadow-deep p-6 md:p-8'>

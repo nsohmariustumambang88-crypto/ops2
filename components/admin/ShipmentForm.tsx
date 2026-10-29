@@ -195,7 +195,6 @@ export default function ShipmentForm({
             ['document', 'Document'],
             ['pallet', 'Pallet'],
             ['container', 'Container'],
-            ['pet', 'Pet'],
           ], 'parcel')}
           {select('service_type', 'Service', [
             ['express', 'Express'],
@@ -213,6 +212,31 @@ export default function ShipmentForm({
             <span className='text-[14px] font-bold'>Contents</span>
             <textarea rows={3} value={v.contents ?? ''} onChange={set('contents')} className='mt-1 w-full px-3 py-2 border border-border rounded' />
           </label>
+        </div>
+      </section>
+
+      <section className='bg-white border border-border rounded-xl p-6'>
+        <h2 className='text-[24px] font-extrabold text-navy mb-2'>Package or pet transport</h2>
+        <p className='text-[14px] text-text-secondary mb-4'>Choose what is being shipped. Pet transport adds the animal details below.</p>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          <button
+            type='button'
+            aria-pressed={!isPet}
+            onClick={() => { if (isPet) setV({ ...v, shipment_type: 'parcel' }); }}
+            className={`text-left rounded-xl border-2 p-4 ${!isPet ? 'border-primary bg-light-blue' : 'border-border bg-white'}`}
+          >
+            <span className='block text-[18px] font-extrabold text-navy'>Package</span>
+            <span className='block text-[14px] text-text-secondary'>Parcels, documents, pallets and containers</span>
+          </button>
+          <button
+            type='button'
+            aria-pressed={isPet}
+            onClick={() => setV({ ...v, shipment_type: 'pet' })}
+            className={`text-left rounded-xl border-2 p-4 ${isPet ? 'border-primary bg-light-blue' : 'border-border bg-white'}`}
+          >
+            <span className='block text-[18px] font-extrabold text-navy'>Pet transport</span>
+            <span className='block text-[14px] text-text-secondary'>Dogs, cats, birds and reptiles</span>
+          </button>
         </div>
 
         {isPet && (
@@ -232,6 +256,7 @@ export default function ShipmentForm({
                 ['other', 'Other'],
               ], '')}
               {field('pet_breed', 'Breed')}
+              {field('pet_colour', 'Colour and markings')}
               {select('pet_sex', 'Sex', [
                 ['unknown', 'Unknown'],
                 ['male', 'Male'],
@@ -262,16 +287,39 @@ export default function ShipmentForm({
                 ['yes', 'Yes'],
               ], 'no')}
               {field('pet_rabies_vaccination_date', 'Rabies vaccination date', 'date')}
+              {field('pet_other_vaccinations', 'Other vaccinations and dates')}
               {field('pet_import_permit', 'Import or export permit number')}
+              {select('pet_quarantine_required', 'Quarantine at destination', [
+                ['no', 'Not required'],
+                ['yes', 'Required'],
+                ['unknown', 'Not checked yet'],
+              ], 'unknown')}
+              {select('pet_insurance', 'Pet travel insurance', [
+                ['no', 'Not arranged'],
+                ['yes', 'Arranged'],
+              ], 'no')}
+              {field('pet_airline_booking', 'Airline booking reference')}
+              {field('pet_owner_id', 'Owner ID or passport number')}
+              {field('pet_emergency_contact', 'Emergency contact (name and phone)')}
               {field('pet_vet_name', 'Veterinarian name')}
               {field('pet_vet_phone', 'Veterinarian phone')}
+              <label className='md:col-span-2'>
+                <span className='text-[14px] font-bold'>Current medication</span>
+                <textarea
+                  rows={2}
+                  value={v.pet_medication ?? ''}
+                  onChange={set('pet_medication')}
+                  placeholder='Medicine, dose and time given'
+                  className='mt-1 w-full px-3 py-2 border border-border rounded'
+                />
+              </label>
               <label className='md:col-span-2'>
                 <span className='text-[14px] font-bold'>Handling and care notes</span>
                 <textarea
                   rows={3}
                   value={v.pet_handling_notes ?? ''}
                   onChange={set('pet_handling_notes')}
-                  placeholder='Feeding, medication, temperament, pickup access instructions'
+                  placeholder='Feeding, temperament, pickup access instructions'
                   className='mt-1 w-full px-3 py-2 border border-border rounded'
                 />
               </label>
