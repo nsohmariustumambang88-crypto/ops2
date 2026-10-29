@@ -57,6 +57,16 @@ export async function GET(request: Request, { params }: Ctx) {
       return NextResponse.json({ data: r.rows });
     }
 
+    if (path === 'notifications') {
+      const status = url.searchParams.get('status');
+      return listQuery(
+        `SELECT n.id, n.shipment_id, COALESCE(s.reference_number, s.tracking_number) AS reference, n.recipient_email,
+                n.audience, n.subject, n.status, n.error, n.created_at, n.sent_at
+         FROM shipment_notifications n LEFT JOIN shipments s ON s.id = n.shipment_id`,
+        status ? 'n.status = $1' : null, status ? [status] : [], 'n.created_at DESC', url
+      );
+    }
+
     if (path === 'subscribers') {
       const r = await db.query('SELECT id, email, created_at FROM subscribers ORDER BY created_at DESC LIMIT 500');
       return NextResponse.json({ data: r.rows });
@@ -252,6 +262,13 @@ export async function POST(request: Request, { params }: Ctx) {
         [contentCreate[1], fields.title, fields.summary, fields.body, fields.image_url, fields.link_url, fields.published, fields.sort_order]
       );
       return NextResponse.json({ message: 'Saved', item: r.rows[0] }, { status: 201 });
+    }
+
+    if (path === 'notifications/retry') {
+      // Puts every failed shipment email back in the queue and sends it again now.
+      const retry = await db.query("UPDATE shipment_notifications SET status = 'queued', error = NULL WHERE status = 'failed' RETURNING id");
+      const result = await sendQueued(200);
+      return NextResponse.json({ message: 'Retry finished', retried: retry.rows.length, sent: result.sent, configured: result.configured });
     }
 
     if (path === 'email/send') {
@@ -490,6 +507,42 @@ export async function DELETE(request: Request, { params }: Ctx) {
       const r = await db.query('DELETE FROM subscribers WHERE id = $1 RETURNING id', [m[1]]);
       if (r.rows.length === 0) return NextResponse.json({ error: 'Subscriber not found' }, { status: 404 });
       return NextResponse.json({ message: 'Subscriber removed' });
+    }
+
+    // Deleting a shipment also removes its updates and its emails, in one transaction.
+    const shipmentDelete = path.match(new RegExp('^shipments\\/([0-9]+)$'));
+    if (shipmentDelete) {
+      const client = await db.connect();
+      try {
+        await client.query('BEGIN');
+        await client.query('DELETE FROM shipment_notifications WHERE shipment_id = $1', [shipmentDelete[1]]);
+        await client.query('DELETE FROM shipment_tracking WHERE shipment_id = $1', [shipmentDelete[1]]);
+        const r = await client.query('DELETE FROM shipments WHERE id = $1 RETURNING id', [shipmentDelete[1]]);
+        await client.query('COMMIT');
+        if (r.rows.length === 0) return NextResponse.json({ error: 'Shipment not found' }, { status: 404 });
+        return NextResponse.json({ message: 'Shipment deleted' });
+      } catch {
+        await client.query('ROLLBACK');
+        return NextResponse.json({ error: 'The shipment could not be deleted' }, { status: 500 });
+      } finally {
+        client.release();
+      }
+    }
+
+    // Email log entries. Deleting only removes the record here; it cannot recall a mail already sent.
+    const notificationDelete = path.match(new RegExp('^notifications\\/([0-9]+)$'));
+    if (notificationDelete) {
+      const r = await db.query('DELETE FROM shipment_notifications WHERE id = $1 RETURNING id', [notificationDelete[1]]);
+      if (r.rows.length === 0) return NextResponse.json({ error: 'Email not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Email record deleted' });
+    }
+    if (path === 'notifications') {
+      const status = new URL(request.url).searchParams.get('status');
+      if (!['sent', 'failed', 'queued'].includes(String(status))) {
+        return NextResponse.json({ error: 'Choose which emails to delete' }, { status: 400 });
+      }
+      const r = await db.query('DELETE FROM shipment_notifications WHERE status = $1 RETURNING id', [status]);
+      return NextResponse.json({ message: 'Email records deleted', deleted: r.rows.length });
     }
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   } catch {

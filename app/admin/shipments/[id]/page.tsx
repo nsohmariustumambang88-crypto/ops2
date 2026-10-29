@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, type FormEvent } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
 import type { ShipmentValues } from '@/components/admin/ShipmentForm';
@@ -15,6 +15,8 @@ type Receipt = { values: ShipmentValues; reference: string };
 
 export default function ShipmentDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
+  const [canDelete, setCanDelete] = useState(false);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [error, setError] = useState('');
   const [status, setStatus] = useState('in_transit');
@@ -83,6 +85,26 @@ export default function ShipmentDetailPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  // Delete is only shown to admins and to team members granted the delete permission.
+  useEffect(() => {
+    fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token()}` } })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((me) => setCanDelete(me?.role === 'admin' || (me?.permissions ?? []).includes('shipments_delete')));
+  }, []);
+
+  const deleteShipment = async () => {
+    if (!detail) return;
+    const ref = detail.shipment.tracking_number;
+    if (!window.confirm(`Delete shipment ${ref}? Its updates and emails will be removed too. This cannot be undone.`)) return;
+    const res = await fetch(`/api/admin/shipments/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token()}` } });
+    if (!res.ok) {
+      const j = await res.json().catch(() => ({}));
+      setError(j.error || 'Could not delete this shipment.');
+      return;
+    }
+    router.push('/admin/shipments');
+  };
+
   const addEvent = async (e: FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -117,6 +139,7 @@ export default function ShipmentDetailPage() {
                 <div className='flex gap-3'>
                   <button type='button' onClick={trackRegistration} className='h-[42px] px-5 rounded border border-primary text-primary font-bold'>Track</button>
                   <Link href={`/admin/shipments/${id}/edit`} className='h-[42px] px-5 inline-flex items-center rounded border border-border font-bold'>Edit shipment</Link>
+                  {canDelete && <button type='button' onClick={deleteShipment} className='h-[42px] px-5 rounded border border-red-300 text-red-700 font-bold'>Delete</button>}
                 </div>
               </div>
               <p className='text-text-primary'>Current status: <span className='font-bold'>{statusLabel(detail.shipment.status)}</span></p>

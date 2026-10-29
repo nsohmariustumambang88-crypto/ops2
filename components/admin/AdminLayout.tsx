@@ -37,6 +37,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const menuItems: Item[] = [
     { label: 'Dashboard', icon: '📊', href: '/admin/dashboard' },
     { label: 'Shipments', icon: '📦', href: '/admin/shipments', perm: 'shipments_view' },
+    { label: 'Notifications', icon: '🔔', href: '/admin/notifications', perm: 'shipments_view' },
     { label: 'Blog Posts', icon: '📝', href: '/admin/blogs', perm: 'content_manage' },
     { label: 'Case Studies', icon: '🏆', href: '/admin/case-studies', perm: 'content_manage' },
     { label: 'Industries', icon: '🏢', href: '/admin/industries', perm: 'content_manage' },

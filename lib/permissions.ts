@@ -4,6 +4,7 @@
 export const PERMISSIONS = [
   { key: 'shipments_view', label: 'View shipments', group: 'Shipments' },
   { key: 'shipments_edit', label: 'Register, edit and update shipments', group: 'Shipments' },
+  { key: 'shipments_delete', label: 'Delete shipments and email records', group: 'Shipments' },
   { key: 'enquiries_manage', label: 'View and update contact forms and quotes', group: 'Customers' },
   { key: 'customers_manage', label: 'View and change customer tiers', group: 'Customers' },
   { key: 'orders_view', label: 'View orders', group: 'Customers' },
@@ -43,7 +44,10 @@ export function permissionFor(method: string, path: string): Permission | 'users
   if (path === 'dashboard') return null; // open to every signed-in team member
   if (path.startsWith('admin/')) return 'support_manage'; // support routes
   if (path.startsWith('pricing')) return 'pricing_manage';
-  if (path.startsWith('shipments')) return read ? 'shipments_view' : 'shipments_edit';
+  if (path.startsWith('shipments')) {
+    if (read) return 'shipments_view';
+    return method === 'DELETE' ? 'shipments_delete' : 'shipments_edit';
+  }
   if (path === 'contact-submissions' || path.startsWith('contact-submissions/')) return 'enquiries_manage';
   if (path.startsWith('customers')) return 'customers_manage';
   if (path === 'orders') return 'orders_view';
@@ -51,6 +55,10 @@ export function permissionFor(method: string, path: string): Permission | 'users
   if (path.startsWith('content')) return 'content_manage';
   if (path === 'subscribers' || path.startsWith('subscribers/')) return 'subscribers_manage';
   if (path === 'email' || path.startsWith('email/')) return 'subscribers_manage';
+  if (path === 'notifications' || path.startsWith('notifications/')) {
+    if (read) return 'shipments_view';
+    return method === 'DELETE' ? 'shipments_delete' : 'shipments_edit';
+  }
   if (path === 'settings' || path.startsWith('settings/')) return 'settings_manage';
   if (path.startsWith('inbox')) return path === 'inbox/reply' ? 'inbox_reply' : 'inbox_view';
   if (path === 'users' || path.startsWith('users/')) return 'users_manage';
