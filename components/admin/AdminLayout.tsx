@@ -119,7 +119,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
       {/* Sidebar: a drawer on phones, a fixed column from tablet width up */}
       <aside
-        className={`relative flex flex-col bg-navy text-white transition-all duration-300 z-40
+        className={`flex flex-col bg-navy text-white transition-all duration-300 z-40
           fixed inset-y-0 left-0 w-64 md:static md:shrink-0 ${drawerOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
           ${collapsed ? 'md:w-20' : 'md:w-64'}`}
       >
