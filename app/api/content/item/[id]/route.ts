@@ -15,7 +15,7 @@ export async function GET(_request: Request, { params }: Ctx) {
       [id]
     );
     if (r.rows.length === 0) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    return NextResponse.json(r.rows[0]);
+    return NextResponse.json(r.rows[0], { headers: { 'Cache-Control': 'public, max-age=0, s-maxage=60, stale-while-revalidate=300' } });
   } catch {
     return NextResponse.json({ error: 'Could not load this item' }, { status: 500 });
   }

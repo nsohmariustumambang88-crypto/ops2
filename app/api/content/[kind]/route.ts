@@ -16,7 +16,8 @@ export async function GET(_request: Request, { params }: Ctx) {
        ORDER BY sort_order, created_at DESC`,
       [kind]
     );
-    return NextResponse.json({ data: r.rows });
+    // Cached at Vercel's edge for a minute, so repeat visits don't query the database.
+    return NextResponse.json({ data: r.rows }, { headers: { 'Cache-Control': 'public, max-age=0, s-maxage=60, stale-while-revalidate=300' } });
   } catch {
     return NextResponse.json({ error: 'Could not load content' }, { status: 500 });
   }
