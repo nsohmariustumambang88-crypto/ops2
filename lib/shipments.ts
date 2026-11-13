@@ -40,6 +40,39 @@ export function pickShipmentFields(body: Record<string, unknown>) {
   return out;
 }
 
+// Shipment details the customer is shown. Only these are written to the public update history when an
+// admin changes them. Contact details and internal fields are never listed there.
+export const PUBLIC_EDIT_LABELS: Record<string, string> = {
+  route_origin: 'origin',
+  route_destination: 'destination',
+  pickup_at: 'pickup time',
+  departure_at: 'departure time',
+  arrival_at: 'arrival time',
+  transport_mode: 'transport',
+  carrier: 'courier',
+  flight_number: 'flight or vessel',
+  service_type: 'service',
+  weight: 'weight',
+  dimensions: 'dimensions',
+  sender_city: 'sender city',
+  sender_country: 'sender country',
+  receiver_city: 'receiver city',
+  receiver_country: 'receiver country',
+  delivered_to: 'received by',
+  current_location: 'current location',
+};
+
+// The labels of the public details that changed between two versions of a shipment.
+export function describeEdits(before: Record<string, unknown>, after: Record<string, unknown>) {
+  const changed: string[] = [];
+  for (const [key, label] of Object.entries(PUBLIC_EDIT_LABELS)) {
+    const a = before[key] == null ? '' : String(before[key]);
+    const b = after[key] == null ? '' : String(after[key]);
+    if (a !== b) changed.push(label);
+  }
+  return changed;
+}
+
 // Converts a stored shipment row into the string values the form and receipt use.
 export function toFormValues(shipment: Record<string, unknown>) {
   const values: Record<string, string> = {};

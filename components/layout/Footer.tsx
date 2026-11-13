@@ -6,7 +6,7 @@ import Container from '@/components/ui/Container';
 // The company logo, from public/images/logo.
 const OPSLogo = () => (
   // eslint-disable-next-line @next/next/no-img-element
-  <img src='/images/logo/logo.webp' alt='OPS Logistics' className='h-[48px] w-auto' />
+  <img src='/images/logo/logo.webp' alt='OPS Logistics' className='h-[72px] w-auto max-w-[260px] object-contain' />
 );
 
 export default function Footer() {

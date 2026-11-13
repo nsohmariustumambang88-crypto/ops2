@@ -11,6 +11,7 @@ import { isShipmentStatus } from '@/lib/status';
 import { renderEmail } from '@/lib/email-template';
 import { geocodePlace } from '@/lib/geocode';
 import { SERVICE_EMAIL } from '@/lib/site';
+import { describeEdits } from '@/lib/shipments';
 
 const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
 
@@ -391,20 +392,29 @@ export async function PUT(request: Request, { params }: Ctx) {
       const keys = Object.keys(fields);
       if (keys.length === 0) return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
       const set = keys.map((k, i) => `${k} = $${i + 1}`).join(', ');
-      const before = await db.query('SELECT status FROM shipments WHERE id = $1', [shipmentEdit[1]]);
+      const before = await db.query('SELECT * FROM shipments WHERE id = $1', [shipmentEdit[1]]);
       const r = await db.query(
         `UPDATE shipments SET ${set}, updated_at = CURRENT_TIMESTAMP WHERE id = $${keys.length + 1} RETURNING *`,
         [...Object.values(fields), shipmentEdit[1]]
       );
       if (r.rows.length === 0) return NextResponse.json({ error: 'Shipment not found' }, { status: 404 });
 
-      // A status changed on the edit page is recorded as a tracking update, so the public page and emails match.
+      // Every status change and every public detail change is recorded as one tracking update, so the
+      // customer's roadmap and history show what happened, in the order it happened.
       const newStatus = r.rows[0].status as string;
-      if (before.rows[0] && before.rows[0].status !== newStatus) {
+      const statusChanged = Boolean(before.rows[0]) && before.rows[0].status !== newStatus;
+      const edits = before.rows[0] ? describeEdits(before.rows[0], r.rows[0]) : [];
+      if (statusChanged || edits.length > 0) {
+        const notes = [
+          statusChanged ? 'Status updated by the OPS team' : null,
+          edits.length > 0 ? `Details updated: ${edits.join(', ')}` : null,
+        ].filter(Boolean).join('. ');
         await db.query(
           'INSERT INTO shipment_tracking (shipment_id, status, notes) VALUES ($1, $2, $3)',
-          [shipmentEdit[1], newStatus, 'Status updated by the OPS team']
+          [shipmentEdit[1], newStatus, notes]
         );
+      }
+      if (statusChanged) {
         await queueMilestone(Number(shipmentEdit[1]), newStatus, { notes: 'Status updated by the OPS team' });
         await sendQueued();
       }

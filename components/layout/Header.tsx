@@ -99,10 +99,10 @@ export default function Header() {
       {/* Top Header */}
       <header className='bg-white border-b border-border'>
         <Container>
-          <div className='flex items-center justify-between h-[90px] w-full'>
+          <div className='flex items-center justify-between min-h-[90px] py-2 w-full'>
             <Link href='/' className='flex items-center shrink-0'>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src='/images/logo/logo.webp' alt='OPS Logistics' className='h-[60px] w-auto' />
+              <img src='/images/logo/logo.webp' alt='OPS Logistics' className='h-[80px] md:h-[104px] w-auto max-w-[260px] md:max-w-[340px] object-contain' />
             </Link>
 
             <div className='hidden md:flex items-center gap-5'>

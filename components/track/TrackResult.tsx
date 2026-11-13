@@ -5,7 +5,7 @@ import Link from 'next/link';
 import 'leaflet/dist/leaflet.css';
 import { useLanguage } from '@/lib/i18n';
 import { copyFor } from '@/components/track/copy';
-import { SHIPMENT_STATUSES, normalizeStatus, stageFor } from '@/lib/status';
+import { normalizeStatus, stageFor, statusLabel } from '@/lib/status';
 import PrintArea from '@/components/PrintArea';
 import TrackReceipt from '@/components/track/TrackReceipt';
 
@@ -124,35 +124,60 @@ function ProgressBar({ status, events, stageNames }: { status: string; events: T
   );
 }
 
-// The roadmap: every status from registered to returned, in order. A status is ticked once the team
-// has recorded it, the current status is highlighted, and the rest are shown in grey.
+// The roadmap shows only the steps that have actually happened, in the order they happened, like the
+// history does. A shipment that skipped steps shows fewer steps, and any status can come first or last.
+// Detail changes made by the team appear under the step they were made in. The newest step is current.
 function Roadmap({ status, events, c, lang }: { status: string; events: TrackEvent[]; c: Copy; lang: string }) {
-  const current = normalizeStatus(status);
   const statusNames = c.statuses as Record<string, string>;
+
+  type Step = { key: string; event: TrackEvent; updates: string[] };
+  const steps: Step[] = [];
+  for (const e of [...events].reverse()) {
+    const key = normalizeStatus(e.status);
+    const notes = e.notes ?? '';
+    const update = notes.includes('Details updated:') ? notes.slice(notes.indexOf('Details updated:')) : null;
+    const last = steps[steps.length - 1];
+    if (last && last.key === key) {
+      // The same status recorded again: keep the newest time and collect the detail changes.
+      last.event = e;
+      if (update) last.updates.push(update);
+    } else {
+      steps.push({ key, event: e, updates: update ? [update] : [] });
+    }
+  }
+
+  if (steps.length === 0) return <p className='text-text-secondary'>{c.historyEmpty}</p>;
+
+  const lastIndex = steps.length - 1;
+  const isDelivered = normalizeStatus(status) === 'delivered';
   return (
     <ol className='relative space-y-6 pl-10'>
       <span className='absolute left-[15px] top-2 bottom-2 w-0.5 bg-border' aria-hidden='true' />
-      {SHIPMENT_STATUSES.map((s, i) => {
-        const isCurrent = s.key === current;
-        const event = events.find((e) => normalizeStatus(e.status) === s.key);
-        const ticked = Boolean(event) && !isCurrent;
-        const isDelivered = isCurrent && s.key === 'delivered';
+      {steps.map((step, i) => {
+        const isCurrent = i === lastIndex;
+        const ticked = !isCurrent || isDelivered;
         return (
-          <li key={s.key} className='relative'>
+          <li key={`${step.key}-${i}`} className='relative'>
             <span
               className={`absolute -left-10 top-0 flex h-8 w-8 items-center justify-center rounded-full border-2 text-[13px] font-bold ${
-                ticked || isDelivered ? 'bg-primary border-primary text-white'
-                  : isCurrent ? 'bg-white border-primary text-primary ring-4 ring-primary/20'
-                  : 'bg-white border-border text-text-secondary'
+                ticked ? 'bg-primary border-primary text-white'
+                  : 'bg-white border-primary text-primary ring-4 ring-primary/20'
               }`}
               aria-hidden='true'
             >
-              {ticked || isDelivered ? '✓' : i + 1}
+              {ticked ? '✓' : i + 1}
             </span>
-            <p className={`text-[17px] font-bold ${isCurrent || ticked ? 'text-navy' : 'text-text-secondary'}`}>{statusNames[s.key] ?? s.label}</p>
+            <p className='text-[17px] font-bold text-navy'>{statusNames[step.key] ?? statusLabel(step.key)}</p>
             <p className='text-[14px] text-text-secondary'>
-              {event ? [event.location, dateLabel(event.timestamp, lang)].filter(Boolean).join(' · ') : isCurrent ? c.statusNow : c.upcoming}
+              {[step.event.location, dateLabel(step.event.timestamp, lang)].filter(Boolean).join(' · ')}
+              {isCurrent && !isDelivered && <span className='ml-2 font-bold text-primary'>{c.statusNow}</span>}
             </p>
+            {step.updates.map((u, j) => (
+              <p key={j} className='text-[14px] mt-1 text-primary font-bold'>{u}</p>
+            ))}
+            {isCurrent && step.event.next_step && (
+              <p className='text-[14px] mt-1'>{c.nextStep}: {step.event.next_step}</p>
+            )}
           </li>
         );
       })}
