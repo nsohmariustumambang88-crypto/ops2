@@ -223,7 +223,7 @@ export default function ShipNowPage() {
 
                 {/* Footer Text */}
                 <p className="text-sm text-gray-600 text-center" style={{ color: "#1A1A1A" }}>
-                  This opens an email to us. A person reads it and comes back to confirm the collection – it is not an automatic booking. In a hurry? Call <a href="tel:+18564287703" className="font-bold" style={{ color: "#1173D4" }}>+1 856-428-7703</a>, open around the clock. We use what you send to arrange the shipment and nothing else; see our <a href="/privacy-policy" style={{ color: "#1173D4" }} className="underline">privacy policy</a>.
+                  This opens an email to us. A person reads it and comes back to confirm the collection – it is not an automatic booking. In a hurry? Call <a href="tel:+19143137729" className="font-bold" style={{ color: "#1173D4" }}>+1 914-313-7729</a>, open around the clock. We use what you send to arrange the shipment and nothing else; see our <a href="/privacy-policy" style={{ color: "#1173D4" }} className="underline">privacy policy</a>.
                 </p>
               </form>
             </div>

@@ -36,7 +36,7 @@ export default function ContactPage() {
             <p className='text-xs font-bold uppercase tracking-widest text-primary mb-3'>Contact us</p>
             <h1 className='text-[40px] md:text-[50px] font-extrabold text-navy mb-4'>Talk to a person</h1>
             <p className='text-text-primary mb-8'>
-              Send us a message and a member of our team will reply. For a shipment that is moving now, call +1 856-428-7703, open around the clock.
+              Send us a message and a member of our team will reply. For a shipment that is moving now, call +1 914-313-7729, open around the clock.
             </p>
 
             <form onSubmit={submit} className='space-y-5 bg-white border border-border rounded-xl p-6 md:p-8'>

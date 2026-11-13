@@ -321,7 +321,7 @@ export default function RequestBusinessAccountPage() {
 
                   {/* Footer Text */}
                   <p className="text-xs text-center text-gray-600 mt-6" style={{ color: "#667085" }}>
-                    Prefer to talk it through first? Call <span className="font-semibold">+1 856-428-7703</span>, open around the clock. We use what you send to prepare your pricing and nothing else — see our <a href="/privacy-policy" className="underline" style={{ color: "#1173D4" }}>privacy policy</a>.
+                    Prefer to talk it through first? Call <span className="font-semibold">+1 914-313-7729</span>, open around the clock. We use what you send to prepare your pricing and nothing else — see our <a href="/privacy-policy" className="underline" style={{ color: "#1173D4" }}>privacy policy</a>.
                   </p>
                 </form>
               </div>
