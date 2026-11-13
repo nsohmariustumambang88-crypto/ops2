@@ -391,7 +391,7 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
         <h2 className='text-[26px] md:text-[28px] font-extrabold text-navy mb-6'>{c.history}</h2>
         {events.length === 0 && <p className='text-text-secondary'>{c.historyEmpty}</p>}
         <ol className='space-y-5 border-l-2 border-primary pl-6'>
-          {events.map((e, i) => (
+          {[...events].reverse().map((e, i) => (
             <li key={i} className='relative'>
               <span className='absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 border-white' style={{ backgroundColor: pinColor[normalizeStatus(e.status)] ?? '#0B2C5F' }} aria-hidden='true' />
               <p className='text-[17px] font-bold text-navy'>{label(e.status)}</p>

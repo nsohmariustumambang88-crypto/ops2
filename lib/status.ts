@@ -4,7 +4,7 @@ export const SHIPMENT_STATUSES = [
   { key: 'registered', label: 'Registered', stage: 0 },
   { key: 'picked_up', label: 'Picked up', stage: 1 },
   { key: 'out_for_delivery', label: 'Out for delivery', stage: 3 },
-  { key: 'pending', label: 'Pending', stage: 0 },
+  { key: 'pending', label: 'Pending', stage: null },
   { key: 'on_hold', label: 'On hold', stage: null },
   { key: 'en_route', label: 'En route', stage: 2 },
   { key: 'in_transit', label: 'In transit', stage: 2 },
