@@ -9,6 +9,7 @@ import { isContentKind, pickContentFields } from '@/lib/content';
 import { queueMilestone, sendQueued, transporter } from '@/lib/notify';
 import { isShipmentStatus } from '@/lib/status';
 import { renderEmail } from '@/lib/email-template';
+import { geocodePlace } from '@/lib/geocode';
 import { SERVICE_EMAIL } from '@/lib/site';
 
 const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
@@ -364,6 +365,20 @@ export async function PUT(request: Request, { params }: Ctx) {
       const fields = pickShipmentFields(await request.json());
       if ('status' in fields && !isShipmentStatus(fields.status)) {
         return NextResponse.json({ error: 'Choose a valid status' }, { status: 400 });
+      }
+      // The current location is looked up on the map when the team types a place without coordinates.
+      if ('current_location' in fields) {
+        const place = fields.current_location ? String(fields.current_location).trim() : '';
+        fields.current_location = place || null;
+        fields.current_location_at = place ? new Date() : null;
+        if (!place) {
+          fields.current_lat = null;
+          fields.current_lng = null;
+        } else if (fields.current_lat == null || fields.current_lng == null) {
+          const found = await geocodePlace(place, null, null);
+          fields.current_lat = found?.lat ?? null;
+          fields.current_lng = found?.lng ?? null;
+        }
       }
       delete fields.reference_number;
       // A changed origin or destination must be looked up again on the next track view.

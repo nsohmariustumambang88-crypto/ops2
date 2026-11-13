@@ -9,6 +9,7 @@ export const SHIPMENT_FIELDS = [
   'pet_rabies_vaccination_date', 'pet_import_permit', 'pet_vet_name', 'pet_vet_phone', 'pet_handling_notes',
   'pet_document_checks', 'pet_colour', 'pet_owner_id', 'pet_emergency_contact', 'pet_airline_booking',
   'pet_medication', 'pet_other_vaccinations', 'pet_insurance', 'pet_quarantine_required',
+  'current_location', 'current_lat', 'current_lng',
 ] as const;
 
 export const PET_DOCUMENT_CHECKS = [

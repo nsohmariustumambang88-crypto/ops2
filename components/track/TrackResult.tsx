@@ -35,6 +35,10 @@ export type TrackShipment = {
   pet_checks: PetChecks | null;
   origin_place: Place | null;
   destination_place: Place | null;
+  current_location: string | null;
+  current_lat: number | null;
+  current_lng: number | null;
+  current_location_at: string | null;
 };
 
 type Copy = ReturnType<typeof copyFor>;
@@ -156,16 +160,21 @@ function Roadmap({ status, events, c, lang }: { status: string; events: TrackEve
   );
 }
 
-function LiveMap({ events, origin, destination, emptyText, title }: {
+function LiveMap({ events, origin, destination, current, emptyText, title }: {
   events: TrackEvent[];
   origin: Place | null;
   destination: Place | null;
+  current: Place | null;
   emptyText: string;
   title: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const eventPoints = events.filter((e) => e.latitude != null && e.longitude != null).reverse();
-  const hasPoints = Boolean(origin || destination || eventPoints.length);
+  const hasPoints = Boolean(origin || destination || eventPoints.length || current);
+  // Primitive values for the effect, so the map is not redrawn on every render.
+  const curLat = current?.lat;
+  const curLng = current?.lng;
+  const curLabel = current?.label;
 
   useEffect(() => {
     let map: { remove: () => void } | null = null;
@@ -180,7 +189,9 @@ function LiveMap({ events, origin, destination, emptyText, title }: {
         ...track,
         ...(destination ? [[destination.lat, destination.lng] as [number, number]] : []),
       ];
-      const m = L.map(ref.current).setView(route[0], 4);
+      // Every point on the map, including the current position, is kept in view.
+      const all: [number, number][] = curLat != null && curLng != null ? [...route, [curLat, curLng]] : route;
+      const m = L.map(ref.current).setView(all[0], 4);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
       }).addTo(m);
@@ -201,7 +212,11 @@ function LiveMap({ events, origin, destination, emptyText, title }: {
           .addTo(m)
           .bindTooltip(`${e.status.replace(/_/g, ' ')}${e.location ? ` · ${e.location}` : ''}`);
       });
-      m.fitBounds(route, { padding: [30, 30] });
+      if (curLat != null && curLng != null) {
+        L.circleMarker([curLat, curLng], { radius: 11, color: '#FFFFFF', weight: 3, fillColor: '#F59E0B', fillOpacity: 1 })
+          .addTo(m).bindTooltip(`Current location${curLabel ? ` · ${curLabel}` : ''}`);
+      }
+      m.fitBounds(all, { padding: [30, 30] });
       map = m;
     });
 
@@ -209,7 +224,7 @@ function LiveMap({ events, origin, destination, emptyText, title }: {
       map?.remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [events, origin, destination]);
+  }, [events, origin, destination, curLat, curLng, curLabel]);
 
   return (
     <div className='rounded-xl border border-border overflow-hidden print:hidden' aria-label={title}>
@@ -301,6 +316,12 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
         <p className='text-[12px] font-bold uppercase tracking-wider text-primary mb-4'>{c.progress}</p>
         <ProgressBar status={shipment.status} events={events} stageNames={c.stageNames} />
         <div className='mt-6'><Eta arrival={shipment.arrival_at} status={shipment.status} c={c} lang={lang} /></div>
+        {shipment.current_location && (
+          <p className='mt-3 text-[15px]'>
+            <span className='text-text-secondary'>{c.currentlyAt} </span>
+            <span className='font-extrabold text-navy'>{shipment.current_location}</span>
+          </p>
+        )}
       </div>
 
       {notice && (
@@ -344,7 +365,16 @@ export default function TrackResult({ shipment, events, lastFetched }: { shipmen
       {/* Map card */}
       <div className={card + ' print-card'}>
         <h2 className='text-[26px] md:text-[28px] font-extrabold text-navy mb-4'>{c.liveMap}</h2>
-        <LiveMap events={events} origin={shipment.origin_place} destination={shipment.destination_place} emptyText={c.mapEmpty} title={c.liveMap} />
+        <LiveMap
+          events={events}
+          origin={shipment.origin_place}
+          destination={shipment.destination_place}
+          current={shipment.current_lat != null && shipment.current_lng != null
+            ? { lat: Number(shipment.current_lat), lng: Number(shipment.current_lng), label: shipment.current_location ?? '' }
+            : null}
+          emptyText={c.mapEmpty}
+          title={c.liveMap}
+        />
       </div>
 
       {/* Details card */}

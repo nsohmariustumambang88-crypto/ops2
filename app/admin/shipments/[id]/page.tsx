@@ -32,6 +32,8 @@ export default function ShipmentDetailPage() {
   const [receipt, setReceipt] = useState<Receipt | null>(null);
   const [checks, setChecks] = useState<Record<string, boolean> | null>(null);
   const [checksMsg, setChecksMsg] = useState('');
+  const [locForm, setLocForm] = useState({ place: '', lat: '', lng: '' });
+  const [locMsg, setLocMsg] = useState('');
 
   const token = () => localStorage.getItem('adminToken') ?? '';
 
@@ -78,6 +80,11 @@ export default function ShipmentDetailPage() {
     const data: Detail = await res.json();
     setDetail(data);
     setStatus(normalizeStatus(data.shipment.status));
+    setLocForm({
+      place: String(data.shipment.current_location ?? ''),
+      lat: data.shipment.current_lat == null ? '' : String(data.shipment.current_lat),
+      lng: data.shipment.current_lng == null ? '' : String(data.shipment.current_lng),
+    });
   };
 
   useEffect(() => {
@@ -91,6 +98,25 @@ export default function ShipmentDetailPage() {
       .then((r) => (r.ok ? r.json() : null))
       .then((me) => setCanDelete(me?.role === 'admin' || (me?.permissions ?? []).includes('shipments_delete')));
   }, []);
+
+  // Saves where the package is now. Empty coordinates are looked up from the place name.
+  const saveLocation = async (clear: boolean) => {
+    setLocMsg('Saving...');
+    const body = clear
+      ? { current_location: '', current_lat: '', current_lng: '' }
+      : { current_location: locForm.place, current_lat: locForm.lat, current_lng: locForm.lng };
+    const res = await fetch(`/api/admin/shipments/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      setLocMsg('Could not save the current location.');
+      return;
+    }
+    setLocMsg(clear ? 'Current location cleared.' : 'Current location saved. The track page map has been updated.');
+    load();
+  };
 
   const deleteShipment = async () => {
     if (!detail) return;
@@ -173,6 +199,30 @@ export default function ShipmentDetailPage() {
                   </div>
                 </section>
               )}
+
+              <section className='bg-white border border-border rounded-xl p-6'>
+                <h2 className='text-[28px] font-extrabold text-navy mb-2'>Current location</h2>
+                <p className='text-[14px] text-text-secondary mb-4'>Where the package is right now. It appears on the track page map. Leave the coordinates empty and the place is looked up for you.</p>
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                  <label className='md:col-span-3'>
+                    <span className='text-[14px] font-bold'>Place (city, airport, port or address)</span>
+                    <input value={locForm.place} onChange={(e) => setLocForm({ ...locForm, place: e.target.value })} placeholder='e.g. Atlanta, Hartsfield-Jackson Airport' className='mt-1 w-full h-[42px] px-3 border border-border rounded' />
+                  </label>
+                  <label>
+                    <span className='text-[13px] font-bold'>Latitude (optional)</span>
+                    <input type='number' step='any' value={locForm.lat} onChange={(e) => setLocForm({ ...locForm, lat: e.target.value })} className='mt-1 w-full h-[42px] px-3 border border-border rounded' />
+                  </label>
+                  <label>
+                    <span className='text-[13px] font-bold'>Longitude (optional)</span>
+                    <input type='number' step='any' value={locForm.lng} onChange={(e) => setLocForm({ ...locForm, lng: e.target.value })} className='mt-1 w-full h-[42px] px-3 border border-border rounded' />
+                  </label>
+                </div>
+                <div className='mt-4 flex flex-wrap items-center gap-3'>
+                  <button type='button' onClick={() => saveLocation(false)} className='h-[42px] px-6 rounded bg-primary text-white font-bold'>Save location</button>
+                  <button type='button' onClick={() => saveLocation(true)} className='h-[42px] px-6 rounded border border-border font-bold'>Clear</button>
+                  {locMsg && <span role='status' className='text-primary font-bold'>{locMsg}</span>}
+                </div>
+              </section>
 
               <section className='bg-white border border-border rounded-xl p-6'>
                 <h2 className='text-[28px] font-extrabold text-navy mb-4'>Timeline</h2>
