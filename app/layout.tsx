@@ -8,6 +8,10 @@ import SiteChrome from "@/components/layout/SiteChrome";
 export const metadata: Metadata = {
   title: "OPS Logistics - Global Shipping Solutions",
   description: "Reliable logistics and shipping solutions for businesses worldwide. Track shipments in real-time.",
+  icons: {
+    icon: "/images/logo/logo.webp",
+    apple: "/images/logo/logo.webp",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

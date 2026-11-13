@@ -100,9 +100,9 @@ export default function Header() {
       <header className='bg-white border-b border-border'>
         <Container>
           <div className='flex items-center justify-between h-[90px] w-full'>
-            <Link href='/' className='flex items-center gap-3 shrink-0'>
-              <span className='text-[28px] font-extrabold leading-none text-navy'>OPS</span>
-              <span className='text-[12px] font-bold tracking-widest leading-tight text-primary'>LOGISTICS</span>
+            <Link href='/' className='flex items-center shrink-0'>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src='/images/logo/logo.webp' alt='OPS Logistics' className='h-[60px] w-auto' />
             </Link>
 
             <div className='hidden md:flex items-center gap-5'>

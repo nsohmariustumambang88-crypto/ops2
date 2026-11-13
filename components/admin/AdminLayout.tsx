@@ -75,8 +75,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     <>
       <div className='p-4 border-b border-navy-dark'>
         <Link href='/admin/dashboard' className='flex items-center gap-3'>
-          <span className='text-2xl font-bold'>📊</span>
-          {!collapsed && <span className='font-bold text-sm'>OPS ADMIN</span>}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src='/images/logo/logo.webp' alt='OPS Logistics' className={collapsed ? 'h-8 w-auto' : 'h-10 w-auto'} />
+          {!collapsed && <span className='font-bold text-sm'>ADMIN</span>}
         </Link>
       </div>
 

@@ -4,6 +4,7 @@ import { SERVICE_EMAIL } from '@/lib/site';
 import { COURIER_NAME } from '@/lib/shipments';
 import { renderEmail, type EmailSection } from '@/lib/email-template';
 import { statusLabel } from '@/lib/status';
+import { confirmToken, confirmUrl } from '@/lib/confirm';
 
 // What each status says in the email. Every status in the shipment list sends one.
 const MILESTONES: Record<string, string> = {
@@ -129,29 +130,36 @@ export async function queueMilestone(
   const action = MILESTONES[status];
 
   const customers = [
-    { email: s.sender_email, name: s.sender_name, audience: 'customer' },
-    { email: s.receiver_email, name: s.receiver_name, audience: 'customer' },
-  ].filter((x) => x.email && String(x.email).includes('@')) as { email: string; name: string | null; audience: string }[];
+    { email: s.sender_email, name: s.sender_name, audience: 'customer', role: 'sender' },
+    { email: s.receiver_email, name: s.receiver_name, audience: 'customer', role: 'receiver' },
+  ].filter((x) => x.email && String(x.email).includes('@')) as { email: string; name: string | null; audience: string; role: string }[];
 
   // Every active admin gets the same details, unless the address is already a customer.
   const admins = await db.query("SELECT email, first_name FROM users WHERE role = 'admin' AND status = 'active' AND email IS NOT NULL");
   const seen = new Set(customers.map((c) => String(c.email).toLowerCase()));
   const adminRecipients = admins.rows
     .filter((a) => a.email && !seen.has(String(a.email).toLowerCase()))
-    .map((a) => ({ email: String(a.email), name: a.first_name as string | null, audience: 'admin' }));
+    .map((a) => ({ email: String(a.email), name: a.first_name as string | null, audience: 'admin', role: 'admin' }));
 
   for (const to of [...customers, ...adminRecipients]) {
     const isAdmin = to.audience === 'admin';
+    // The receiver of a new shipment is asked to confirm the details or report a problem.
+    const askReceiver = status === 'registered' && to.role === 'receiver';
+    const confirm = askReceiver ? confirmUrl(confirmToken(shipmentId)) : null;
     const subject = `${isAdmin ? '[Admin copy] ' : ''}Shipment ${reference} ${action}`;
     const { html, text } = renderEmail({
       heading: `Shipment ${reference} ${action}`,
       intro: [
         `Hello ${to.name || ''},`,
         isAdmin ? `This is the update sent to the customer for shipment ${reference}.` : `Your shipment ${reference} ${action}.`,
+        ...(askReceiver ? ['Please check the details below. Confirm them, or tell us if something is wrong.'] : []),
         ...(latest.nextStep ? [`What happens next: ${latest.nextStep}`] : []),
+        ...(askReceiver ? [`Track it at any time: ${trackUrl(reference)}`] : []),
       ],
       sections,
-      button: { label: 'Track this shipment', url: trackUrl(reference) },
+      button: confirm
+        ? { label: 'Confirm my shipment details', url: confirm }
+        : { label: 'Track this shipment', url: trackUrl(reference) },
       footer: isAdmin
         ? `OPS Logistics · Admin copy · ${SERVICE_EMAIL}`
         : `OPS Logistics · ${SERVICE_EMAIL}`,

@@ -3,38 +3,10 @@
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
 
+// The company logo, from public/images/logo.
 const OPSLogo = () => (
-  <svg
-    width="160"
-    height="40"
-    viewBox="0 0 160 40"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle cx="12" cy="20" r="8" fill="#0B2C5F" />
-    <path d="M 8 20 Q 12 16 16 20 Q 12 24 8 20" fill="#1173D4" />
-    <text
-      x="35"
-      y="26"
-      fontSize="18"
-      fontWeight="700"
-      fill="#0B2C5F"
-      fontFamily="Poppins, sans-serif"
-    >
-      OPS
-    </text>
-    <text
-      x="35"
-      y="38"
-      fontSize="10"
-      fontWeight="600"
-      fill="#1173D4"
-      fontFamily="Barlow, sans-serif"
-      letterSpacing="1"
-    >
-      LOGISTICS
-    </text>
-  </svg>
+  // eslint-disable-next-line @next/next/no-img-element
+  <img src='/images/logo/logo.webp' alt='OPS Logistics' className='h-[48px] w-auto' />
 );
 
 export default function Footer() {

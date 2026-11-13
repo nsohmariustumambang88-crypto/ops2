@@ -170,6 +170,15 @@ export default function ShipmentDetailPage() {
               </div>
               <p className='text-text-primary'>Current status: <span className='font-bold'>{statusLabel(detail.shipment.status)}</span></p>
               {trackMsg && <p role='status' className='mt-2 text-primary font-bold'>{trackMsg}</p>}
+              {Boolean(detail.shipment.receiver_responded_at) && (
+                <div className={`mt-4 rounded-xl border px-5 py-4 ${detail.shipment.receiver_response === 'issue' ? 'border-red-300 bg-red-50 text-red-900' : 'border-green-300 bg-green-50 text-green-900'}`}>
+                  <p className='font-bold'>
+                    {detail.shipment.receiver_response === 'issue' ? 'The receiver reported a problem' : 'The receiver confirmed the details'}
+                    <span className='font-normal'> · {new Date(String(detail.shipment.receiver_responded_at)).toLocaleString()}</span>
+                  </p>
+                  {Boolean(detail.shipment.receiver_response_note) && <p className='text-[15px] mt-1 whitespace-pre-line'>{String(detail.shipment.receiver_response_note)}</p>}
+                </div>
+              )}
             </div>
 
             <div className='grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6 items-start'>
