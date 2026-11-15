@@ -8,11 +8,24 @@ import { SHIPMENT_STATUSES, normalizeStatus, statusLabel } from '@/lib/status';
 type Shipment = {
   id: string;
   tracking_number: string;
+  reference_number: string | null;
   customer_id: string | null;
   status: string;
   weight: string | number | null;
   created_at: string;
+  updated_at: string | null;
+  carrier: string | null;
+  transport_mode: string | null;
+  sender_name: string | null;
+  sender_city: string | null;
+  sender_country: string | null;
+  receiver_name: string | null;
+  receiver_city: string | null;
+  receiver_country: string | null;
+  current_location: string | null;
 };
+
+const place = (city: string | null, country: string | null) => [city, country].filter(Boolean).join(', ') || '—';
 
 const statusStyle: Record<string, string> = {
   registered: 'bg-yellow-100 text-yellow-800',
@@ -50,7 +63,11 @@ export default function ShipmentsPage() {
       .finally(() => setLoading(false));
   }, [status]);
 
-  const filtered = shipments.filter((s) => s.tracking_number.toLowerCase().includes(search.trim().toLowerCase()));
+  const term = search.trim().toLowerCase();
+  const filtered = shipments.filter((s) =>
+    [s.tracking_number, s.reference_number, s.receiver_name, s.sender_name]
+      .some((v) => String(v ?? '').toLowerCase().includes(term))
+  );
 
   return (
     <AdminLayout>
@@ -67,7 +84,7 @@ export default function ShipmentsPage() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder='Search tracking number'
+            placeholder='Search tracking number or receiver name'
             className='h-[42px] px-3 border border-border rounded text-[15px]'
           />
           <select
@@ -88,29 +105,38 @@ export default function ShipmentsPage() {
           <table className='w-full text-[14px]'>
             <thead className='bg-light-gray'>
               <tr className='text-left'>
-                <th className='px-5 py-3'>Tracking number</th>
+                <th className='px-5 py-3'>Tracking number and receiver</th>
+                <th className='px-5 py-3'>Route</th>
                 <th className='px-5 py-3'>Status</th>
-                <th className='px-5 py-3'>Weight</th>
-                <th className='px-5 py-3'>Created</th>
+                <th className='px-5 py-3'>Where it is now</th>
+                <th className='px-5 py-3'>Last update</th>
               </tr>
             </thead>
             <tbody>
               {loading && (
-                <tr><td colSpan={4} className='px-5 py-6 text-center'>Loading...</td></tr>
+                <tr><td colSpan={5} className='px-5 py-6 text-center'>Loading...</td></tr>
               )}
               {!loading && filtered.length === 0 && (
-                <tr><td colSpan={4} className='px-5 py-6 text-center'>No shipments found.</td></tr>
+                <tr><td colSpan={5} className='px-5 py-6 text-center'>No shipments found.</td></tr>
               )}
               {filtered.map((s) => (
-                <tr key={s.id} className='border-t border-border'>
-                  <td className='px-5 py-3 font-bold text-navy'><Link href={`/admin/shipments/${s.id}`} className='hover:underline'>{s.tracking_number}</Link></td>
+                <tr key={s.id} className='border-t border-border align-top'>
                   <td className='px-5 py-3'>
-                    <span className={`px-3 py-1 rounded-full text-[12px] font-bold ${statusStyle[normalizeStatus(s.status)] ?? 'bg-gray-100 text-gray-800'}`}>
+                    <Link href={`/admin/shipments/${s.id}`} className='font-bold text-navy hover:underline break-all'>{s.reference_number || s.tracking_number}</Link>
+                    <p className='font-bold text-text-primary'>{s.receiver_name || '—'}</p>
+                    <p className='text-[12px] text-text-secondary'>{s.transport_mode ? `${s.transport_mode} · ` : ''}{s.weight ? `${s.weight} kg` : 'No weight'}</p>
+                  </td>
+                  <td className='px-5 py-3'>
+                    <p>{place(s.sender_city, s.sender_country)}</p>
+                    <p className='text-text-secondary'>→ {place(s.receiver_city, s.receiver_country)}</p>
+                  </td>
+                  <td className='px-5 py-3'>
+                    <span className={`px-3 py-1 rounded-full text-[12px] font-bold whitespace-nowrap ${statusStyle[normalizeStatus(s.status)] ?? 'bg-gray-100 text-gray-800'}`}>
                       {statusLabel(s.status)}
                     </span>
                   </td>
-                  <td className='px-5 py-3'>{s.weight ?? '-'}</td>
-                  <td className='px-5 py-3'>{new Date(s.created_at).toLocaleDateString()}</td>
+                  <td className='px-5 py-3'>{s.current_location || <span className='text-text-secondary'>Not set</span>}</td>
+                  <td className='px-5 py-3 whitespace-nowrap'>{new Date(s.updated_at ?? s.created_at).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>

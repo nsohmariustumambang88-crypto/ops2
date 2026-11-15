@@ -135,11 +135,20 @@ export async function queueMilestone(
   ].filter((x) => x.email && String(x.email).includes('@')) as { email: string; name: string | null; audience: string; role: string }[];
 
   // Every active admin gets the same details, unless the address is already a customer.
+  // The company support mailbox also gets every copy, so the team sees each update in one place.
   const admins = await db.query("SELECT email, first_name FROM users WHERE role = 'admin' AND status = 'active' AND email IS NOT NULL");
-  const seen = new Set(customers.map((c) => String(c.email).toLowerCase()));
-  const adminRecipients = admins.rows
-    .filter((a) => a.email && !seen.has(String(a.email).toLowerCase()))
-    .map((a) => ({ email: String(a.email), name: a.first_name as string | null, audience: 'admin', role: 'admin' }));
+  const copies: { email: string; name: string | null }[] = [
+    ...admins.rows.map((a) => ({ email: String(a.email), name: (a.first_name as string | null) ?? null })),
+    { email: SERVICE_EMAIL, name: null },
+  ];
+  const added = new Set(customers.map((c) => String(c.email).toLowerCase()));
+  const adminRecipients: { email: string; name: string | null; audience: string; role: string }[] = [];
+  for (const copy of copies) {
+    const key = copy.email.toLowerCase();
+    if (!copy.email.includes('@') || added.has(key)) continue;
+    added.add(key);
+    adminRecipients.push({ email: copy.email, name: copy.name, audience: 'admin', role: 'admin' });
+  }
 
   for (const to of [...customers, ...adminRecipients]) {
     const isAdmin = to.audience === 'admin';

@@ -98,7 +98,10 @@ export async function GET(request: Request, { params }: Ctx) {
     if (path === 'shipments') {
       const status = url.searchParams.get('status');
       return listQuery(
-        'SELECT id, tracking_number, customer_id, status, weight, created_at FROM shipments',
+        `SELECT id, tracking_number, reference_number, customer_id, status, weight, created_at, carrier, transport_mode,
+                sender_name, sender_city, sender_country, receiver_name, receiver_city, receiver_country,
+                current_location, updated_at
+         FROM shipments`,
         status ? 'status = $1' : null, status ? [status] : [], 'created_at DESC', url
       );
     }
