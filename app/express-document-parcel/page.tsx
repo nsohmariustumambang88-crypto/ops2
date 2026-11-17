@@ -101,6 +101,7 @@ export default function ExpressDocumentParcelPage() {
 
             <div className="relative h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden shadow-deep">
               <img
+                loading='lazy'
                 src="/images/home/Shipping documents and parcels.webp"
                 alt="Shipping documents and parcels with OPS Express"
                 className="w-full h-full object-cover"

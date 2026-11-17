@@ -85,6 +85,7 @@ export default function TestimonialsSection() {
               <div className='flex items-center gap-4 pt-6 border-t border-white/10'>
                 <div className='w-12 h-12 rounded-full bg-primary/20 overflow-hidden flex-shrink-0'>
                   <img
+                    loading='lazy'
                     src={testimonial.image}
                     alt={testimonial.author}
                     className='w-full h-full object-cover'

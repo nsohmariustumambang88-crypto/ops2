@@ -30,6 +30,7 @@ export default function EnergyPage() {
             </div>
             <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
+                loading='lazy'
                 src='/images/energy/The long tail nobody plans for.webp'
                 alt='Energy logistics'
                 className='w-full h-full object-cover'

@@ -30,6 +30,7 @@ export default function LastMilePage() {
             </div>
             <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
+                loading='lazy'
                 src='/images/lastmile/The van is already there.webp'
                 alt='Last mile delivery'
                 className='w-full h-full object-cover'

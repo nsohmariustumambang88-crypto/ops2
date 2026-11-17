@@ -112,6 +112,7 @@ export default function BlogPage() {
               >
                 <div className='aspect-[3/2] bg-light-gray overflow-hidden'>
                   <img
+                    loading='lazy'
                     src={article.image}
                     alt={article.title}
                     className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'

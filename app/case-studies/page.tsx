@@ -64,6 +64,7 @@ export default function CaseStudiesPage() {
                 {/* Image */}
                 <div className='h-80 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
                   <img
+                    loading='lazy'
                     src={study.image}
                     alt={study.title}
                     className='w-full h-full object-cover'

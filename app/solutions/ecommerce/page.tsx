@@ -30,6 +30,7 @@ export default function EcommercePage() {
             </div>
             <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
+                loading='lazy'
                 src='/images/ecommerce/Where the margin quietly leaves.webp'
                 alt='E-Commerce fulfillment'
                 className='w-full h-full object-cover'

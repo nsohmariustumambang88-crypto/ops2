@@ -94,6 +94,7 @@ export default function ServiceUpdatesSection() {
               {/* Image */}
               <div className='aspect-[3/2] overflow-hidden bg-gray-200'>
                 <img
+                  loading='lazy'
                   src={update.image}
                   alt={update.title}
                   className='w-full h-full object-cover hover:scale-105 transition-transform duration-300'

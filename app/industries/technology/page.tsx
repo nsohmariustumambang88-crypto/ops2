@@ -34,6 +34,7 @@ export default function TechnologyPage() {
             </div>
             <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
+                loading='lazy'
                 src='/images/technology/Most tech ships more than once.webp'
                 alt='Technology logistics'
                 className='w-full h-full object-cover'

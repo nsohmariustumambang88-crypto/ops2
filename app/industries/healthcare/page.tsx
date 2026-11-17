@@ -30,6 +30,7 @@ export default function HealthcarePage() {
             </div>
             <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
+                loading='lazy'
                 src='/images/healthcare/The shipment is the evidence..webp'
                 alt='Healthcare logistics'
                 className='w-full h-full object-cover'

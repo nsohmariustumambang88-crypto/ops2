@@ -57,7 +57,7 @@ export default function NewsCardsSection() {
               style={{ border: '0.67px solid rgb(213, 223, 236)' }}
             >
               <div className='relative w-full aspect-[3/2] overflow-hidden'>
-                <img src={card.image} alt={card.title} className='w-full h-full object-cover' />
+                <img loading='lazy' src={card.image} alt={card.title} className='w-full h-full object-cover' />
               </div>
 
               <div className='px-6 pt-6 pb-7 text-left'>

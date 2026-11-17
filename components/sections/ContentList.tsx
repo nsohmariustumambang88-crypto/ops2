@@ -31,7 +31,7 @@ export default function ContentList({ kind, heading }: { kind: ContentKind; head
             <Link key={item.id} href={`/content/${item.id}`} className='block border border-border rounded-xl overflow-hidden bg-white hover:shadow-medium transition-shadow'>
               {item.image_url && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={item.image_url} alt='' className='w-full h-[180px] object-cover' />
+                <img loading='lazy' src={item.image_url} alt='' className='w-full h-[180px] object-cover' />
               )}
               <div className='p-5'>
                 <h3 className='text-[20px] font-extrabold text-navy mb-2'>{item.title}</h3>

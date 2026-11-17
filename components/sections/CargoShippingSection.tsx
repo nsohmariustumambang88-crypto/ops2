@@ -125,6 +125,7 @@ export default function CargoShippingSection() {
           {/* Right - Image */}
           <div ref={imageRef} className='h-64 sm:h-80 md:h-80 rounded-lg overflow-hidden shadow-md'>
             <img
+              loading='lazy'
               src='/images/home/Enterprise logistics services.webp'
               alt='Cargo Shipping'
               className='w-full h-full object-cover'

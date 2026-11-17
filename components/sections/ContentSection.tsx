@@ -54,6 +54,7 @@ export default function ContentSection({
             <div ref={imageRef} className='order-1 lg:order-1'>
               <div className='relative'>
                 <img
+                  loading='lazy'
                   src={imageUrl}
                   alt={imageAlt}
                   className='w-full rounded-lg shadow-medium object-cover'
@@ -87,6 +88,7 @@ export default function ContentSection({
             <div className='order-1 lg:order-2'>
               <div className='relative'>
                 <img
+                  loading='lazy'
                   src={imageUrl}
                   alt={imageAlt}
                   className='w-full rounded-lg shadow-medium object-cover'

@@ -56,6 +56,7 @@ export default function TradeAdvisorySection() {
           <div ref={imageRef} className='order-2 md:order-1'>
             <div className='relative h-64 sm:h-80 md:h-96 rounded-lg overflow-hidden shadow-deep'>
               <img
+                loading='lazy'
                 src='/images/home/3d63aa55-573e-4d41-b574-81235d3ca999.webp'
                 alt='Trade Advisory'
                 className='w-full h-full object-cover'

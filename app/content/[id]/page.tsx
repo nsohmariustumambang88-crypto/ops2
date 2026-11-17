@@ -61,7 +61,7 @@ export default function ContentDetailPage() {
           {item.summary && <p className='text-[20px] text-text-secondary mb-8'>{item.summary}</p>}
           {item.image_url && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={item.image_url} alt='' className='w-full rounded-xl mb-8' />
+            <img loading='lazy' src={item.image_url} alt='' className='w-full rounded-xl mb-8' />
           )}
           <div className='space-y-5 text-[17px] leading-relaxed text-text-primary'>
             {paragraphs.map((p, i) => <p key={i}>{p}</p>)}

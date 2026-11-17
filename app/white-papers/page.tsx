@@ -62,6 +62,7 @@ export default function WhitePapersPage() {
               <div key={paper.id} className='bg-white border border-border rounded-xl overflow-hidden hover:shadow-deep transition-all duration-300'>
                 <div className='aspect-[3/2] bg-light-gray flex items-center justify-center overflow-hidden'>
                   <img
+                    loading='lazy'
                     src={paper.image}
                     alt={paper.title}
                     className='w-full h-full object-cover'

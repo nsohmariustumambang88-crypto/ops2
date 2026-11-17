@@ -30,6 +30,7 @@ export default function ContractLogisticsPage() {
             </div>
             <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
+                loading='lazy'
                 src='/images/contract-logistics/Send us twelve months of order data..webp'
                 alt='Contract logistics'
                 className='w-full h-full object-cover'

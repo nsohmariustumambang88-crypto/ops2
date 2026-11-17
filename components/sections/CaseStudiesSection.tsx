@@ -62,6 +62,7 @@ export default function CaseStudiesSection() {
             <div key={index} data-case-study className='bg-light-gray rounded-xl overflow-hidden hover:shadow-deep transition-all duration-300'>
               <div className='aspect-[3/2] bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center overflow-hidden'>
                 <img
+                  loading='lazy'
                   src={study.image}
                   alt={study.title}
                   className='w-full h-full object-cover'

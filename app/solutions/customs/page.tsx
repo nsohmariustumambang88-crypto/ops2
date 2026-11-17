@@ -30,6 +30,7 @@ export default function CustomsPage() {
             </div>
             <div className='h-96 bg-light-gray rounded-xl overflow-hidden flex items-center justify-center'>
               <img
+                loading='lazy'
                 src='/images/customs/The part that saves money rather than time.webp'
                 alt='Customs compliance'
                 className='w-full h-full object-cover'

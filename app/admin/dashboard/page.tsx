@@ -21,9 +21,20 @@ type Support = { open_tickets: string; total_tickets: string };
 type RecentShipment = {
   id: number;
   tracking_number: string;
+  reference_number: string | null;
   status: string;
   created_at: string;
+  updated_at: string | null;
+  transport_mode: string | null;
+  sender_city: string | null;
+  sender_country: string | null;
+  receiver_name: string | null;
+  receiver_city: string | null;
+  receiver_country: string | null;
+  current_location: string | null;
 };
+
+const place = (city: string | null, country: string | null) => [city, country].filter(Boolean).join(', ') || '—';
 
 const quickActions = [
   { label: 'New Shipment', href: '/admin/shipments/new', icon: '➕' },
@@ -194,25 +205,36 @@ export default function AdminDashboard() {
             <table className='w-full'>
               <thead className='bg-light-gray border-b border-border'>
                 <tr>
-                  <th className='px-6 py-3 text-left text-xs font-bold text-text-secondary'>Reference</th>
+                  <th className='px-6 py-3 text-left text-xs font-bold text-text-secondary'>Reference and receiver</th>
+                  <th className='px-6 py-3 text-left text-xs font-bold text-text-secondary'>Route</th>
                   <th className='px-6 py-3 text-left text-xs font-bold text-text-secondary'>Status</th>
-                  <th className='px-6 py-3 text-left text-xs font-bold text-text-secondary'>Registered</th>
+                  <th className='px-6 py-3 text-left text-xs font-bold text-text-secondary'>Where it is now</th>
+                  <th className='px-6 py-3 text-left text-xs font-bold text-text-secondary'>Last update</th>
                   <th className='px-6 py-3 text-left text-xs font-bold text-text-secondary'>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {recent.length === 0 && (
-                  <tr><td className='px-6 py-6 text-sm text-text-secondary' colSpan={4}>No shipments yet.</td></tr>
+                  <tr><td className='px-6 py-6 text-sm text-text-secondary' colSpan={6}>No shipments yet.</td></tr>
                 )}
                 {recent.map((s) => (
-                  <tr key={s.id} className='border-b border-border hover:bg-light-gray transition-colors'>
-                    <td className='px-6 py-4 text-sm font-bold text-text-primary'>{s.tracking_number}</td>
+                  <tr key={s.id} className='border-b border-border hover:bg-light-gray transition-colors align-top'>
                     <td className='px-6 py-4 text-sm'>
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${statusClass(s.status)}`}>
+                      <p className='font-bold text-text-primary break-all'>{s.reference_number || s.tracking_number}</p>
+                      <p className='font-bold text-navy'>{s.receiver_name || '—'}</p>
+                      <p className='text-xs text-text-secondary'>{s.transport_mode ? `${s.transport_mode} · ` : ''}{new Date(s.created_at).toLocaleDateString()}</p>
+                    </td>
+                    <td className='px-6 py-4 text-sm'>
+                      <p>{place(s.sender_city, s.sender_country)}</p>
+                      <p className='text-text-secondary'>→ {place(s.receiver_city, s.receiver_country)}</p>
+                    </td>
+                    <td className='px-6 py-4 text-sm'>
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${statusClass(s.status)}`}>
                         {statusLabel(s.status)}
                       </span>
                     </td>
-                    <td className='px-6 py-4 text-sm text-text-secondary'>{new Date(s.created_at).toLocaleDateString()}</td>
+                    <td className='px-6 py-4 text-sm'>{s.current_location || <span className='text-text-secondary'>Not set</span>}</td>
+                    <td className='px-6 py-4 text-sm whitespace-nowrap'>{new Date(s.updated_at ?? s.created_at).toLocaleDateString()}</td>
                     <td className='px-6 py-4 text-sm'>
                       <Link href={`/admin/shipments/${s.id}`} className='text-primary font-bold hover:underline'>View</Link>
                     </td>

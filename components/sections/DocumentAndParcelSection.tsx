@@ -82,6 +82,7 @@ export default function DocumentAndParcelSection() {
           <div ref={imageRef}>
             <div className='relative h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden shadow-lg'>
               <img
+                loading='lazy'
                 src='/images/home/Navigate the latest pricing developments.webp'
                 alt='Express document and parcel shipping'
                 className='w-full h-full object-cover'

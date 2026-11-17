@@ -28,6 +28,7 @@ export default function OPSForYourBusinessBanner() {
         {/* Left - Narrow Image Panel with Rounded Right Corners */}
         <div className='w-24 md:w-32 lg:w-40 h-full shrink-0 overflow-hidden rounded-l-2xl'>
           <img
+            loading='lazy'
             src='/images/home/Shipping documents and parcels.webp'
             alt='OPS for Your Business'
             className='w-full h-full object-cover'
