@@ -159,6 +159,18 @@ export async function GET(request: Request, { params }: Ctx) {
       return NextResponse.json({ data: await listInbox(30) });
     }
 
+    // Replies the team has sent, newest first. With ?to=address, only the replies to that customer.
+    if (path === 'inbox/sent') {
+      const to = url.searchParams.get('to');
+      const r = to
+        ? await db.query(
+            'SELECT id, to_address, subject, body, sent_by, created_at FROM sent_mail WHERE lower(to_address) = lower($1) ORDER BY created_at DESC LIMIT 100',
+            [to]
+          )
+        : await db.query('SELECT id, to_address, subject, body, sent_by, created_at FROM sent_mail ORDER BY created_at DESC LIMIT 100');
+      return NextResponse.json({ data: r.rows });
+    }
+
     const inboxMessage = path.match(new RegExp('^inbox\/([0-9]+)$'));
     if (inboxMessage) {
       const message = await readInboxMessage(Number(inboxMessage[1]));
@@ -326,11 +338,17 @@ export async function POST(request: Request, { params }: Ctx) {
       const recipient = String(to ?? '').trim();
       if (!recipient.includes('@')) return NextResponse.json({ error: 'A valid recipient is required' }, { status: 400 });
       if (!String(text ?? '').trim()) return NextResponse.json({ error: 'Write a reply first' }, { status: 400 });
+      const replySubject = String(subject ?? '(no subject)');
       try {
-        await sendReply(recipient, String(subject ?? '(no subject)'), String(text));
+        await sendReply(recipient, replySubject, String(text));
       } catch (err) {
         return NextResponse.json({ error: err instanceof Error ? err.message : 'Could not send the reply' }, { status: 500 });
       }
+      // Kept so the reply shows in the Sent list and next to the customer's messages.
+      await db.query(
+        'INSERT INTO sent_mail (to_address, subject, body, sent_by) VALUES ($1, $2, $3, $4)',
+        [recipient, replySubject, String(text), auth.user.email ?? String(auth.user.id)]
+      );
       return NextResponse.json({ message: 'Reply sent' }, { status: 201 });
     }
 
