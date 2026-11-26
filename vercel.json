@@ -1,3 +1,3 @@
 {
-  "ignoreCommand": "if [ -n \"$VERCEL_GIT_PREVIOUS_SHA\" ]; then git diff --quiet \"$VERCEL_GIT_PREVIOUS_SHA\" HEAD -- app components lib public db next.config.ts postcss.config.mjs tailwind.config.js tsconfig.json package.json; else exit 1; fi"
+  "ignoreCommand": "if [ -n \"$VERCEL_GIT_PREVIOUS_SHA\" ] && git cat-file -e \"$VERCEL_GIT_PREVIOUS_SHA\" 2>/dev/null && git diff --quiet \"$VERCEL_GIT_PREVIOUS_SHA\" HEAD -- app components lib public db next.config.ts postcss.config.mjs tailwind.config.js tsconfig.json package.json; then exit 0; else exit 1; fi"
 }
